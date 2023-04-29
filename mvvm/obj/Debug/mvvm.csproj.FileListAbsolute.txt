@@ -1,0 +1,8 @@
+E:\Курсач\Приложуха\Restourant\mvvm\bin\Debug\mvvm.dll
+E:\Курсач\Приложуха\Restourant\mvvm\bin\Debug\mvvm.pdb
+E:\Курсач\Приложуха\Restourant\mvvm\obj\Debug\mvvm.csproj.AssemblyReference.cache
+E:\Курсач\Приложуха\Restourant\mvvm\obj\Debug\mvvm.Properties.Resources.resources
+E:\Курсач\Приложуха\Restourant\mvvm\obj\Debug\mvvm.csproj.GenerateResource.cache
+E:\Курсач\Приложуха\Restourant\mvvm\obj\Debug\mvvm.csproj.CoreCompileInputs.cache
+E:\Курсач\Приложуха\Restourant\mvvm\obj\Debug\mvvm.dll
+E:\Курсач\Приложуха\Restourant\mvvm\obj\Debug\mvvm.pdb

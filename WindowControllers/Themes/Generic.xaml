@@ -1,0 +1,125 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:WindowControllers"
+                    x:Class="WindowControllers.Themes.Generic"
+                    xmlns:lc="clr-namespace:WindowControllers.Themes">
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type lc:Generic}, ResourceId=MenuBack}">#FF404040</SolidColorBrush>
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type lc:Generic}, ResourceId=BackGroundColor}">#FF303030</SolidColorBrush>
+    
+    <!--Кнопки справа сверху(Менеджмент окна)-->
+    <Style x:Key="ManageButton" TargetType="{x:Type Button}">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Padding" Value="10,5,10,5"/>
+        <Setter Property="Width" Value="35"/>
+        <Setter Property="RenderTransform">
+            <Setter.Value>
+                <ScaleTransform ScaleX="1" ScaleY="1"/>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Trigger.EnterActions>
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetProperty="(Button.Width)" To="40" Duration="0:0:0.2"/>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </Trigger.EnterActions>
+                <Trigger.ExitActions>
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetProperty="(Button.Width)" To="35" Duration="0:0:0.2"/>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </Trigger.ExitActions>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <!--Шаблон окна-->
+    <Style TargetType="local:RestourantWindowTemplate">
+        <Setter Property="AllowsTransparency" Value="True"/>
+        <Setter Property="WindowStyle" Value="None"/>
+        <Setter Property="MinWidth" Value="800"/>
+        <Setter Property="MinHeight" Value="450"/>
+
+        <Setter Property="WindowState" Value="{Binding WindowStateM, UpdateSourceTrigger=PropertyChanged}"/>
+        <Setter Property="ResizeMode" Value="{Binding ResMode, UpdateSourceTrigger=PropertyChanged}"/>
+        <Setter Property="Left" Value="{Binding Lft, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+        <Setter Property="Top" Value="{Binding Tp, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Window}">
+                    <ControlTemplate.Resources>
+                        <local:ButtonVisConverter x:Key="ButtonVisConverter"/>
+                    </ControlTemplate.Resources>
+                    <Border BorderBrush="{TemplateBinding BorderBrush}" Background="{StaticResource {ComponentResourceKey TypeInTargetAssembly={x:Type lc:Generic}, ResourceId=BackGroundColor}}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <DockPanel x:Name="BackBorder" Grid.Row="0" Background="{StaticResource {ComponentResourceKey TypeInTargetAssembly={x:Type lc:Generic},ResourceId=MenuBack}}">
+                                <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" RenderOptions.EdgeMode="Aliased">
+                                    <Button Style="{StaticResource ManageButton}" Command="{Binding MinWindowCommand}">
+                                        <Canvas  Width="14" Height="18">
+                                            <Polyline Points="2,15 12,15" Stroke="White" StrokeThickness="1"/>
+                                        </Canvas>
+                                    </Button>
+                                    <Button Style="{StaticResource ManageButton}" Command="{Binding MaxWindowCommand}" >
+                                        <Canvas Width="18" Height="18">
+                                            <Rectangle Panel.ZIndex="1" Width="12" Height="12" Stroke="White" Canvas.Bottom="2" Canvas.Left="2"/>
+                                            <Line X1="6" Y1="4" X2="6" Y2="2" Stroke="White" StrokeThickness="1"/>
+                                            <Line X1="5.5" Y1="2" X2="16" Y2="2" Stroke="White" StrokeThickness="1"/>
+                                            <Line X1="16" Y1="2" X2="16" Y2="14" Stroke="White" StrokeThickness="1"/>
+                                            <Line X1="16" Y1="14" X2="14" Y2="14" Stroke="White" StrokeThickness="1"/>
+                                        </Canvas>
+                                    </Button>
+                                    <Button Style="{StaticResource ManageButton}" Command="{Binding CloseWindowCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}">
+                                        <Canvas Width="18" Height="18">
+                                            <Polyline Stroke="Red" Points="3,3, 15,15"/>
+                                            <Polyline Stroke="Red" Points="15,3, 3,15"/>
+                                        </Canvas>
+                                    </Button>
+                                </StackPanel>
+
+                                <DockPanel>
+                                    <DockPanel.Style>
+                                        <Style TargetType="{x:Type DockPanel}">
+                                            <EventSetter Event="MouseLeftButtonDown" Handler="DragMove_Move"/>
+                                        </Style>
+                                    </DockPanel.Style>
+                                    <Image  Source="{TemplateBinding Icon}" DockPanel.Dock="Left"
+                                            Width="18" Height="18" Margin="10,0,0,0"/>
+                                    <TextBlock Text="{TemplateBinding Title}" Margin="10,0,0,0" Foreground="#FFCCCCCC"
+                                            TextAlignment="Left" VerticalAlignment="Center"/>
+                                </DockPanel>
+                            </DockPanel>
+                            <ContentPresenter Grid.Row="1" Content="{TemplateBinding Content}"/>
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="ResizeMode" Value="NoResize">
+                            <Setter Property="WindowChrome.WindowChrome">
+                                <Setter.Value>
+                                    <WindowChrome NonClientFrameEdges="None" CornerRadius="0" ResizeBorderThickness="0" CaptionHeight="0"/>
+                                </Setter.Value>
+                            </Setter>
+                        </Trigger>
+                        <Trigger Property="ResizeMode" Value="CanResize">
+                            <Setter Property="WindowChrome.WindowChrome">
+                                <Setter.Value>
+                                    <WindowChrome NonClientFrameEdges="None" CornerRadius="0" ResizeBorderThickness="2" CaptionHeight="0"/>
+                                </Setter.Value>
+                            </Setter>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>
