@@ -1,13 +1,12 @@
 ﻿using mvvm;
-using System;
 using System.ComponentModel;
 using System.Windows;
+using System;
 
 namespace WindowControllers
 {
-    public class ViewModel : NotifyPropertyChanged
+    public partial class ViewModelNavigation : NotifyPropertyChanged
     {
-        #region Реализация функционала окна
         /// <summary>
         /// Комманда для закрытия окна
         /// </summary>
@@ -16,7 +15,7 @@ namespace WindowControllers
         {
             get => closeWindowCommand;
             set
-            { 
+            {
                 closeWindowCommand = value;
                 OnPropertyChanged();
             }
@@ -139,7 +138,7 @@ namespace WindowControllers
             }
         }
 
-        public ViewModel()
+        public void InitWindowProp()
         {
             RealMode = WindowState.Normal;
             WindowStateM = WindowState.Normal;
@@ -147,7 +146,7 @@ namespace WindowControllers
 
             SystemParameters.StaticPropertyChanged += SystemParameters_StaticPropertyChanged;
 
-            CloseWindowCommand = new Command( (obj) => SystemCommands.CloseWindow((Window)obj) );
+            CloseWindowCommand = new Command((obj) => SystemCommands.CloseWindow((Window)obj));
 
             MaxWindowCommand = new Command
             (
@@ -213,8 +212,5 @@ namespace WindowControllers
                 Width = SystemParameters.WorkArea.Width;
             }
         }
-        #endregion
-
-
     }
 }

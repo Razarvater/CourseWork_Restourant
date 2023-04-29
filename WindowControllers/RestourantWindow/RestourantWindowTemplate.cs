@@ -9,7 +9,7 @@ namespace WindowControllers
     /// </summary>
     public class RestourantWindowTemplate : Window
     {
-        public readonly ViewModel vm = new ViewModel();
+        public readonly ViewModelNavigation vm = new ViewModelNavigation();
 
         /// <summary>
         /// Конструктор

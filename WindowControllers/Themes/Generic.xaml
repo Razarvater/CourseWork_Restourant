@@ -73,10 +73,10 @@
                                     <Button Style="{StaticResource ManageButton}" Command="{Binding MaxWindowCommand}" >
                                         <Canvas Width="18" Height="18">
                                             <Rectangle Panel.ZIndex="1" Width="12" Height="12" Stroke="White" Canvas.Bottom="2" Canvas.Left="2"/>
-                                            <Line X1="6" Y1="4" X2="6" Y2="2" Stroke="White" StrokeThickness="1"/>
-                                            <Line X1="5.5" Y1="2" X2="16" Y2="2" Stroke="White" StrokeThickness="1"/>
-                                            <Line X1="16" Y1="2" X2="16" Y2="14" Stroke="White" StrokeThickness="1"/>
-                                            <Line X1="16" Y1="14" X2="14" Y2="14" Stroke="White" StrokeThickness="1"/>
+                                            <Line X1="6" Y1="4" X2="6" Y2="2" Stroke="White" StrokeThickness="1" Visibility="{Binding RealMode, Converter={StaticResource ResourceKey=ButtonVisConverter}}"/>
+                                            <Line X1="5.5" Y1="2" X2="16" Y2="2" Stroke="White" StrokeThickness="1" Visibility="{Binding RealMode, Converter={StaticResource ResourceKey=ButtonVisConverter}}"/>
+                                            <Line X1="16" Y1="2" X2="16" Y2="14" Stroke="White" StrokeThickness="1" Visibility="{Binding RealMode, Converter={StaticResource ResourceKey=ButtonVisConverter}}"/>
+                                            <Line X1="16" Y1="14" X2="14" Y2="14" Stroke="White" StrokeThickness="1" Visibility="{Binding RealMode, Converter={StaticResource ResourceKey=ButtonVisConverter}}"/>
                                         </Canvas>
                                     </Button>
                                     <Button Style="{StaticResource ManageButton}" Command="{Binding CloseWindowCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}">
@@ -99,7 +99,8 @@
                                             TextAlignment="Left" VerticalAlignment="Center"/>
                                 </DockPanel>
                             </DockPanel>
-                            <ContentPresenter Grid.Row="1" Content="{TemplateBinding Content}"/>
+                            <!--Меню + контент-->
+                            <ContentControl Grid.Row="1" Content="{Binding SelectedMenu}"/>
                         </Grid>
                     </Border>
                     <ControlTemplate.Triggers>
