@@ -5,8 +5,23 @@
                     xmlns:lc="clr-namespace:WindowControllers.Themes">
 
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type lc:Generic}, ResourceId=MenuBack}">#FF404040</SolidColorBrush>
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type lc:Generic}, ResourceId=MenuBack_2}">#FF353535</SolidColorBrush>
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type lc:Generic}, ResourceId=MenuBack_0}">#FF454545</SolidColorBrush>
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type lc:Generic}, ResourceId=BackGroundColor}">#FF303030</SolidColorBrush>
-    
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type lc:Generic}, ResourceId=MainFontColor}">#FFCCCCCC</SolidColorBrush>
+
+    <Color x:Key="MenuBack_Color">#FF404040</Color>
+    <Color x:Key="MenuBack_2Color">#FF353535</Color>
+    <Color x:Key="MenuBack_0Color">#FF454545</Color>
+    <Color x:Key="BackGroundColor">#FF303030</Color>
+    <Color x:Key="MainFontColor">#FFCCCCCC</Color>
+
+        <!--Конвертеры-->
+    <local:ButtonVisConverter x:Key="ButtonVisConverter"/>
+    <local:MenuVisConverter x:Key="MenuVisConverter"/>
+    <local:MenuModeConverter x:Key="MenuModeConverter"/>
+    <local:MenuColorConverter x:Key="MenuColorConverter"/>
+
     <!--Кнопки справа сверху(Менеджмент окна)-->
     <Style x:Key="ManageButton" TargetType="{x:Type Button}">
         <Setter Property="Background" Value="Transparent"/>
@@ -38,6 +53,67 @@
         </Style.Triggers>
     </Style>
 
+    <!--Стиль для элементов меню-->
+    <Style x:Key="PageItems" TargetType="MenuItem">
+        <Setter Property="Header" Value="{Binding Name}"/>
+        <Setter Property="ItemsSource" Value="{Binding Pages}"/>
+        <Setter Property="Command" Value="{Binding Navigate}"/>
+        <Setter Property="CommandParameter" Value="{Binding PageContent}"/>
+        <!--<Setter Property="Padding" Value="5"/>-->
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type MenuItem}">
+                    <Border x:Name="Border" Background="{StaticResource {ComponentResourceKey TypeInTargetAssembly={x:Type lc:Generic},ResourceId=MenuBack_2}}" 
+                            Padding="5" BorderThickness="0.8,0,0.8,0.8" BorderBrush="{StaticResource {ComponentResourceKey TypeInTargetAssembly={x:Type lc:Generic},ResourceId=MenuBack_0}}">
+                        <Grid>
+                            <ContentPresenter Margin="6,3,6,3" ContentSource="Header" RecognizesAccessKey="True" />
+                            <Popup x:Name="Popup" Placement="Bottom" IsOpen="{TemplateBinding IsSubmenuOpen}" AllowsTransparency="True" Focusable="False" PopupAnimation="Fade">
+                                <Border x:Name="SubmenuBorder" SnapsToDevicePixels="True" BorderThickness="2" BorderBrush="{StaticResource {ComponentResourceKey TypeInTargetAssembly={x:Type lc:Generic},ResourceId=MenuBack}}"
+                                        Background="{StaticResource {ComponentResourceKey TypeInTargetAssembly={x:Type lc:Generic},ResourceId=MenuBack_2}}">
+                                    <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Cycle" />
+                                </Border>
+                            </Popup>
+                        </Grid>
+                        <!--Триггер для выделения выбранного элемента-->
+                        <Border.Triggers>
+                            <EventTrigger RoutedEvent="MouseEnter">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <ColorAnimation Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)" Duration="0:0:0.2"
+                                            To="{StaticResource MenuBack_0Color}"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                            <EventTrigger RoutedEvent="MouseLeave">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <ColorAnimation Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)" Duration="0:0:0.2"
+                                            To="{StaticResource MenuBack_2Color}"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                        </Border.Triggers>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Foreground" Value="{StaticResource {ComponentResourceKey TypeInTargetAssembly={x:Type lc:Generic},ResourceId=MainFontColor}}"/>
+    </Style>
+
+    <!--Общий стиль меню-->
+    <Style x:Key="MainMenu" TargetType="Menu">
+        <Setter Property="ItemContainerStyle" Value="{StaticResource PageItems}"/>
+        <Setter Property="Background" Value="{StaticResource {ComponentResourceKey TypeInTargetAssembly={x:Type lc:Generic},ResourceId=MenuBack_2}}"/>
+        <!--<Setter Property="Padding" Value="10"/>-->
+        <Setter Property="ItemsPanel">
+            <Setter.Value>
+                <ItemsPanelTemplate>
+                    <VirtualizingStackPanel Orientation="{Binding SelectedMenu, Converter={StaticResource ResourceKey=MenuModeConverter}}"/>
+                </ItemsPanelTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
     <!--Шаблон окна-->
     <Style TargetType="local:RestourantWindowTemplate">
         <Setter Property="AllowsTransparency" Value="True"/>
@@ -49,13 +125,12 @@
         <Setter Property="ResizeMode" Value="{Binding ResMode, UpdateSourceTrigger=PropertyChanged}"/>
         <Setter Property="Left" Value="{Binding Lft, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
         <Setter Property="Top" Value="{Binding Tp, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+        <Setter Property="Width" Value="{Binding Width, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+        <Setter Property="Height" Value="{Binding Height, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
 
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Window}">
-                    <ControlTemplate.Resources>
-                        <local:ButtonVisConverter x:Key="ButtonVisConverter"/>
-                    </ControlTemplate.Resources>
                     <Border BorderBrush="{TemplateBinding BorderBrush}" Background="{StaticResource {ComponentResourceKey TypeInTargetAssembly={x:Type lc:Generic}, ResourceId=BackGroundColor}}"
                             BorderThickness="{TemplateBinding BorderThickness}">
                         <Grid>
@@ -95,12 +170,16 @@
                                     </DockPanel.Style>
                                     <Image  Source="{TemplateBinding Icon}" DockPanel.Dock="Left"
                                             Width="18" Height="18" Margin="10,0,0,0"/>
-                                    <TextBlock Text="{TemplateBinding Title}" Margin="10,0,0,0" Foreground="#FFCCCCCC"
+                                    <TextBlock Text="{TemplateBinding Title}" Margin="10,0,0,0" Foreground="{StaticResource {ComponentResourceKey TypeInTargetAssembly={x:Type lc:Generic},ResourceId=MainFontColor}}"
                                             TextAlignment="Left" VerticalAlignment="Center"/>
                                 </DockPanel>
                             </DockPanel>
                             <!--Меню + контент-->
-                            <ContentControl Grid.Row="1" Content="{Binding SelectedMenu}"/>
+                            <DockPanel Grid.Row="1">
+                                <Menu DockPanel.Dock="{Binding SelectedMenu}" Visibility="{Binding IsMenuOn, Converter={StaticResource ResourceKey=MenuVisConverter}}"
+                                      ItemsSource="{Binding TabsList}" Style="{StaticResource ResourceKey=MainMenu}"/>
+                                <ContentControl Grid.Row="1" Content="{Binding SelectedPage}"/>
+                            </DockPanel>
                         </Grid>
                     </Border>
                     <ControlTemplate.Triggers>

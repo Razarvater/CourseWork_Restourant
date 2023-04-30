@@ -5,8 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
         xmlns:local="clr-namespace:WindowControllers;assembly=WindowControllers"
-        d:Height="450" d:Width="800" Width="{Binding Width, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-        Height="{Binding Height, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+        d:Height="450" d:Width="800"
         Title="Rest-Manager" Icon="/Resources/Images/MainIcon.ico">
 </local:RestourantWindowTemplate>
 

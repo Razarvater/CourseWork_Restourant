@@ -14,11 +14,10 @@ namespace RestourantDesktop
             //Пример заполнения
             ObservableCollection<MenuItem> menuItems = new ObservableCollection<MenuItem>();
             menuItems.Add(new MenuItem("Роли пользователей", typeof(RoleManagerPage)));
-            menuItems.Add(new MenuItem("Роли пользователей", typeof(RoleManagerPage)));
-            menuItems.Add(new MenuItem("Роли пользователей", typeof(RoleManagerPage)));
 
-            vm.TabsList.Add(new MenuItem("Роли пользователей", typeof(RoleManagerPage)));
-            vm.TabsList.Add(new MenuItem("Админка", menuItems));
+            vm.TabsList.Add(new MenuItem("Админ панель", menuItems));
+
+            vm.SavedMode = MenuMode.VerticalMenu;
         }
     }
 }

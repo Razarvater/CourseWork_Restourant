@@ -1,26 +1,38 @@
 ﻿using mvvm;
 using System;
-using System.Collections;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.Linq;
 using System.Windows.Controls;
-using System.Windows.Documents;
-using WindowControllers.RestourantWindow.MenuVariants;
 
 namespace WindowControllers
 {
     public partial class ViewModelNavigation : NotifyPropertyChanged
     {
-        private UserControl selectedMenu;
+        private Dock selectedMenu;
         /// <summary>
         /// Выбранное меню
         /// </summary>
-        public UserControl SelectedMenu
+        public Dock SelectedMenu
         {
             get => selectedMenu;
             set
             {
                 selectedMenu = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private bool isMenuOn = true;
+        /// <summary>
+        /// Включено ли меню
+        /// </summary>
+        public bool IsMenuOn
+        { 
+            get => isMenuOn;
+            set
+            { 
+                isMenuOn = value;
                 OnPropertyChanged();
             }
         }
@@ -40,20 +52,30 @@ namespace WindowControllers
                 switch (mode)
                 {
                     case MenuMode.VerticalMenu:
-                        SelectedMenu = new MenuVertical(this);
+                        IsMenuOn = true;
+                        selectedMenu = Dock.Left;
                         break;
 
                     case MenuMode.HorizontalMenu:
+                        IsMenuOn = true;
+                        selectedMenu = Dock.Top;
                         break;
 
                     case MenuMode.None:
-                        break;
-
-                    default:
-                        SelectedMenu = null;
+                        IsMenuOn = false;
                         break;
                 }
             }
+        }
+        private MenuMode savedMode;
+        public MenuMode SavedMode
+        {
+            get => savedMode;
+            set 
+            {
+                savedMode = value;
+                Mode = savedMode;
+            } 
         }
 
         private UserControl selectedPage;
@@ -81,8 +103,6 @@ namespace WindowControllers
             {
                 tabsList = value;
                 OnPropertyChanged();
-                if (TabsList.Count == 0)
-                    Mode = MenuMode.None;
             }
         }
 
@@ -112,6 +132,17 @@ namespace WindowControllers
                     TabsInit(redItem);
                 }
             }
+            if (TabsList.Count == 0)
+            {
+                Mode = MenuMode.None;
+            }
+            else if (TabsList.Count == 1 && TabsList.First().Pages == null)
+            {
+                Mode = MenuMode.None;
+                SelectedPage = TabsList.First().PageContent;
+            }
+            else
+                Mode = savedMode;
         }
 
         /// <summary>
