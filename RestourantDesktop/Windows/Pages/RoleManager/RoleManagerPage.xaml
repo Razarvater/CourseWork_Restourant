@@ -5,8 +5,52 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:RestourantDesktop.Windows.Pages.RoleManager"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800">
-    <Grid Background="SeaGreen">
-        
+      xmlns:res="clr-namespace:WindowControllers.Themes;assembly=WindowControllers"
+      d:DesignHeight="450" d:DesignWidth="800" Loaded="PageLoaded">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*" MinWidth="100"/>
+            <ColumnDefinition Width="5"/>
+            <ColumnDefinition Width="1.5*" MinWidth="100"/>
+        </Grid.ColumnDefinitions>
+        <GroupBox Header="Страницы" Margin="5" Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly={x:Type res:Generic},ResourceId=GroupBoxBlack}}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="35"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <DataGrid Grid.ColumnSpan="2" ItemsSource="{Binding Pages}" AutoGenerateColumns="False"
+                          Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly={x:Type res:Generic},ResourceId=DataGridBlack}}">
+                    <DataGrid.Columns>
+                        <DataGridTemplateColumn Header="Название страницы" >
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBox Margin="5" Text="{Binding PageName, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"
+                                             Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly={x:Type res:Generic},ResourceId=TextBoxBlack}}"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="Удаление">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Content="Удалить" Margin="5" Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly={x:Type res:Generic},ResourceId=BlackButton}}"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+                <Button Content="Добавить новую страницу" Command="{Binding AddNewPageCommand}" Margin="5" Grid.Row="1" Grid.Column="0"
+                        Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly={x:Type res:Generic},ResourceId=BlackButton}}"/>
+            </Grid>
+        </GroupBox>
+        <GridSplitter Grid.Column="1" Width="5" ShowsPreview="False" HorizontalAlignment="Center"
+                      VerticalAlignment="Stretch" Background="{DynamicResource {ComponentResourceKey TypeInTargetAssembly={x:Type res:Generic},ResourceId=MenuBack_2}}"/>
+        <GroupBox Header="Роли" Grid.Column="2" Margin="5" Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly={x:Type res:Generic},ResourceId=GroupBoxBlack}}">
+            
+        </GroupBox>
     </Grid>
 </UserControl>

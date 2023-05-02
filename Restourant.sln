@@ -6,6 +6,7 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RestourantDesktop", "RestourantDesktop\RestourantDesktop.csproj", "{39E963DF-CC4B-48C5-9080-D74B0296B3A6}"
 	ProjectSection(ProjectDependencies) = postProject
 		{6DA2012B-BE9B-4041-AEAB-28509A675916} = {6DA2012B-BE9B-4041-AEAB-28509A675916}
+		{A8DEB97F-28DC-4B49-9921-6234C6CBFAA9} = {A8DEB97F-28DC-4B49-9921-6234C6CBFAA9}
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WindowControllers", "WindowControllers\WindowControllers.csproj", "{6DA2012B-BE9B-4041-AEAB-28509A675916}"

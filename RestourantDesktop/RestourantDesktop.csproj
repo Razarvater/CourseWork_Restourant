@@ -36,6 +36,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
@@ -58,9 +59,12 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Windows\Pages\RoleManager\Items\PageItem.cs" />
     <Compile Include="Windows\Pages\RoleManager\RoleManagerPage.xaml.cs">
       <DependentUpon>RoleManagerPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Windows\Pages\RoleManager\RolesModel.cs" />
+    <Compile Include="Windows\Pages\RoleManager\ViewModelRoles.cs" />
     <Page Include="Windows\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -106,6 +110,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Images\MainIcon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\mvvm\mvvm.csproj">
+      <Project>{A8DEB97F-28DC-4B49-9921-6234C6CBFAA9}</Project>
+      <Name>mvvm</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -4,11 +4,14 @@
                     x:Class="WindowControllers.Themes.Generic"
                     xmlns:lc="clr-namespace:WindowControllers.Themes">
 
+    <!--TODO: рефакторинг названий цветов-->
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type lc:Generic}, ResourceId=MenuBack}">#FF404040</SolidColorBrush>
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type lc:Generic}, ResourceId=MenuBack_2}">#FF353535</SolidColorBrush>
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type lc:Generic}, ResourceId=MenuBack_0}">#FF454545</SolidColorBrush>
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type lc:Generic}, ResourceId=BackGroundColor}">#FF303030</SolidColorBrush>
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type lc:Generic}, ResourceId=MainFontColor}">#FFCCCCCC</SolidColorBrush>
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type lc:Generic}, ResourceId=MainFontColor_1}">#FFABABAB</SolidColorBrush>
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type lc:Generic}, ResourceId=MainFontColor_2}">#FF858585</SolidColorBrush>
 
     <Color x:Key="MenuBack_Color">#FF404040</Color>
     <Color x:Key="MenuBack_2Color">#FF353535</Color>
@@ -16,12 +19,166 @@
     <Color x:Key="BackGroundColor">#FF303030</Color>
     <Color x:Key="MainFontColor">#FFCCCCCC</Color>
 
-        <!--Конвертеры-->
+    <!--Конвертеры-->
     <local:ButtonVisConverter x:Key="ButtonVisConverter"/>
     <local:MenuVisConverter x:Key="MenuVisConverter"/>
     <local:MenuModeConverter x:Key="MenuModeConverter"/>
     <local:MenuColorConverter x:Key="MenuColorConverter"/>
+    <BorderGapMaskConverter x:Key="BorderGapMaskConverter"/>
 
+    <!--Тёмный ListBox-->
+    <Style x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type lc:Generic}, ResourceId=ListBlack}" TargetType="{x:Type ListBox}">
+        <Setter Property="Background" Value="#FF969696"/>
+        <Setter Property="BorderBrush" Value="#FF888888"/>
+        <Setter Property="BorderThickness" Value="1"/>
+    </Style>
+
+    <!--Тёмный TextBox-->
+    <Style x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type lc:Generic}, ResourceId=TextBoxBlack}" TargetType="{x:Type TextBox}">
+        <!--Триггер - При наличии ошибки будет появляться tooltip с текстом ошибки(определённым во ViewModel)-->
+        <Style.Triggers>
+            <Trigger Property="Validation.HasError" Value="True">
+                <Setter Property="ToolTip" Value="{Binding RelativeSource={RelativeSource Self}, Path=(Validation.Errors)[0].ErrorContent}" />
+                <Setter Property="BorderBrush" Value="#55FF0000"/>
+                <Trigger.EnterActions>
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <ColorAnimation Storyboard.TargetProperty="(Border.BorderBrush).(SolidColorBrush.Color)" Duration="0:0:1" 
+                                                        From="#55FF0000" To="#FFFF0000" AutoReverse="True" RepeatBehavior="Forever"/>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </Trigger.EnterActions>
+            </Trigger>
+        </Style.Triggers>
+        <Setter Property="FontSize" Value="20"/>
+        <Setter Property="Background" Value="#FF969696"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type TextBox}">
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsFocused" Value="True">
+                            <Setter Property="Background" Value="#FFBBBBBB"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                    <Border x:Name="border" CornerRadius="2" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="True">
+                        <ScrollViewer x:Name="PART_ContentHost" Focusable="false" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden"/>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!--DataGrid Без признаков DataGrid-->
+    <Style x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type lc:Generic}, ResourceId=DataGridBlack}" TargetType="{x:Type DataGrid}">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="SelectionUnit" Value="Cell" />
+        <Setter Property="SelectionMode" Value="Single" />
+        <Setter Property="CanUserAddRows" Value="False" />
+        <Setter Property="CanUserDeleteRows" Value="False" />
+        <Setter Property="CanUserReorderColumns" Value="False" />
+        <Setter Property="CanUserResizeColumns" Value="False" />
+        <Setter Property="CanUserResizeRows" Value="False" />
+        <Setter Property="RowHeaderWidth" Value="0" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="RowBackground" Value="Transparent"/>
+        <Setter Property="HorizontalGridLinesBrush" Value="Transparent"/>
+        <Setter Property="VerticalGridLinesBrush" Value="Transparent"/>
+        <Setter Property="ColumnHeaderStyle">
+            <Setter.Value>
+                <Style TargetType="{x:Type DataGridColumnHeader}">
+                    <Setter Property="HorizontalAlignment" Value="Center"/>
+                    <Setter Property="Background" Value="Transparent" />
+                    <Setter Property="Foreground" Value="{DynamicResource ResourceKey={ComponentResourceKey TypeInTargetAssembly={x:Type lc:Generic},ResourceId=MainFontColor}}"/>
+                </Style>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="CellStyle">
+            <Setter.Value>
+                <Style TargetType="{x:Type DataGridCell}">
+                    <Style.Triggers>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter Property="Background" Value="Transparent"/>
+                            <Setter Property="BorderBrush" Value="Transparent"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="HorizontalScrollBarVisibility" Value="Disabled"/>
+        <Setter Property="VerticalScrollBarVisibility" Value="Disabled"/>
+    </Style>
+
+    <!--Тёмная Button-->
+    <Style x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type lc:Generic}, ResourceId=BlackButton}" TargetType="{x:Type Button}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Grid>
+                        <Border x:Name="Back" Background="{DynamicResource ResourceKey={ComponentResourceKey TypeInTargetAssembly={x:Type lc:Generic},ResourceId=MainFontColor_1}}" CornerRadius="5" BorderThickness="0.1">
+                            <Label x:Name="txt" VerticalAlignment="Center"  HorizontalAlignment="Center"
+                               FontWeight="Bold" FontSize="11" Foreground="{DynamicResource ResourceKey={ComponentResourceKey TypeInTargetAssembly={x:Type lc:Generic},ResourceId=MenuBack}}" 
+                               Content="{TemplateBinding Content}"/>
+                        </Border>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Back" Property="Background" Value="{DynamicResource ResourceKey={ComponentResourceKey TypeInTargetAssembly={x:Type lc:Generic},ResourceId=MenuBack_2}}"/>
+                            <Setter TargetName="txt" Property="Foreground" Value="{DynamicResource ResourceKey={ComponentResourceKey TypeInTargetAssembly={x:Type lc:Generic},ResourceId=MainFontColor_2}}"/>
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="False">
+                            <Setter TargetName="Back" Property="Background" Value="{DynamicResource ResourceKey={ComponentResourceKey TypeInTargetAssembly={x:Type lc:Generic},ResourceId=MenuBack}}"/>
+                            <Setter TargetName="txt" Property="Foreground" Value="{DynamicResource ResourceKey={ComponentResourceKey TypeInTargetAssembly={x:Type lc:Generic},ResourceId=MainFontColor_1}}"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="Back" Property="Background" Value="{DynamicResource ResourceKey={ComponentResourceKey TypeInTargetAssembly={x:Type lc:Generic},ResourceId=MenuBack}}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!--Переопределение шаблона GroupBox без "Внешних" границ-->
+    <Style x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type lc:Generic}, ResourceId=GroupBoxBlack}" TargetType="{x:Type GroupBox}">
+        <Setter Property="BorderThickness" Value="3"/>
+        <Setter Property="BorderBrush" Value="#FF565656"/>
+        <Setter Property="Foreground" Value="#FFAAAAAA"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type GroupBox}">
+                    <Grid SnapsToDevicePixels="true">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="6"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="6"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="6"/>
+                        </Grid.RowDefinitions>
+                        <Border BorderBrush="Transparent" BorderThickness="0" Grid.ColumnSpan="4" CornerRadius="4" Grid.Row="1" Grid.RowSpan="3">
+                            <Border.OpacityMask>
+                                <MultiBinding ConverterParameter="7" Converter="{StaticResource BorderGapMaskConverter}">
+                                    <Binding ElementName="Header" Path="ActualWidth"/>
+                                    <Binding Path="ActualWidth" RelativeSource="{RelativeSource Self}"/>
+                                    <Binding Path="ActualHeight" RelativeSource="{RelativeSource Self}"/>
+                                </MultiBinding>
+                            </Border.OpacityMask>
+                            <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="3"/>
+                        </Border>
+                        <Border x:Name="Header" Grid.Column="1" Padding="3,1,3,0" Grid.Row="0" Grid.RowSpan="2">
+                            <ContentPresenter ContentSource="Header" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                        </Border>
+                        <ContentPresenter Grid.ColumnSpan="2" Grid.Column="1" Margin="{TemplateBinding Padding}" Grid.Row="2" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
     <!--Кнопки справа сверху(Менеджмент окна)-->
     <Style x:Key="ManageButton" TargetType="{x:Type Button}">
         <Setter Property="Background" Value="Transparent"/>
@@ -59,7 +216,6 @@
         <Setter Property="ItemsSource" Value="{Binding Pages}"/>
         <Setter Property="Command" Value="{Binding Navigate}"/>
         <Setter Property="CommandParameter" Value="{Binding PageContent}"/>
-        <!--<Setter Property="Padding" Value="5"/>-->
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type MenuItem}">
@@ -104,7 +260,6 @@
     <Style x:Key="MainMenu" TargetType="Menu">
         <Setter Property="ItemContainerStyle" Value="{StaticResource PageItems}"/>
         <Setter Property="Background" Value="{StaticResource {ComponentResourceKey TypeInTargetAssembly={x:Type lc:Generic},ResourceId=MenuBack_2}}"/>
-        <!--<Setter Property="Padding" Value="10"/>-->
         <Setter Property="ItemsPanel">
             <Setter.Value>
                 <ItemsPanelTemplate>
