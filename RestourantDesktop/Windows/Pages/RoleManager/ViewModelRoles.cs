@@ -27,15 +27,22 @@ namespace RestourantDesktop.Windows.Pages.RoleManager
             (
                 async (obj) =>
                 {
-                    await RolesModel.CreateNewEmptyPageAsync();
+                    await RolesModel.CreateNewEmptyPageAsync(DeletePageItem);
                     OnPropertyChanged(nameof(Pages));
                 }
             );
         }
 
+        public async Task DeletePageItem(PageItem item)
+        {
+            //TODO: добавить предупреждение пользователю о каскадном удалении 
+            await RolesModel.DeletePageAsync(item);
+            OnPropertyChanged(nameof(Pages));
+        }
+
         public async Task InitVM()
         {
-            await RolesModel.GetPagesListAsync();
+            await RolesModel.GetPagesListAsync(DeletePageItem);
             OnPropertyChanged(nameof(Pages));
         }
     }

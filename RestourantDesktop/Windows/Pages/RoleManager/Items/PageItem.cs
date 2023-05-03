@@ -1,4 +1,5 @@
 ﻿using mvvm;
+using System;
 using System.Threading.Tasks;
 
 namespace RestourantDesktop.Windows.Pages.RoleManager.Items
@@ -6,6 +7,9 @@ namespace RestourantDesktop.Windows.Pages.RoleManager.Items
     internal sealed class PageItem : NotifyPropertyChanged
     {
         private int iD;
+        /// <summary>
+        /// ID страницы
+        /// </summary>
         public int ID
         {
             get => iD;
@@ -17,6 +21,9 @@ namespace RestourantDesktop.Windows.Pages.RoleManager.Items
         }
 
         private string pageName;
+        /// <summary>
+        /// Имя страницы
+        /// </summary>
         public string PageName
         {
             get => pageName;
@@ -25,18 +32,36 @@ namespace RestourantDesktop.Windows.Pages.RoleManager.Items
                 pageName = value;
                 
                 OnPropertyChanged();
+
+                #pragma warning disable
                 UpdatePage();
             }
         }
-        private async Task UpdatePage()
+
+        private Command deletePageCommand;
+        public Command DeletePageCommand
         {
-            await RolesModel.UpdatePageAsync(this);
+            get => deletePageCommand;
+            set
+            {
+                deletePageCommand = value;
+                OnPropertyChanged();
+            }
         }
 
-        public PageItem(int ID, string PageName)
+        private async Task UpdatePage() => await RolesModel.UpdatePageAsync(this);
+
+        /// <summary>
+        /// Создане нового PageItem
+        /// </summary>
+        /// <param name="ID">ID страницы</param>
+        /// <param name="PageName">Имя страницы</param>
+        ///  <param name="deleteAction">Action для удаления элемента</param>
+        public PageItem(int ID, string PageName, Func<PageItem, Task> deleteAction)
         {
             this.iD = ID;
             this.pageName = PageName;
+            DeletePageCommand = new Command(async (obj) => await deleteAction?.Invoke(this));
         }
     }
 }

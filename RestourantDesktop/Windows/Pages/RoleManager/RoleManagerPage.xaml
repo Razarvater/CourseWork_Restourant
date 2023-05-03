@@ -37,7 +37,8 @@
                         <DataGridTemplateColumn Header="Удаление">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <Button Content="Удалить" Margin="5" Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly={x:Type res:Generic},ResourceId=BlackButton}}"/>
+                                    <Button Content="Удалить" Margin="5" Command="{Binding DeletePageCommand}"
+                                            Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly={x:Type res:Generic},ResourceId=BlackButton}}"/>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>

@@ -12,7 +12,7 @@ namespace RestourantDesktop.Windows.Pages.RoleManager
     {
         public static ObservableCollection<PageItem> PagesList { get; private set; }
 
-        public static async Task GetPagesListAsync()
+        public static async Task GetPagesListAsync(Func<PageItem, Task> deleteAction)
         {
             try
             {
@@ -24,14 +24,14 @@ namespace RestourantDesktop.Windows.Pages.RoleManager
                         PagesList = new ObservableCollection<PageItem>();
                         adapter.Fill(dt);
                         for (int i = 0; i < dt.Rows.Count; i++)
-                            PagesList.Add(new PageItem(Convert.ToInt32(dt.Rows[i]["ID"]), dt.Rows[i]["PageName"].ToString()));
+                            PagesList.Add(new PageItem(Convert.ToInt32(dt.Rows[i]["ID"]), dt.Rows[i]["PageName"].ToString(), deleteAction));
                     }
                 });
             }
             catch (Exception) { /*TODO Сообщение об ошибке*/}
         }
 
-        public static async Task CreateNewEmptyPageAsync()
+        public static async Task CreateNewEmptyPageAsync(Func<PageItem, Task> deleteAction)
         {
             int newIndex = 0;
             try
@@ -48,7 +48,7 @@ namespace RestourantDesktop.Windows.Pages.RoleManager
             }
             catch (Exception) { /*TODO Сообщение об ошибке*/ return; }
 
-            PagesList.Add(new PageItem(newIndex,""));
+            PagesList.Add(new PageItem(newIndex, "", deleteAction));
         }
 
         public static async Task UpdatePageAsync(PageItem item)
@@ -69,6 +69,27 @@ namespace RestourantDesktop.Windows.Pages.RoleManager
                 }
             }
             catch (Exception) { /*TODO Сообщение об ошибке*/ }
+        }
+
+        public async static Task DeletePageAsync(PageItem item)
+        {
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["AdminConnectionString"].ConnectionString))
+                {
+                    await connection.OpenAsync();
+                    using (SqlCommand command = new SqlCommand("DeletePage", connection))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.Parameters.Add(new SqlParameter("@id", item.ID));
+
+                        await command.ExecuteNonQueryAsync();
+                    }
+                }
+            }
+            catch (Exception) { /*TODO Сообщение об ошибке*/ }
+
+            PagesList.Remove(item);
         }
     }
 }

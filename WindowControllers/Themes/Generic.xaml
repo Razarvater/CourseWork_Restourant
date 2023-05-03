@@ -190,6 +190,30 @@
                 <ScaleTransform ScaleX="1" ScaleY="1"/>
             </Setter.Value>
         </Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Grid>
+                        <Border x:Name="Back" Padding="5" Background="Transparent" CornerRadius="0" BorderThickness="0">
+                            <ContentPresenter x:Name="txt" VerticalAlignment="Center" 
+                                HorizontalAlignment="Center" Content="{TemplateBinding Content}"/>
+                        </Border>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Back" Property="Background" Value="{DynamicResource ResourceKey={ComponentResourceKey TypeInTargetAssembly={x:Type lc:Generic},ResourceId=MenuBack_2}}"/>
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="False">
+                            <Setter TargetName="Back" Property="Background" Value="Transparent"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="Back" Property="Background" Value="Transparent"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
                 <Trigger.EnterActions>
