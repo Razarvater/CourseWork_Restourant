@@ -27,7 +27,7 @@
                             <DataGridTemplateColumn Header="Название страницы" >
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-                                        <TextBox Margin="5" Text="{Binding PageName, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"
+                                        <TextBox Margin="5" Text="{Binding PageName, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" MaxLength="50"
                                              Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly={x:Type res:Generic},ResourceId=TextBoxBlack}}"/>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
@@ -64,7 +64,7 @@
                                      Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly={x:Type res:Generic},ResourceId=GroupBoxBlack}}">
                                     <GroupBox.HeaderTemplate>
                                         <DataTemplate>
-                                            <TextBox Text="{Binding RelativeSource={RelativeSource AncestorType={x:Type GroupBox}}, Path=DataContext.RoleName, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"
+                                            <TextBox Text="{Binding RelativeSource={RelativeSource AncestorType={x:Type GroupBox}}, Path=DataContext.RoleName, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" MaxLength="50"
                                                  Background="Transparent" BorderBrush="Transparent" Foreground="{DynamicResource {ComponentResourceKey TypeInTargetAssembly={x:Type res:Generic},ResourceId=MainFontColor}}"/>
                                         </DataTemplate>
                                     </GroupBox.HeaderTemplate>
