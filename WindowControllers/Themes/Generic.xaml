@@ -28,9 +28,198 @@
 
     <!--Тёмный ListBox-->
     <Style x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type lc:Generic}, ResourceId=ListBlack}" TargetType="{x:Type ListBox}">
-        <Setter Property="Background" Value="#FF969696"/>
-        <Setter Property="BorderBrush" Value="#FF888888"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="BorderBrush" Value="Transparent"/>
         <Setter Property="BorderThickness" Value="1"/>
+    </Style>
+
+    <!--Верхняя кнопка ScroolBar-->
+    <Style x:Key="ScrollBarLineButtonStyle" TargetType="{x:Type RepeatButton}">
+        <Setter Property="Focusable" Value="False"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type RepeatButton}">
+                    <Canvas Height="18">
+                        <Polygon Fill="#FF565656" Points="2,15 16,15 9,2"/>
+                    </Canvas>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!--Нижняя кнопка ScroolBar-->
+    <Style x:Key="ScrollBarLineButtonBottomStyle" TargetType="{x:Type RepeatButton}">
+        <Setter Property="Focusable" Value="False"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type RepeatButton}">
+                    <Canvas Height="18">
+                        <Polygon Fill="#FF565656" Points="2,3 16,3 9,16"/>
+                    </Canvas>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!--Прокрутка ScrollBar-->
+    <Style x:Key="ScrollBarPageButtonStyle" TargetType="{x:Type RepeatButton}">
+        <Setter Property="IsTabStop" Value="False"/>
+        <Setter Property="Focusable" Value="False"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type RepeatButton}">
+                    <Border BorderBrush="Yellow"/>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!--Прокрутка ScroolBar-->
+    <Style x:Key="ScrollBarThumbStyle" TargetType="{x:Type Thumb}">
+        <Setter Property="IsTabStop" Value="False"/>
+        <Setter Property="Focusable" Value="False"/>
+        <Setter Property="Margin" Value="1,0,1,0" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Thumb}">
+                    <Rectangle Fill="#FF666666" Margin="2,0,1,0"/>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!--Стиль вертикального ScroolBar-->
+    <Style x:Key="ScroolBarBlackVertical" TargetType="{x:Type ScrollBar}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ScrollBar}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition MaxHeight="18"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition MaxHeight="18"/>
+                        </Grid.RowDefinitions>
+
+                        <RepeatButton Grid.Row="0" Height="18" Style="{StaticResource ScrollBarLineButtonStyle}" Command="ScrollBar.LineUpCommand" />
+                        <Track Name="PART_Track" Grid.Row="1" IsDirectionReversed="True">
+                            <Track.DecreaseRepeatButton>
+                                <RepeatButton Command="ScrollBar.PageUpCommand" Style="{StaticResource ScrollBarPageButtonStyle}"/>
+                            </Track.DecreaseRepeatButton>
+                            <Track.Thumb>
+                                <Thumb Style="{StaticResource ScrollBarThumbStyle}"/>
+                            </Track.Thumb>
+                            <Track.IncreaseRepeatButton>
+                                <RepeatButton Command="ScrollBar.PageDownCommand" Style="{StaticResource ScrollBarPageButtonStyle}"/>
+                            </Track.IncreaseRepeatButton>
+                        </Track>
+                        <RepeatButton Grid.Row="3" Height="18" Style="{StaticResource ScrollBarLineButtonBottomStyle}"
+                                      Command="ScrollBar.LineDownCommand"/>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+
+    <!--Верхняя кнопка ScroolBar-->
+    <Style x:Key="ScrollBarLineButtonStyleHor" TargetType="{x:Type RepeatButton}">
+        <Setter Property="Focusable" Value="False"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type RepeatButton}">
+                    <Canvas Height="18">
+                        <Polygon Fill="#FF565656" Points="2,8 16,16 16,2"/>
+                    </Canvas>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!--Нижняя кнопка ScroolBar-->
+    <Style x:Key="ScrollBarLineButtonBottomStyleHor" TargetType="{x:Type RepeatButton}">
+        <Setter Property="Focusable" Value="False"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type RepeatButton}">
+                    <Canvas Height="18">
+                        <Polygon Fill="#FF565656" Points="2,16 2,2 16,9"/>
+                    </Canvas>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!--Прокрутка ScroolBar-->
+    <Style x:Key="ScrollBarThumbStyleHor" TargetType="{x:Type Thumb}">
+        <Setter Property="IsTabStop" Value="False"/>
+        <Setter Property="Focusable" Value="False"/>
+        <Setter Property="Margin" Value="1,0,1,0" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Thumb}">
+                    <Rectangle Fill="#FF666666" Margin="0,2,0,1"/>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="ScroolBarBlackHorizontal" TargetType="{x:Type ScrollBar}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ScrollBar}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition MaxWidth="18"/>
+                            <ColumnDefinition Width="0.0001*"/>
+                            <ColumnDefinition MaxWidth="18"/>
+                        </Grid.ColumnDefinitions>
+
+                        <RepeatButton Grid.Column="0" Width="18" Style="{StaticResource ScrollBarLineButtonStyleHor}"
+                                      Command="ScrollBar.LineLeftCommand"/>
+                        <Track Name="PART_Track" Grid.Column="1">
+                            <Track.DecreaseRepeatButton>
+                                <RepeatButton Command="ScrollBar.PageLeftCommand" Style="{StaticResource ScrollBarPageButtonStyle}"/>
+                            </Track.DecreaseRepeatButton>
+                            <Track.Thumb>
+                                <Thumb Style="{StaticResource ScrollBarThumbStyleHor}"/>
+                            </Track.Thumb>
+                            <Track.IncreaseRepeatButton>
+                                <RepeatButton Command="ScrollBar.PageRightCommand" Style="{StaticResource ScrollBarPageButtonStyle}"/>
+                            </Track.IncreaseRepeatButton>
+                        </Track>
+                        <RepeatButton Grid.Column="2" Width="18" Style="{StaticResource ScrollBarLineButtonBottomStyleHor}"
+                                      Command="ScrollBar.LineRightCommand"/>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!--Шаблон для ScrollWiewer-->
+    <Style x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type lc:Generic}, ResourceId=ScrollViewerBlack}" TargetType="{x:Type ScrollViewer}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ScrollViewer}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Border Grid.Column="0" BorderThickness="0">
+                            <ScrollContentPresenter CanContentScroll="{TemplateBinding CanContentScroll}"/>
+                        </Border>
+                        <ScrollBar x:Name="PART_VerticalScrollBar" Style="{StaticResource ScroolBarBlackVertical}" Grid.Column="1" Value="{TemplateBinding VerticalOffset}" Maximum="{TemplateBinding ScrollableHeight}"
+                             ViewportSize="{TemplateBinding ViewportHeight}" Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}"/>
+                        <ScrollBar x:Name="PART_HorizontalScrollBar" Style="{StaticResource ScroolBarBlackHorizontal}" Orientation="Horizontal" Grid.Row="1" Grid.ColumnSpan="1" Value="{TemplateBinding HorizontalOffset}"
+                            Maximum="{TemplateBinding ScrollableWidth}" ViewportSize="{TemplateBinding ViewportWidth}" Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}"/>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
     </Style>
 
     <!--Тёмный TextBox-->
@@ -58,6 +247,9 @@
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsFocused" Value="True">
                             <Setter Property="Background" Value="#FFBBBBBB"/>
+                        </Trigger>
+                        <Trigger Property="IsFocused" Value="False">
+                            <Setter Property="Background" Value="#FF969696"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                     <Border x:Name="border" CornerRadius="2" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="True">
@@ -88,7 +280,7 @@
                 <Style TargetType="{x:Type DataGridColumnHeader}">
                     <Setter Property="HorizontalAlignment" Value="Center"/>
                     <Setter Property="Background" Value="Transparent" />
-                    <Setter Property="Foreground" Value="{DynamicResource ResourceKey={ComponentResourceKey TypeInTargetAssembly={x:Type lc:Generic},ResourceId=MainFontColor}}"/>
+                    <Setter Property="Foreground" Value="{StaticResource ResourceKey={ComponentResourceKey TypeInTargetAssembly={x:Type lc:Generic},ResourceId=MainFontColor}}"/>
                 </Style>
             </Setter.Value>
         </Setter>
@@ -381,4 +573,5 @@
             </Setter.Value>
         </Setter>
     </Style>
+    
 </ResourceDictionary>

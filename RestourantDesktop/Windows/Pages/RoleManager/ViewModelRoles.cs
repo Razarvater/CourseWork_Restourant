@@ -7,6 +7,7 @@ namespace RestourantDesktop.Windows.Pages.RoleManager
 {
     internal sealed class ViewModelRoles : NotifyPropertyChanged
     {
+        public ObservableCollection<RoleItem> RolesList { get => RolesModel.RoleList;}    
         public ObservableCollection<PageItem> Pages { get => RolesModel.PagesList; }
 
         private Command addNewPageCommand;
@@ -19,6 +20,19 @@ namespace RestourantDesktop.Windows.Pages.RoleManager
                 OnPropertyChanged();
             }
         }
+        
+        private Command addNewRoleCommand;
+        public Command AddNewRoleCommand
+        {
+            get => addNewRoleCommand;
+            set
+            {
+                addNewRoleCommand = value;
+                OnPropertyChanged();
+            }
+        }
+
+
 
         public ViewModelRoles()
         {
@@ -29,6 +43,15 @@ namespace RestourantDesktop.Windows.Pages.RoleManager
                 {
                     await RolesModel.CreateNewEmptyPageAsync(DeletePageItem);
                     OnPropertyChanged(nameof(Pages));
+                }
+            );
+
+            AddNewRoleCommand = new Command
+            (
+                async (obj) =>
+                {
+                    await RolesModel.CreateNewEmptyRole();
+                    OnPropertyChanged(nameof(RolesList));
                 }
             );
         }
@@ -43,7 +66,9 @@ namespace RestourantDesktop.Windows.Pages.RoleManager
         public async Task InitVM()
         {
             await RolesModel.GetPagesListAsync(DeletePageItem);
+            await RolesModel.GetRolesList();
             OnPropertyChanged(nameof(Pages));
+            OnPropertyChanged(nameof(RolesList));
         }
     }
 }

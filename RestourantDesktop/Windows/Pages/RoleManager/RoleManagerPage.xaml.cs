@@ -25,7 +25,7 @@ namespace RestourantDesktop.Windows.Pages.RoleManager
         private async void PageLoaded(object sender, RoutedEventArgs e) =>
             await vm.InitVM();
 
-        private void PageName_KeyDown(object sender, KeyEventArgs e)
+        private void RoleName_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
                 Keyboard.ClearFocus();

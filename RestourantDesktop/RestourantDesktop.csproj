@@ -60,6 +60,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Windows\Pages\RoleManager\Items\PageItem.cs" />
+    <Compile Include="Windows\Pages\RoleManager\Items\RoleItem.cs" />
     <Compile Include="Windows\Pages\RoleManager\RoleManagerPage.xaml.cs">
       <DependentUpon>RoleManagerPage.xaml</DependentUpon>
     </Compile>
