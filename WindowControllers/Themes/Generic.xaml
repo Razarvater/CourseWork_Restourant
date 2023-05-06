@@ -4,20 +4,21 @@
                     x:Class="WindowControllers.Themes.Generic"
                     xmlns:lc="clr-namespace:WindowControllers.Themes">
 
-    <!--TODO: рефакторинг названий цветов-->
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type lc:Generic}, ResourceId=MenuBack}">#FF404040</SolidColorBrush>
-    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type lc:Generic}, ResourceId=MenuBack_2}">#FF353535</SolidColorBrush>
-    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type lc:Generic}, ResourceId=MenuBack_0}">#FF454545</SolidColorBrush>
-    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type lc:Generic}, ResourceId=BackGroundColor}">#FF303030</SolidColorBrush>
-    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type lc:Generic}, ResourceId=MainFontColor}">#FFCCCCCC</SolidColorBrush>
-    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type lc:Generic}, ResourceId=MainFontColor_1}">#FFABABAB</SolidColorBrush>
-    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type lc:Generic}, ResourceId=MainFontColor_2}">#FF858585</SolidColorBrush>
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type lc:Generic}, ResourceId=MenuBackFocused}">#FF454545</SolidColorBrush>
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type lc:Generic}, ResourceId=MenuBackNotFocused}">#FF353535</SolidColorBrush>
 
-    <Color x:Key="MenuBack_Color">#FF404040</Color>
-    <Color x:Key="MenuBack_2Color">#FF353535</Color>
-    <Color x:Key="MenuBack_0Color">#FF454545</Color>
-    <Color x:Key="BackGroundColor">#FF303030</Color>
-    <Color x:Key="MainFontColor">#FFCCCCCC</Color>
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type lc:Generic}, ResourceId=ScrollBarColor}">#FF565656</SolidColorBrush>
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type lc:Generic}, ResourceId=GroupBoxBorderColor}">#FF565656</SolidColorBrush>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type lc:Generic}, ResourceId=FocusedTextBoxBackground}">#FFBBBBBB</SolidColorBrush>
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type lc:Generic}, ResourceId=NotFocusedTextBoxBackground}">#FF969696</SolidColorBrush>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type lc:Generic}, ResourceId=BackgroundColor}">#FF303030</SolidColorBrush>
+    
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type lc:Generic}, ResourceId=MainFontColor}">#FFCCCCCC</SolidColorBrush>
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type lc:Generic}, ResourceId=FontColorNotFocused}">#FFABABAB</SolidColorBrush>
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type lc:Generic}, ResourceId=FontColorFocused}">#FF858585</SolidColorBrush>
 
     <!--Конвертеры-->
     <local:ButtonVisConverter x:Key="ButtonVisConverter"/>
@@ -40,7 +41,7 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type RepeatButton}">
                     <Canvas Height="18">
-                        <Polygon Fill="#FF565656" Points="2,15 16,15 9,2"/>
+                        <Polygon Fill="{StaticResource ResourceKey={ComponentResourceKey TypeInTargetAssembly=lc:Generic,ResourceId=ScrollBarColor}}" Points="2,15 16,15 9,2"/>
                     </Canvas>
                 </ControlTemplate>
             </Setter.Value>
@@ -54,7 +55,7 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type RepeatButton}">
                     <Canvas Height="18">
-                        <Polygon Fill="#FF565656" Points="2,3 16,3 9,16"/>
+                        <Polygon Fill="{StaticResource ResourceKey={ComponentResourceKey TypeInTargetAssembly=lc:Generic,ResourceId=ScrollBarColor}}" Points="2,3 16,3 9,16"/>
                     </Canvas>
                 </ControlTemplate>
             </Setter.Value>
@@ -68,7 +69,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type RepeatButton}">
-                    <Border BorderBrush="Yellow"/>
+                    <Border BorderBrush="{StaticResource ResourceKey={ComponentResourceKey TypeInTargetAssembly=lc:Generic,ResourceId=ScrollBarColor}}"/>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -82,7 +83,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Thumb}">
-                    <Rectangle Fill="#FF666666" Margin="2,0,1,0"/>
+                    <Rectangle Fill="{StaticResource ResourceKey={ComponentResourceKey TypeInTargetAssembly=lc:Generic,ResourceId=ScrollBarColor}}" Margin="2,0,1,0"/>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -120,7 +121,6 @@
         </Setter>
     </Style>
 
-
     <!--Верхняя кнопка ScroolBar-->
     <Style x:Key="ScrollBarLineButtonStyleHor" TargetType="{x:Type RepeatButton}">
         <Setter Property="Focusable" Value="False"/>
@@ -128,7 +128,7 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type RepeatButton}">
                     <Canvas Height="18">
-                        <Polygon Fill="#FF565656" Points="2,8 16,16 16,2"/>
+                        <Polygon Fill="{StaticResource ResourceKey={ComponentResourceKey TypeInTargetAssembly=lc:Generic,ResourceId=ScrollBarColor}}" Points="2,8 16,16 16,2"/>
                     </Canvas>
                 </ControlTemplate>
             </Setter.Value>
@@ -142,7 +142,7 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type RepeatButton}">
                     <Canvas Height="18">
-                        <Polygon Fill="#FF565656" Points="2,16 2,2 16,9"/>
+                        <Polygon Fill="{StaticResource ResourceKey={ComponentResourceKey TypeInTargetAssembly=lc:Generic,ResourceId=ScrollBarColor}}" Points="2,16 2,2 16,9"/>
                     </Canvas>
                 </ControlTemplate>
             </Setter.Value>
@@ -157,12 +157,13 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Thumb}">
-                    <Rectangle Fill="#FF666666" Margin="0,2,0,1"/>
+                    <Rectangle Fill="{StaticResource ResourceKey={ComponentResourceKey TypeInTargetAssembly=lc:Generic,ResourceId=ScrollBarColor}}" Margin="0,2,0,1"/>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
 
+    <!--Стиль горизонтального ScrollBar-->
     <Style x:Key="ScroolBarBlackHorizontal" TargetType="{x:Type ScrollBar}">
         <Setter Property="Template">
             <Setter.Value>
@@ -240,16 +241,16 @@
             </Trigger>
         </Style.Triggers>
         <Setter Property="FontSize" Value="20"/>
-        <Setter Property="Background" Value="#FF969696"/>
+        <Setter Property="Background" Value="{StaticResource ResourceKey={ComponentResourceKey TypeInTargetAssembly=lc:Generic, ResourceId=NotFocusedTextBoxBackground}}"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type TextBox}">
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsFocused" Value="True">
-                            <Setter Property="Background" Value="#FFBBBBBB"/>
+                            <Setter Property="Background" Value="{StaticResource ResourceKey={ComponentResourceKey TypeInTargetAssembly=lc:Generic, ResourceId=FocusedTextBoxBackground}}"/>
                         </Trigger>
                         <Trigger Property="IsFocused" Value="False">
-                            <Setter Property="Background" Value="#FF969696"/>
+                            <Setter Property="Background" Value="{StaticResource ResourceKey={ComponentResourceKey TypeInTargetAssembly=lc:Generic, ResourceId=NotFocusedTextBoxBackground}}"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                     <Border x:Name="border" CornerRadius="2" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="True">
@@ -260,69 +261,29 @@
         </Setter>
     </Style>
 
-    <!--DataGrid Без признаков DataGrid-->
-    <Style x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type lc:Generic}, ResourceId=DataGridBlack}" TargetType="{x:Type DataGrid}">
-        <Setter Property="Background" Value="Transparent" />
-        <Setter Property="SelectionUnit" Value="Cell" />
-        <Setter Property="SelectionMode" Value="Single" />
-        <Setter Property="CanUserAddRows" Value="False" />
-        <Setter Property="CanUserDeleteRows" Value="False" />
-        <Setter Property="CanUserReorderColumns" Value="False" />
-        <Setter Property="CanUserResizeColumns" Value="False" />
-        <Setter Property="CanUserResizeRows" Value="False" />
-        <Setter Property="RowHeaderWidth" Value="0" />
-        <Setter Property="BorderThickness" Value="0" />
-        <Setter Property="RowBackground" Value="Transparent"/>
-        <Setter Property="HorizontalGridLinesBrush" Value="Transparent"/>
-        <Setter Property="VerticalGridLinesBrush" Value="Transparent"/>
-        <Setter Property="ColumnHeaderStyle">
-            <Setter.Value>
-                <Style TargetType="{x:Type DataGridColumnHeader}">
-                    <Setter Property="HorizontalAlignment" Value="Center"/>
-                    <Setter Property="Background" Value="Transparent" />
-                    <Setter Property="Foreground" Value="{StaticResource ResourceKey={ComponentResourceKey TypeInTargetAssembly={x:Type lc:Generic},ResourceId=MainFontColor}}"/>
-                </Style>
-            </Setter.Value>
-        </Setter>
-        <Setter Property="CellStyle">
-            <Setter.Value>
-                <Style TargetType="{x:Type DataGridCell}">
-                    <Style.Triggers>
-                        <Trigger Property="IsSelected" Value="True">
-                            <Setter Property="Background" Value="Transparent"/>
-                            <Setter Property="BorderBrush" Value="Transparent"/>
-                        </Trigger>
-                    </Style.Triggers>
-                </Style>
-            </Setter.Value>
-        </Setter>
-        <Setter Property="HorizontalScrollBarVisibility" Value="Disabled"/>
-        <Setter Property="VerticalScrollBarVisibility" Value="Disabled"/>
-    </Style>
-
     <!--Тёмная Button-->
     <Style x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type lc:Generic}, ResourceId=BlackButton}" TargetType="{x:Type Button}">
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
                     <Grid>
-                        <Border x:Name="Back" Background="{DynamicResource ResourceKey={ComponentResourceKey TypeInTargetAssembly={x:Type lc:Generic},ResourceId=MainFontColor_1}}" CornerRadius="5" BorderThickness="0.1">
+                        <Border x:Name="Back" Background="{StaticResource ResourceKey={ComponentResourceKey TypeInTargetAssembly=lc:Generic, ResourceId=MenuBack}}" CornerRadius="5" BorderThickness="0.1">
                             <Label x:Name="txt" VerticalAlignment="Center"  HorizontalAlignment="Center"
-                               FontWeight="Bold" FontSize="11" Foreground="{DynamicResource ResourceKey={ComponentResourceKey TypeInTargetAssembly={x:Type lc:Generic},ResourceId=MenuBack}}" 
+                               FontWeight="Bold" FontSize="11" Foreground="{StaticResource ResourceKey={ComponentResourceKey TypeInTargetAssembly=lc:Generic,ResourceId=FontColorNotFocused}}" 
                                Content="{TemplateBinding Content}"/>
                         </Border>
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="Back" Property="Background" Value="{DynamicResource ResourceKey={ComponentResourceKey TypeInTargetAssembly={x:Type lc:Generic},ResourceId=MenuBack_2}}"/>
-                            <Setter TargetName="txt" Property="Foreground" Value="{DynamicResource ResourceKey={ComponentResourceKey TypeInTargetAssembly={x:Type lc:Generic},ResourceId=MainFontColor_2}}"/>
+                            <Setter TargetName="Back" Property="Background" Value="{StaticResource ResourceKey={ComponentResourceKey TypeInTargetAssembly=lc:Generic, ResourceId=MenuBackNotFocused}}"/>
+                            <Setter TargetName="txt" Property="Foreground" Value="{StaticResource ResourceKey={ComponentResourceKey TypeInTargetAssembly=lc:Generic, ResourceId=FontColorFocused}}"/>
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="False">
-                            <Setter TargetName="Back" Property="Background" Value="{DynamicResource ResourceKey={ComponentResourceKey TypeInTargetAssembly={x:Type lc:Generic},ResourceId=MenuBack}}"/>
-                            <Setter TargetName="txt" Property="Foreground" Value="{DynamicResource ResourceKey={ComponentResourceKey TypeInTargetAssembly={x:Type lc:Generic},ResourceId=MainFontColor_1}}"/>
+                            <Setter TargetName="Back" Property="Background" Value="{StaticResource ResourceKey={ComponentResourceKey TypeInTargetAssembly=lc:Generic, ResourceId=MenuBack}}"/>
+                            <Setter TargetName="txt" Property="Foreground" Value="{StaticResource ResourceKey={ComponentResourceKey TypeInTargetAssembly=lc:Generic, ResourceId=FontColorNotFocused}}"/>
                         </Trigger>
                         <Trigger Property="IsPressed" Value="True">
-                            <Setter TargetName="Back" Property="Background" Value="{DynamicResource ResourceKey={ComponentResourceKey TypeInTargetAssembly={x:Type lc:Generic},ResourceId=MenuBack}}"/>
+                            <Setter TargetName="Back" Property="Background" Value="{StaticResource ResourceKey={ComponentResourceKey TypeInTargetAssembly=lc:Generic,ResourceId=MenuBack}}"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -333,8 +294,8 @@
     <!--Переопределение шаблона GroupBox без "Внешних" границ-->
     <Style x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type lc:Generic}, ResourceId=GroupBoxBlack}" TargetType="{x:Type GroupBox}">
         <Setter Property="BorderThickness" Value="3"/>
-        <Setter Property="BorderBrush" Value="#FF565656"/>
-        <Setter Property="Foreground" Value="#FFAAAAAA"/>
+        <Setter Property="BorderBrush" Value="{StaticResource ResourceKey={ComponentResourceKey TypeInTargetAssembly=lc:Generic, ResourceId=GroupBoxBorderColor}}"/>
+        <Setter Property="Foreground" Value="{StaticResource ResourceKey={ComponentResourceKey TypeInTargetAssembly=lc:Generic, ResourceId=MainFontColor}}"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type GroupBox}">
@@ -361,7 +322,7 @@
                             </Border.OpacityMask>
                             <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="3"/>
                         </Border>
-                        <Border x:Name="Header" Grid.Column="1" Padding="3,1,3,0" Grid.Row="0" Grid.RowSpan="2">
+                        <Border x:Name="Header" Grid.Column="1" Padding="2,1,2,0" Grid.Row="0" Grid.RowSpan="2">
                             <ContentPresenter ContentSource="Header" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
                         </Border>
                         <ContentPresenter Grid.ColumnSpan="2" Grid.Column="1" Margin="{TemplateBinding Padding}" Grid.Row="2" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
@@ -393,7 +354,7 @@
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="Back" Property="Background" Value="{DynamicResource ResourceKey={ComponentResourceKey TypeInTargetAssembly={x:Type lc:Generic},ResourceId=MenuBack_2}}"/>
+                            <Setter TargetName="Back" Property="Background" Value="{DynamicResource ResourceKey={ComponentResourceKey TypeInTargetAssembly={x:Type lc:Generic},ResourceId=MenuBackNotFocused}}"/>
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="False">
                             <Setter TargetName="Back" Property="Background" Value="Transparent"/>
@@ -435,13 +396,13 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type MenuItem}">
-                    <Border x:Name="Border" Background="{StaticResource {ComponentResourceKey TypeInTargetAssembly={x:Type lc:Generic},ResourceId=MenuBack_2}}" 
-                            Padding="5" BorderThickness="0.8,0,0.8,0.8" BorderBrush="{StaticResource {ComponentResourceKey TypeInTargetAssembly={x:Type lc:Generic},ResourceId=MenuBack_0}}">
+                    <Border x:Name="Border" Background="{StaticResource {ComponentResourceKey TypeInTargetAssembly=lc:Generic,ResourceId=MenuBackNotFocused}}" 
+                            Padding="5" BorderThickness="0.8,0,0.8,0.8" BorderBrush="{StaticResource {ComponentResourceKey TypeInTargetAssembly=lc:Generic,ResourceId=MenuBackFocused}}">
                         <Grid>
                             <ContentPresenter Margin="6,3,6,3" ContentSource="Header" RecognizesAccessKey="True" />
                             <Popup x:Name="Popup" Placement="Bottom" IsOpen="{TemplateBinding IsSubmenuOpen}" AllowsTransparency="True" Focusable="False" PopupAnimation="Fade">
-                                <Border x:Name="SubmenuBorder" SnapsToDevicePixels="True" BorderThickness="2" BorderBrush="{StaticResource {ComponentResourceKey TypeInTargetAssembly={x:Type lc:Generic},ResourceId=MenuBack}}"
-                                        Background="{StaticResource {ComponentResourceKey TypeInTargetAssembly={x:Type lc:Generic},ResourceId=MenuBack_2}}">
+                                <Border x:Name="SubmenuBorder" SnapsToDevicePixels="True" BorderThickness="2" BorderBrush="{StaticResource {ComponentResourceKey TypeInTargetAssembly=lc:Generic,ResourceId=MenuBack}}"
+                                        Background="{StaticResource {ComponentResourceKey TypeInTargetAssembly=lc:Generic,ResourceId=MenuBackNotFocused}}">
                                     <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Cycle" />
                                 </Border>
                             </Popup>
@@ -452,7 +413,7 @@
                                 <BeginStoryboard>
                                     <Storyboard>
                                         <ColorAnimation Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)" Duration="0:0:0.2"
-                                            To="{StaticResource MenuBack_0Color}"/>
+                                            To="{Binding Source={StaticResource {ComponentResourceKey TypeInTargetAssembly=lc:Generic, ResourceId=MenuBackFocused}}, Path=Color}"/>
                                     </Storyboard>
                                 </BeginStoryboard>
                             </EventTrigger>
@@ -460,7 +421,7 @@
                                 <BeginStoryboard>
                                     <Storyboard>
                                         <ColorAnimation Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)" Duration="0:0:0.2"
-                                            To="{StaticResource MenuBack_2Color}"/>
+                                            To="{Binding Source={StaticResource {ComponentResourceKey TypeInTargetAssembly=lc:Generic, ResourceId=MenuBackNotFocused}}, Path=Color}"/>
                                     </Storyboard>
                                 </BeginStoryboard>
                             </EventTrigger>
@@ -469,13 +430,13 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-        <Setter Property="Foreground" Value="{StaticResource {ComponentResourceKey TypeInTargetAssembly={x:Type lc:Generic},ResourceId=MainFontColor}}"/>
+        <Setter Property="Foreground" Value="{StaticResource {ComponentResourceKey TypeInTargetAssembly=lc:Generic,ResourceId=MainFontColor}}"/>
     </Style>
 
     <!--Общий стиль меню-->
     <Style x:Key="MainMenu" TargetType="Menu">
         <Setter Property="ItemContainerStyle" Value="{StaticResource PageItems}"/>
-        <Setter Property="Background" Value="{StaticResource {ComponentResourceKey TypeInTargetAssembly={x:Type lc:Generic},ResourceId=MenuBack_2}}"/>
+        <Setter Property="Background" Value="{StaticResource {ComponentResourceKey TypeInTargetAssembly=lc:Generic,ResourceId=MenuBackNotFocused}}"/>
         <Setter Property="ItemsPanel">
             <Setter.Value>
                 <ItemsPanelTemplate>
@@ -502,14 +463,14 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Window}">
-                    <Border BorderBrush="{TemplateBinding BorderBrush}" Background="{StaticResource {ComponentResourceKey TypeInTargetAssembly={x:Type lc:Generic}, ResourceId=BackGroundColor}}"
+                    <Border BorderBrush="{TemplateBinding BorderBrush}" Background="{StaticResource {ComponentResourceKey TypeInTargetAssembly=lc:Generic, ResourceId=BackgroundColor}}"
                             BorderThickness="{TemplateBinding BorderThickness}">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="*" />
                             </Grid.RowDefinitions>
-                            <DockPanel x:Name="BackBorder" Grid.Row="0" Background="{StaticResource {ComponentResourceKey TypeInTargetAssembly={x:Type lc:Generic},ResourceId=MenuBack}}">
+                            <DockPanel x:Name="BackBorder" Grid.Row="0" Background="{StaticResource {ComponentResourceKey TypeInTargetAssembly=lc:Generic,ResourceId=MenuBack}}">
                                 <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" RenderOptions.EdgeMode="Aliased">
                                     <Button Style="{StaticResource ManageButton}" Command="{Binding MinWindowCommand}">
                                         <Canvas  Width="14" Height="18">
@@ -541,7 +502,7 @@
                                     </DockPanel.Style>
                                     <Image  Source="{TemplateBinding Icon}" DockPanel.Dock="Left"
                                             Width="18" Height="18" Margin="10,0,0,0"/>
-                                    <TextBlock Text="{TemplateBinding Title}" Margin="10,0,0,0" Foreground="{StaticResource {ComponentResourceKey TypeInTargetAssembly={x:Type lc:Generic},ResourceId=MainFontColor}}"
+                                    <TextBlock Text="{TemplateBinding Title}" Margin="10,0,0,0" Foreground="{StaticResource {ComponentResourceKey TypeInTargetAssembly=lc:Generic,ResourceId=MainFontColor}}"
                                             TextAlignment="Left" VerticalAlignment="Center"/>
                                 </DockPanel>
                             </DockPanel>

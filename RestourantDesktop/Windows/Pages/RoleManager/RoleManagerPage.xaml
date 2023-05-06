@@ -20,43 +20,38 @@
                     <RowDefinition Height="35"/>
                 </Grid.RowDefinitions>
                 <ScrollViewer Grid.ColumnSpan="2" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Auto"
-                              Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly={x:Type res:Generic},ResourceId=ScrollViewerBlack}}">
-                    <DataGrid ItemsSource="{Binding Pages}" AutoGenerateColumns="False"
-                          Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly={x:Type res:Generic},ResourceId=DataGridBlack}}">
-                        <DataGrid.Columns>
-                            <DataGridTemplateColumn Header="Название страницы" >
-                                <DataGridTemplateColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <TextBox Margin="5" Text="{Binding PageName, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" MaxLength="50"
-                                             Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly={x:Type res:Generic},ResourceId=TextBoxBlack}}"/>
-                                    </DataTemplate>
-                                </DataGridTemplateColumn.CellTemplate>
-                            </DataGridTemplateColumn>
-                            <DataGridTemplateColumn Header="Удаление">
-                                <DataGridTemplateColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <Button Content="Удалить" Margin="5" Command="{Binding DeletePageCommand}"
-                                            Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly={x:Type res:Generic},ResourceId=BlackButton}}"/>
-                                    </DataTemplate>
-                                </DataGridTemplateColumn.CellTemplate>
-                            </DataGridTemplateColumn>
-                        </DataGrid.Columns>
-                    </DataGrid>
+                              Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=res:Generic, ResourceId=ScrollViewerBlack}}">
+                    <ItemsControl ItemsSource="{Binding Pages}" HorizontalContentAlignment="Stretch">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="1*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBox Margin="5" Text="{Binding PageName, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" MaxLength="50"
+                                             Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=res:Generic, ResourceId=TextBoxBlack}}"/>
+                                    <Button Content="Удалить" Margin="5" Grid.Column="1" Command="{Binding DeletePageCommand}"
+                                            Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=res:Generic, ResourceId=BlackButton}}"/>
+                                </Grid>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
                 </ScrollViewer>
                 <Button Content="Добавить новую страницу" Command="{Binding AddNewPageCommand}" Margin="5" Grid.Row="1" Grid.Column="0"
-                        Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly={x:Type res:Generic},ResourceId=BlackButton}}"/>
+                        Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=res:Generic,ResourceId=BlackButton}}"/>
             </Grid>
         </GroupBox>
         <GridSplitter Grid.Column="1" Width="5" ShowsPreview="False" HorizontalAlignment="Center"
-                      VerticalAlignment="Stretch" Background="{DynamicResource {ComponentResourceKey TypeInTargetAssembly={x:Type res:Generic},ResourceId=MenuBack_2}}"/>
-        <GroupBox Header="Роли" Grid.Column="2" Margin="5" Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly={x:Type res:Generic},ResourceId=GroupBoxBlack}}">
+                      VerticalAlignment="Stretch" Background="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=res:Generic, ResourceId=MenuBackNotFocused}}"/>
+        <GroupBox Header="Роли" Grid.Column="2" Margin="5" Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=res:Generic ,ResourceId=GroupBoxBlack}}">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="1*"/>
                     <RowDefinition Height="35"/>
                 </Grid.RowDefinitions>
                 <ScrollViewer Grid.Row="0" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Auto"
-                              Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly={x:Type res:Generic},ResourceId=ScrollViewerBlack}}">
+                              Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=res:Generic, ResourceId=ScrollViewerBlack}}">
                     <ItemsControl ItemsSource="{Binding RolesList}" HorizontalContentAlignment="Stretch">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
@@ -65,7 +60,7 @@
                                     <GroupBox.HeaderTemplate>
                                         <DataTemplate>
                                             <TextBox Text="{Binding RelativeSource={RelativeSource AncestorType={x:Type GroupBox}}, Path=DataContext.RoleName, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" MaxLength="50"
-                                                 Background="Transparent" BorderBrush="Transparent" Foreground="{DynamicResource {ComponentResourceKey TypeInTargetAssembly={x:Type res:Generic},ResourceId=MainFontColor}}"/>
+                                                 Background="Transparent" BorderBrush="Transparent" Foreground="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=res:Generic,ResourceId=FontColorNotFocused}}"/>
                                         </DataTemplate>
                                     </GroupBox.HeaderTemplate>
                                     <ItemsControl ItemsSource="{Binding Rights}" HorizontalContentAlignment="Stretch">
@@ -76,7 +71,8 @@
                                                         <ColumnDefinition Width="1*"/>
                                                         <ColumnDefinition Width="20"/>
                                                     </Grid.ColumnDefinitions>
-                                                    <TextBlock Grid.Column="0" Text="{Binding PageName}" Margin="5,0,0,0"/>
+                                                    <TextBlock Grid.Column="0" Text="{Binding PageName}" Margin="5,0,0,0"
+                                                               Foreground="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=res:Generic,ResourceId=FontColorFocused}}"/>
                                                     <CheckBox Grid.Column="1" IsChecked="{Binding IsCan}"/>
                                                 </Grid>
                                             </DataTemplate>
@@ -88,7 +84,7 @@
                     </ItemsControl>
                 </ScrollViewer>
                 <Button Content="Добавить роль" Grid.Row="1" Margin="5" Command="{Binding AddNewRoleCommand}"
-                        Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly={x:Type res:Generic},ResourceId=BlackButton}}"/>
+                        Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=res:Generic, ResourceId=BlackButton}}"/>
             </Grid>
         </GroupBox>
     </Grid>
