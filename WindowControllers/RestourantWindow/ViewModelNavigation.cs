@@ -2,8 +2,11 @@
 using System;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.Drawing;
 using System.Linq;
 using System.Windows.Controls;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 namespace WindowControllers
 {
@@ -91,6 +94,7 @@ namespace WindowControllers
                 OnPropertyChanged();
             }
         }
+        private MenuItem lastSelected = null;
 
         private ObservableCollection<MenuItem> tabsList = new ObservableCollection<MenuItem>();
         /// <summary>
@@ -129,39 +133,24 @@ namespace WindowControllers
                 for (int i = 0; i < e.NewItems.Count; i++)
                 {
                     MenuItem redItem = (e.NewItems[i] as MenuItem);
-                    TabsInit(redItem);
+                    redItem.Navigate = new Command
+                    (
+                        (obj) =>
+                        {
+                            if (lastSelected == redItem) return;
+                            if(lastSelected != null) lastSelected.IsSelected = false;
+                            lastSelected = redItem;
+
+                            SelectedPage = redItem.PageContent;
+                            redItem.IsSelected = true;
+                        }
+                    );
                 }
             }
             if (TabsList.Count == 0)
-            {
                 Mode = MenuMode.None;
-            }
-            else if (TabsList.Count == 1 && TabsList.First().Pages == null)
-            {
-                Mode = MenuMode.None;
-                SelectedPage = TabsList.First().PageContent;
-            }
             else
                 Mode = savedMode;
-        }
-
-        /// <summary>
-        /// Рекурсивный обход по всем вложенным menu Для инициализации комманд
-        /// </summary>
-        /// <param name="item"></param>
-        private void TabsInit(MenuItem item)
-        {
-            if (item.Pages == null || item.Pages.Count == 0)
-            {
-                item.Navigate = new Command
-                (
-                    (obj) => SelectedPage = item.PageContent
-                );
-                return;
-            }
-
-            for (int i = 0; i < item.Pages.Count; i++)
-                TabsInit(item.Pages[i]);
         }
     }
 
@@ -181,6 +170,21 @@ namespace WindowControllers
             {
                 name = value;
                 OnPropertyChanged();
+            }
+        }
+
+        private Icon iconSource;
+        public ImageSource IconSource
+        {
+            get
+            {
+                if (iconSource == null) return null;
+                Bitmap bmp = iconSource.ToBitmap();
+                return System.Windows.Interop.Imaging.CreateBitmapSourceFromHBitmap(
+                    bmp.GetHbitmap(),
+                    IntPtr.Zero,
+                    System.Windows.Int32Rect.Empty,
+                    BitmapSizeOptions.FromEmptyOptions());
             }
         }
 
@@ -216,24 +220,29 @@ namespace WindowControllers
             }
         }
 
+        private bool isSelected;
+        public bool IsSelected
+        {
+            get => isSelected;
+            set
+            { 
+                isSelected = value;
+                OnPropertyChanged();
+            }
+        }
+
         /// <summary>
         /// Тип страницы
         /// </summary>
         private Type ContentPageType;
 
-        /// <summary>
-        /// Элементы вкладки
-        /// </summary>
-        public ObservableCollection<MenuItem> Pages { get; set; }
-
-        public MenuItem(string Name, Type contentPageType)
+        public MenuItem(string Name, Type contentPageType, Icon icon)
         {
             this.Name = Name;
             ContentPageType = contentPageType;
+            iconSource = icon;
         }
 
-        public MenuItem(string Name, ObservableCollection<MenuItem> Pages, Type contentPageType = null) : this (Name, contentPageType) =>
-            this.Pages = Pages;
     }
 
     public enum MenuMode

@@ -28,7 +28,11 @@ namespace RestourantDesktop.Windows.Pages.RoleManager
         private void RoleName_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
+            {
                 Keyboard.ClearFocus();
+                FocusManager.SetFocusedElement(FocusManager.GetFocusScope(sender as DependencyObject), null);
+            }
+
         }
     }
 }

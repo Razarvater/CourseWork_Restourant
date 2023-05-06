@@ -29,7 +29,7 @@
                                         <ColumnDefinition Width="1*"/>
                                         <ColumnDefinition Width="Auto"/>
                                     </Grid.ColumnDefinitions>
-                                    <TextBox Margin="5" Text="{Binding PageName, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" MaxLength="50"
+                                    <TextBox Margin="5" Text="{Binding PageName, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" MaxLength="50" KeyDown="RoleName_KeyDown"
                                              Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=res:Generic, ResourceId=TextBoxBlack}}"/>
                                     <Button Content="Удалить" Margin="5" Grid.Column="1" Command="{Binding DeletePageCommand}"
                                             Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=res:Generic, ResourceId=BlackButton}}"/>

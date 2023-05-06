@@ -20,6 +20,11 @@
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type lc:Generic}, ResourceId=FontColorNotFocused}">#FFABABAB</SolidColorBrush>
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type lc:Generic}, ResourceId=FontColorFocused}">#FF858585</SolidColorBrush>
 
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type lc:Generic}, ResourceId=MenuFontColorNotFocused}">#FFABABAB</SolidColorBrush>
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type lc:Generic}, ResourceId=MenuFontColorFocused}">#FF447BD4</SolidColorBrush>
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type lc:Generic}, ResourceId=MenuFontColorPressed}">#FF284A7E</SolidColorBrush>
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type lc:Generic}, ResourceId=MenuFontColorActive}">#FF66A3D2</SolidColorBrush>
+
     <!--Конвертеры-->
     <local:ButtonVisConverter x:Key="ButtonVisConverter"/>
     <local:MenuVisConverter x:Key="MenuVisConverter"/>
@@ -390,43 +395,49 @@
     <!--Стиль для элементов меню-->
     <Style x:Key="PageItems" TargetType="MenuItem">
         <Setter Property="Header" Value="{Binding Name}"/>
-        <Setter Property="ItemsSource" Value="{Binding Pages}"/>
         <Setter Property="Command" Value="{Binding Navigate}"/>
         <Setter Property="CommandParameter" Value="{Binding PageContent}"/>
+        <Setter Property="Icon" Value="{Binding IconSource}"/>
+        <Setter Property="FontSize" Value="12"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type MenuItem}">
                     <Border x:Name="Border" Background="{StaticResource {ComponentResourceKey TypeInTargetAssembly=lc:Generic,ResourceId=MenuBackNotFocused}}" 
-                            Padding="5" BorderThickness="0.8,0,0.8,0.8" BorderBrush="{StaticResource {ComponentResourceKey TypeInTargetAssembly=lc:Generic,ResourceId=MenuBackFocused}}">
+                            Padding="5" Margin="5" BorderThickness="0" BorderBrush="{StaticResource {ComponentResourceKey TypeInTargetAssembly=lc:Generic,ResourceId=MenuBackFocused}}">
                         <Grid>
-                            <ContentPresenter Margin="6,3,6,3" ContentSource="Header" RecognizesAccessKey="True" />
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" MaxWidth="30"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <Image Source="{Binding IconSource}" MaxWidth="30"/>
+                            <ContentPresenter Grid.Column="1" Margin="6,3,6,3" ContentSource="Header" RecognizesAccessKey="True">
+                                <ContentPresenter.Effect>
+                                    <DropShadowEffect Opacity="0.2" RenderingBias="Performance" Direction="320"/>
+                                </ContentPresenter.Effect>
+                            </ContentPresenter>
+
                             <Popup x:Name="Popup" Placement="Bottom" IsOpen="{TemplateBinding IsSubmenuOpen}" AllowsTransparency="True" Focusable="False" PopupAnimation="Fade">
-                                <Border x:Name="SubmenuBorder" SnapsToDevicePixels="True" BorderThickness="2" BorderBrush="{StaticResource {ComponentResourceKey TypeInTargetAssembly=lc:Generic,ResourceId=MenuBack}}"
+                                <Border x:Name="SubmenuBorder" SnapsToDevicePixels="True" BorderThickness="0" BorderBrush="{StaticResource {ComponentResourceKey TypeInTargetAssembly=lc:Generic,ResourceId=MenuBack}}"
                                         Background="{StaticResource {ComponentResourceKey TypeInTargetAssembly=lc:Generic,ResourceId=MenuBackNotFocused}}">
                                     <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Cycle" />
                                 </Border>
                             </Popup>
                         </Grid>
-                        <!--Триггер для выделения выбранного элемента-->
-                        <Border.Triggers>
-                            <EventTrigger RoutedEvent="MouseEnter">
-                                <BeginStoryboard>
-                                    <Storyboard>
-                                        <ColorAnimation Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)" Duration="0:0:0.2"
-                                            To="{Binding Source={StaticResource {ComponentResourceKey TypeInTargetAssembly=lc:Generic, ResourceId=MenuBackFocused}}, Path=Color}"/>
-                                    </Storyboard>
-                                </BeginStoryboard>
-                            </EventTrigger>
-                            <EventTrigger RoutedEvent="MouseLeave">
-                                <BeginStoryboard>
-                                    <Storyboard>
-                                        <ColorAnimation Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)" Duration="0:0:0.2"
-                                            To="{Binding Source={StaticResource {ComponentResourceKey TypeInTargetAssembly=lc:Generic, ResourceId=MenuBackNotFocused}}, Path=Color}"/>
-                                    </Storyboard>
-                                </BeginStoryboard>
-                            </EventTrigger>
-                        </Border.Triggers>
                     </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Foreground" Value="{Binding Source={StaticResource {ComponentResourceKey TypeInTargetAssembly=lc:Generic, ResourceId=MenuFontColorFocused}}}"/>
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="False">
+                            <Setter Property="Foreground" Value="{Binding Source={StaticResource {ComponentResourceKey TypeInTargetAssembly=lc:Generic, ResourceId=MenuFontColorNotFocused}}}"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter Property="Foreground" Value="{Binding Source={StaticResource {ComponentResourceKey TypeInTargetAssembly=lc:Generic, ResourceId=MenuFontColorPressed}}}"/>
+                        </Trigger>
+                        <DataTrigger Binding="{Binding Path=IsSelected}" Value="True">
+                            <Setter Property="Foreground" Value="{Binding Source={StaticResource {ComponentResourceKey TypeInTargetAssembly=lc:Generic, ResourceId=MenuFontColorActive}}}"/>
+                        </DataTrigger>
+                    </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
