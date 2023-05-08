@@ -1,56 +1,72 @@
-﻿<UserControl x:Class="RestourantDesktop.Windows.Pages.RoleManager.RoleManagerPage"
+﻿<UserControl x:Class="RestourantDesktop.Windows.Pages.UserManager.UserManagerPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:RestourantDesktop.Windows.Pages.RoleManager"
-      mc:Ignorable="d" 
+      xmlns:local="clr-namespace:RestourantDesktop.Windows.Pages.UserManager"
       xmlns:res="clr-namespace:WindowControllers.Themes;assembly=WindowControllers"
+      mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800" Loaded="PageLoaded">
     <Grid>
+        <!--Positions| PositionName,Salary-->
+        <!--Users| Login-->
         <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="10"/>
             <ColumnDefinition Width="1*"/>
-            <ColumnDefinition Width="1.5*"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="10"/>
         </Grid.ColumnDefinitions>
-        <GroupBox Header="Страницы" Margin="10" Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=res:Generic,ResourceId=GroupBoxBlack}}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="10"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="10"/>
+        </Grid.RowDefinitions>
+        <GroupBox Header="Должности" Grid.Column="1" Grid.Row="1" Margin="0,0,5,0"
+                  Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=res:Generic,ResourceId=GroupBoxBlack}}">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="1*"/>
                     <RowDefinition Height="35"/>
                 </Grid.RowDefinitions>
-                <ScrollViewer Grid.ColumnSpan="2" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Margin="5,0,5,0"
+                <ScrollViewer Grid.ColumnSpan="2" Grid.Row="0" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Margin="5,0,5,0"
                               Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=res:Generic, ResourceId=ScrollViewerBlack}}">
                     <DockPanel>
                         <Grid DockPanel.Dock="Top">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="1*"/>
+                                <ColumnDefinition Width="140"/>
                                 <ColumnDefinition Width="70"/>
                             </Grid.ColumnDefinitions>
                             <TextBlock Text="Название" HorizontalAlignment="Center" Foreground="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=res:Generic,ResourceId=FontColorFocused}}"/>
+                            <TextBlock Text="Зарплата ₽" HorizontalAlignment="Center" Grid.Column="1" Foreground="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=res:Generic,ResourceId=FontColorFocused}}"/>
                         </Grid>
-                        <ItemsControl ItemsSource="{Binding Pages}" HorizontalContentAlignment="Stretch">
+                        <ItemsControl ItemsSource="{Binding Positions}" HorizontalContentAlignment="Stretch">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
                                     <Grid>
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="1*"/>
+                                            <ColumnDefinition Width="140"/>
                                             <ColumnDefinition Width="70"/>
                                         </Grid.ColumnDefinitions>
-                                        <TextBox Margin="5" Text="{Binding PageName, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" MaxLength="50" KeyDown="RoleName_KeyDown"
-                                             Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=res:Generic, ResourceId=TextBoxBlack}}"/>
-                                        <Button Content="Удалить" Margin="5" Grid.Column="1" Command="{Binding DeletePageCommand}"
-                                            Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=res:Generic, ResourceId=BlackButton}}"/>
+                                        <TextBox Margin="5" Text="{Binding PositionName, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" MaxLength="50" KeyDown="RoleName_KeyDown"
+                                            Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=res:Generic, ResourceId=TextBoxBlack}}"/>
+                                        <TextBox Margin="5" Grid.Column="1" Text="{Binding Salary, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" MaxLength="10" KeyDown="RoleName_KeyDown"
+                                            Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=res:Generic, ResourceId=TextBoxBlack}}"/>
+                                        <Button Content="Удалить" Margin="5" Grid.Column="2" Command="{Binding DeletePageCommand}"
+                                                    Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=res:Generic, ResourceId=BlackButton}}"/>
                                     </Grid>
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>
                     </DockPanel>
                 </ScrollViewer>
-                <Button Content="Добавить новую страницу" Command="{Binding AddNewPageCommand}" Margin="5" Grid.Row="1" Grid.Column="0"
+                <Button Content="Добавить должность" Command="{Binding AddNewPositionCommand}" Margin="5" Grid.Row="1" Grid.Column="0"
                         Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=res:Generic,ResourceId=BlackButton}}"/>
             </Grid>
         </GroupBox>
-        <GroupBox Header="Роли" Grid.Column="1" Margin="10" Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=res:Generic ,ResourceId=GroupBoxBlack}}">
+        <GroupBox Header="Пользователи" Grid.Column="2" Grid.Row="1" Margin="5,0,0,0"
+                  Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=res:Generic ,ResourceId=GroupBoxBlack}}">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="1*"/>
@@ -58,19 +74,24 @@
                 </Grid.RowDefinitions>
                 <ScrollViewer Grid.Row="0" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Margin="5,0,5,0"
                               Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=res:Generic, ResourceId=ScrollViewerBlack}}">
-                    <ItemsControl ItemsSource="{Binding RolesList}" HorizontalContentAlignment="Stretch">
+                    <ItemsControl ItemsSource="{Binding Users}" HorizontalContentAlignment="Stretch">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
-                                <GroupBox Header="{Binding RoleName}" KeyDown="RoleName_KeyDown" Margin="5" Background="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=res:Generic,ResourceId=GroupBoxBackColor_2}}"
+                                <GroupBox Header="{Binding Login}" KeyDown="RoleName_KeyDown" Margin="5" Background="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=res:Generic,ResourceId=GroupBoxBackColor_2}}"
                                      Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=res:Generic,ResourceId=GroupBoxBlack}}">
                                     <GroupBox.HeaderTemplate>
                                         <DataTemplate>
-                                            <TextBox Text="{Binding RelativeSource={RelativeSource AncestorType={x:Type GroupBox}}, Path=DataContext.RoleName, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" MaxLength="50"
+                                            <TextBox Text="{Binding RelativeSource={RelativeSource AncestorType={x:Type GroupBox}}, Path=DataContext.Login, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" MaxLength="50"
                                                  FontSize="12" Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=res:Generic, ResourceId=TextBoxBlack}}" MinWidth="100" HorizontalContentAlignment="Center"/>
                                         </DataTemplate>
                                     </GroupBox.HeaderTemplate>
                                     <DockPanel>
-                                        <ItemsControl DockPanel.Dock="Top" ItemsSource="{Binding Rights}" HorizontalContentAlignment="Stretch">
+                                        <DockPanel>
+                                            <TextBox Text="{Binding FullName}" MaxHeight="50" FontSize="12" Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=res:Generic, ResourceId=TextBoxBlack}}"/>
+                                            <TextBox Text="{Binding Passport}" MaxLength="11" FontSize="12" Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=res:Generic, ResourceId=TextBoxBlack}}"/>
+                                            <TextBox Text="{Binding PhoneNum}" MaxLength="17" FontSize="12" Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=res:Generic, ResourceId=TextBoxBlack}}"/>
+                                        </DockPanel>
+                                        <ItemsControl DockPanel.Dock="Top" ItemsSource="{Binding Roles}" HorizontalContentAlignment="Stretch">
                                             <ItemsControl.ItemTemplate>
                                                 <DataTemplate>
                                                     <Grid>
@@ -78,14 +99,14 @@
                                                             <ColumnDefinition Width="1*"/>
                                                             <ColumnDefinition Width="20"/>
                                                         </Grid.ColumnDefinitions>
-                                                        <TextBlock Grid.Column="0" Text="{Binding PageName}" Margin="5,0,0,0"
+                                                        <TextBlock Grid.Column="0" Text="{Binding RoleName}" Margin="5,0,0,0"
                                                                Foreground="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=res:Generic,ResourceId=FontColorFocused}}"/>
                                                         <CheckBox Grid.Column="1" IsChecked="{Binding IsCan}" Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=res:Generic,ResourceId=CheckBoxBlack}}"/>
                                                     </Grid>
                                                 </DataTemplate>
                                             </ItemsControl.ItemTemplate>
                                         </ItemsControl>
-                                        <Button Content="Удалить роль" Command="{Binding DeleteCommand}" Margin="0,5,0,0"
+                                        <Button Content="Удалить пользователя" Command="{Binding DeleteCommand}" Margin="0,5,0,0"
                                             Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=res:Generic, ResourceId=BlackButton}}"/>
                                     </DockPanel>
                                 </GroupBox>
@@ -93,7 +114,7 @@
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
                 </ScrollViewer>
-                <Button Content="Добавить роль" Grid.Row="1" Margin="5" Command="{Binding AddNewRoleCommand}"
+                <Button Content="Добавить пользователя" Grid.Row="1" Margin="5" Command="{Binding AddNewRoleCommand}"
                         Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=res:Generic, ResourceId=BlackButton}}"/>
             </Grid>
         </GroupBox>

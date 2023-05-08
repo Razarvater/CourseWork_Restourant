@@ -178,13 +178,16 @@ namespace WindowControllers
         {
             get
             {
+                //TODO: возможно отрефакторить, возможно
                 if (iconSource == null) return null;
                 Bitmap bmp = iconSource.ToBitmap();
-                return System.Windows.Interop.Imaging.CreateBitmapSourceFromHBitmap(
+                return System.Windows.Interop.Imaging.CreateBitmapSourceFromHBitmap
+                (
                     bmp.GetHbitmap(),
                     IntPtr.Zero,
                     System.Windows.Int32Rect.Empty,
-                    BitmapSizeOptions.FromEmptyOptions());
+                    BitmapSizeOptions.FromEmptyOptions()
+                );
             }
         }
 

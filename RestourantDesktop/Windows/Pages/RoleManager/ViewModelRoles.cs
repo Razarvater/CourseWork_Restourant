@@ -33,7 +33,7 @@ namespace RestourantDesktop.Windows.Pages.RoleManager
         }
 
 
-
+        //TODO: Удаление ролей
         public ViewModelRoles()
         {
             //Создаём пустую запись с новым ID

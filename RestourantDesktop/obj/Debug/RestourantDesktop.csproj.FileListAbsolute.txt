@@ -41,3 +41,5 @@ E:\Курсач\Приложуха\Restourant\CourseWork_Restourant\RestourantDe
 E:\Курсач\Приложуха\Restourant\CourseWork_Restourant\RestourantDesktop\obj\Debug\Windows\Pages\RoleManager\RoleManagerPage.g.cs
 E:\Курсач\Приложуха\Restourant\CourseWork_Restourant\RestourantDesktop\obj\Debug\RestourantDesktop_MarkupCompile.lref
 E:\Курсач\Приложуха\Restourant\CourseWork_Restourant\RestourantDesktop\obj\Debug\Windows\Pages\RoleManager\RoleManagerPage.baml
+E:\Курсач\Приложуха\Restourant\CourseWork_Restourant\RestourantDesktop\obj\Debug\Windows\Pages\UserManager\UserManagerPage.g.cs
+E:\Курсач\Приложуха\Restourant\CourseWork_Restourant\RestourantDesktop\obj\Debug\Windows\Pages\UserManager\UserManagerPage.baml

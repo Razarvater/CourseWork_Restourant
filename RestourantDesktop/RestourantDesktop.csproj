@@ -67,6 +67,13 @@
     </Compile>
     <Compile Include="Windows\Pages\RoleManager\RolesModel.cs" />
     <Compile Include="Windows\Pages\RoleManager\ViewModelRoles.cs" />
+    <Compile Include="Windows\Pages\UserManager\Items\PositionItem.cs" />
+    <Compile Include="Windows\Pages\UserManager\Items\UserItem.cs" />
+    <Compile Include="Windows\Pages\UserManager\UserManagerModel.cs" />
+    <Compile Include="Windows\Pages\UserManager\UserManagerPage.xaml.cs">
+      <DependentUpon>UserManagerPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\Pages\UserManager\ViewModelUsers.cs" />
     <Page Include="Windows\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -80,6 +87,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Windows\Pages\RoleManager\RoleManagerPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\Pages\UserManager\UserManagerPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -121,6 +132,9 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\Images\Admin.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\Background.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

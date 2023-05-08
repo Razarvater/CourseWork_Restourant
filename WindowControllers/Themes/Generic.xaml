@@ -4,21 +4,24 @@
                     x:Class="WindowControllers.Themes.Generic"
                     xmlns:lc="clr-namespace:WindowControllers.Themes">
 
-    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type lc:Generic}, ResourceId=MenuBack}">#FF404040</SolidColorBrush>
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type lc:Generic}, ResourceId=MenuBack}">#FF2E3246</SolidColorBrush>
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type lc:Generic}, ResourceId=MenuBackFocused}">#FF454545</SolidColorBrush>
-    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type lc:Generic}, ResourceId=MenuBackNotFocused}">#FF353535</SolidColorBrush>
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type lc:Generic}, ResourceId=MenuBackNotFocused}">#FF2E323A</SolidColorBrush>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type lc:Generic}, ResourceId=ButtonFocused}">#FF2E324F</SolidColorBrush>
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type lc:Generic}, ResourceId=ButtonNotFocused}">#FF2E3246</SolidColorBrush>
 
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type lc:Generic}, ResourceId=ScrollBarColor}">#FF565656</SolidColorBrush>
-    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type lc:Generic}, ResourceId=GroupBoxBorderColor}">#FF565656</SolidColorBrush>
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type lc:Generic}, ResourceId=GroupBoxBackColor}">#FF2E323A</SolidColorBrush>
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type lc:Generic}, ResourceId=GroupBoxBackColor_2}">#FF2b2f37</SolidColorBrush>
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type lc:Generic}, ResourceId=GroupBoxBorderColor}">#FF2E3235</SolidColorBrush>
 
-    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type lc:Generic}, ResourceId=FocusedTextBoxBackground}">#FFBBBBBB</SolidColorBrush>
-    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type lc:Generic}, ResourceId=NotFocusedTextBoxBackground}">#FF969696</SolidColorBrush>
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type lc:Generic}, ResourceId=FocusedTextBoxBackground}">#FF323640</SolidColorBrush>
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type lc:Generic}, ResourceId=NotFocusedTextBoxBackground}">#FF32363C</SolidColorBrush>
 
-    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type lc:Generic}, ResourceId=BackgroundColor}">#FF303030</SolidColorBrush>
-    
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type lc:Generic}, ResourceId=MainFontColor}">#FFCCCCCC</SolidColorBrush>
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type lc:Generic}, ResourceId=FontColorNotFocused}">#FFABABAB</SolidColorBrush>
-    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type lc:Generic}, ResourceId=FontColorFocused}">#FF858585</SolidColorBrush>
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type lc:Generic}, ResourceId=FontColorFocused}">#FFACACAC</SolidColorBrush>
 
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type lc:Generic}, ResourceId=MenuFontColorNotFocused}">#FFABABAB</SolidColorBrush>
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type lc:Generic}, ResourceId=MenuFontColorFocused}">#FF447BD4</SolidColorBrush>
@@ -219,7 +222,7 @@
                             <ScrollContentPresenter CanContentScroll="{TemplateBinding CanContentScroll}"/>
                         </Border>
                         <ScrollBar x:Name="PART_VerticalScrollBar" Style="{StaticResource ScroolBarBlackVertical}" Grid.Column="1" Value="{TemplateBinding VerticalOffset}" Maximum="{TemplateBinding ScrollableHeight}"
-                             ViewportSize="{TemplateBinding ViewportHeight}" Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}"/>
+                            ViewportSize="{TemplateBinding ViewportHeight}" Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}"/>
                         <ScrollBar x:Name="PART_HorizontalScrollBar" Style="{StaticResource ScroolBarBlackHorizontal}" Orientation="Horizontal" Grid.Row="1" Grid.ColumnSpan="1" Value="{TemplateBinding HorizontalOffset}"
                             Maximum="{TemplateBinding ScrollableWidth}" ViewportSize="{TemplateBinding ViewportWidth}" Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}"/>
                     </Grid>
@@ -239,28 +242,79 @@
                     <BeginStoryboard>
                         <Storyboard>
                             <ColorAnimation Storyboard.TargetProperty="(Border.BorderBrush).(SolidColorBrush.Color)" Duration="0:0:1" 
-                                                        From="#55FF0000" To="#FFFF0000" AutoReverse="True" RepeatBehavior="Forever"/>
+                                From="#55AA0000" To="#FFFF0000" AutoReverse="True" RepeatBehavior="Forever"/>
                         </Storyboard>
                     </BeginStoryboard>
                 </Trigger.EnterActions>
             </Trigger>
         </Style.Triggers>
-        <Setter Property="FontSize" Value="20"/>
+        <Setter Property="FontSize" Value="18"/>
         <Setter Property="Background" Value="{StaticResource ResourceKey={ComponentResourceKey TypeInTargetAssembly=lc:Generic, ResourceId=NotFocusedTextBoxBackground}}"/>
+        <Setter Property="Foreground" Value="{StaticResource ResourceKey={ComponentResourceKey TypeInTargetAssembly=lc:Generic, ResourceId=MainFontColor}}"/>
+        <Setter Property="BorderBrush" Value="Transparent"/>
+        <Setter Property="Padding" Value="3"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type TextBox}">
+                    <Grid>
+                        <Border x:Name="border" CornerRadius="2" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="True">
+                            <Border.Effect>
+                                <DropShadowEffect BlurRadius="8" Color="Black" Opacity="0.35" ShadowDepth="1"/>
+                            </Border.Effect>
+                        </Border>
+                        <ScrollViewer x:Name="PART_ContentHost" Margin="{TemplateBinding Padding}" Focusable="false" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden"/>
+                    </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsFocused" Value="True">
                             <Setter Property="Background" Value="{StaticResource ResourceKey={ComponentResourceKey TypeInTargetAssembly=lc:Generic, ResourceId=FocusedTextBoxBackground}}"/>
-                        </Trigger>
-                        <Trigger Property="IsFocused" Value="False">
-                            <Setter Property="Background" Value="{StaticResource ResourceKey={ComponentResourceKey TypeInTargetAssembly=lc:Generic, ResourceId=NotFocusedTextBoxBackground}}"/>
+                            <Setter TargetName="border" Property="Effect">
+                                <Setter.Value>
+                                    <DropShadowEffect BlurRadius="13" Color="Black" Opacity="0.35" ShadowDepth="1"/>
+                                </Setter.Value>
+                            </Setter>
                         </Trigger>
                     </ControlTemplate.Triggers>
-                    <Border x:Name="border" CornerRadius="2" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="True">
-                        <ScrollViewer x:Name="PART_ContentHost" Focusable="false" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden"/>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!--Тёмный CheckBox-->
+    <Style x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type lc:Generic}, ResourceId=CheckBoxBlack}" TargetType="{x:Type CheckBox}">
+        <Setter Property="Width" Value="15"/>
+        <Setter Property="Height" Value="15"/>
+        <Setter Property="Background" Value="{StaticResource ResourceKey={ComponentResourceKey TypeInTargetAssembly=lc:Generic, ResourceId=NotFocusedTextBoxBackground}}"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type CheckBox}">
+                    <Border x:Name="Border" BorderThickness="1" Width="{TemplateBinding Width}" Height="{TemplateBinding Height}" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" SnapsToDevicePixels="true">
+                        <Canvas x:Name="Value" Width="15" Height="15" HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <Line x:Name="No1" X1="4" X2="11" Y1="4" Y2="11" Stroke="#FF0000" StrokeThickness="1.5"/>
+                            <Line x:Name="No2" X1="11" X2="4" Y1="4" Y2="11" Stroke="#FF0000" StrokeThickness="1.5"/>
+
+                            <Line x:Name="Yes1" X1="4" X2="7" Y1="7" Y2="11" Stroke="#00FF00" StrokeThickness="1.5"/>
+                            <Line x:Name="Yes2" X1="7" X2="11" Y1="11" Y2="4" Stroke="#00FF00" StrokeThickness="1.5"/>
+                        </Canvas>
                     </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsChecked" Value="true">
+                            <Setter TargetName="Yes1" Property="Visibility" Value="Visible"/>
+                            <Setter TargetName="Yes2" Property="Visibility" Value="Visible"/>
+                            <Setter TargetName="No1" Property="Visibility" Value="Hidden"/>
+                            <Setter TargetName="No2" Property="Visibility" Value="Hidden"/>
+                        </Trigger>
+                        <Trigger Property="IsChecked" Value="False">
+                            <Setter TargetName="No1" Property="Visibility" Value="Visible"/>
+                            <Setter TargetName="No2" Property="Visibility" Value="Visible"/>
+                            <Setter TargetName="Yes1" Property="Visibility" Value="Hidden"/>
+                            <Setter TargetName="Yes2" Property="Visibility" Value="Hidden"/>
+                        </Trigger>
+                        
+                        <Trigger Property="IsPressed" Value="true">
+                            <Setter TargetName="Border" Property="Background" Value="#d9d9d9"/>
+                            <Setter TargetName="Border" Property="BorderThickness" Value="1.5"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -272,23 +326,35 @@
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
                     <Grid>
-                        <Border x:Name="Back" Background="{StaticResource ResourceKey={ComponentResourceKey TypeInTargetAssembly=lc:Generic, ResourceId=MenuBack}}" CornerRadius="5" BorderThickness="0.1">
-                            <Label x:Name="txt" VerticalAlignment="Center"  HorizontalAlignment="Center"
-                               FontWeight="Bold" FontSize="11" Foreground="{StaticResource ResourceKey={ComponentResourceKey TypeInTargetAssembly=lc:Generic,ResourceId=FontColorNotFocused}}" 
-                               Content="{TemplateBinding Content}"/>
+                        <Border x:Name="Back" Background="{StaticResource ResourceKey={ComponentResourceKey TypeInTargetAssembly=lc:Generic, ResourceId=ButtonNotFocused}}" CornerRadius="5" BorderThickness="0.1">
+                            <Border.Effect>
+                                <DropShadowEffect BlurRadius="10" Color="Black" Opacity="0.35" ShadowDepth="1"/>
+                            </Border.Effect>
                         </Border>
+                        <Label x:Name="txt" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="11" SnapsToDevicePixels="True"
+                               Foreground="{StaticResource ResourceKey={ComponentResourceKey TypeInTargetAssembly=lc:Generic,ResourceId=FontColorNotFocused}}" Content="{TemplateBinding Content}"/>
+                        <!--Label заглушка, для того, чтобы лог раземры кнопки были постоянны-->
+                        <Label x:Name="txt_2" VerticalAlignment="Center" Visibility="Hidden" HorizontalAlignment="Center" FontSize="11" SnapsToDevicePixels="True"
+                               Foreground="{StaticResource ResourceKey={ComponentResourceKey TypeInTargetAssembly=lc:Generic,ResourceId=FontColorNotFocused}}" Content="{TemplateBinding Content}"/>
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="Back" Property="Background" Value="{StaticResource ResourceKey={ComponentResourceKey TypeInTargetAssembly=lc:Generic, ResourceId=MenuBackNotFocused}}"/>
+                            <Setter TargetName="Back" Property="Background" Value="{StaticResource ResourceKey={ComponentResourceKey TypeInTargetAssembly=lc:Generic, ResourceId=ButtonFocused}}"/>
                             <Setter TargetName="txt" Property="Foreground" Value="{StaticResource ResourceKey={ComponentResourceKey TypeInTargetAssembly=lc:Generic, ResourceId=FontColorFocused}}"/>
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="False">
-                            <Setter TargetName="Back" Property="Background" Value="{StaticResource ResourceKey={ComponentResourceKey TypeInTargetAssembly=lc:Generic, ResourceId=MenuBack}}"/>
+                            <Setter TargetName="Back" Property="Background" Value="{StaticResource ResourceKey={ComponentResourceKey TypeInTargetAssembly=lc:Generic, ResourceId=ButtonNotFocused}}"/>
                             <Setter TargetName="txt" Property="Foreground" Value="{StaticResource ResourceKey={ComponentResourceKey TypeInTargetAssembly=lc:Generic, ResourceId=FontColorNotFocused}}"/>
                         </Trigger>
                         <Trigger Property="IsPressed" Value="True">
-                            <Setter TargetName="Back" Property="Background" Value="{StaticResource ResourceKey={ComponentResourceKey TypeInTargetAssembly=lc:Generic,ResourceId=MenuBack}}"/>
+                            <Setter TargetName="Back" Property="Background" Value="{StaticResource ResourceKey={ComponentResourceKey TypeInTargetAssembly=lc:Generic,ResourceId=ButtonFocused}}"/>
+                            <Setter TargetName="Back" Property="Effect">
+                                <Setter.Value>
+                                    <DropShadowEffect BlurRadius="8" Color="Black" Opacity="0.35" ShadowDepth="1"/>
+                                </Setter.Value>
+                            </Setter>
+                            <Setter TargetName="Back" Property="Margin" Value="1"/>
+                            <Setter TargetName="txt" Property="FontSize" Value="10.5"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -296,9 +362,10 @@
         </Setter>
     </Style>
 
-    <!--Переопределение шаблона GroupBox без "Внешних" границ-->
+    <!--Тёмный GroupBox-->
     <Style x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type lc:Generic}, ResourceId=GroupBoxBlack}" TargetType="{x:Type GroupBox}">
-        <Setter Property="BorderThickness" Value="3"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="Background" Value="{StaticResource ResourceKey={ComponentResourceKey TypeInTargetAssembly=lc:Generic, ResourceId=GroupBoxBackColor}}"/>
         <Setter Property="BorderBrush" Value="{StaticResource ResourceKey={ComponentResourceKey TypeInTargetAssembly=lc:Generic, ResourceId=GroupBoxBorderColor}}"/>
         <Setter Property="Foreground" Value="{StaticResource ResourceKey={ComponentResourceKey TypeInTargetAssembly=lc:Generic, ResourceId=MainFontColor}}"/>
         <Setter Property="Template">
@@ -306,31 +373,24 @@
                 <ControlTemplate TargetType="{x:Type GroupBox}">
                     <Grid SnapsToDevicePixels="true">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="6"/>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="6"/>
+                            <ColumnDefinition Width="1*"/>
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="6"/>
+                            <RowDefinition Height="1*"/>
                         </Grid.RowDefinitions>
-                        <Border BorderBrush="Transparent" BorderThickness="0" Grid.ColumnSpan="4" CornerRadius="4" Grid.Row="1" Grid.RowSpan="3">
-                            <Border.OpacityMask>
-                                <MultiBinding ConverterParameter="7" Converter="{StaticResource BorderGapMaskConverter}">
-                                    <Binding ElementName="Header" Path="ActualWidth"/>
-                                    <Binding Path="ActualWidth" RelativeSource="{RelativeSource Self}"/>
-                                    <Binding Path="ActualHeight" RelativeSource="{RelativeSource Self}"/>
-                                </MultiBinding>
-                            </Border.OpacityMask>
-                            <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="3"/>
+                        <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}"
+                                CornerRadius="4" Grid.RowSpan="2">
+                            <Border.Effect>
+                                <DropShadowEffect BlurRadius="10" Color="Black" Opacity="0.35" ShadowDepth="0"/>
+                            </Border.Effect>
                         </Border>
-                        <Border x:Name="Header" Grid.Column="1" Padding="2,1,2,0" Grid.Row="0" Grid.RowSpan="2">
+                        <Border x:Name="Header" Padding="2,1,2,0" HorizontalAlignment="Center">
                             <ContentPresenter ContentSource="Header" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
-                        </Border>
-                        <ContentPresenter Grid.ColumnSpan="2" Grid.Column="1" Margin="{TemplateBinding Padding}" Grid.Row="2" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                         </Border>
+                        <Grid Grid.Row="1">
+                            <ContentPresenter Margin="{TemplateBinding Padding}"  SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                        </Grid>
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>
@@ -359,7 +419,7 @@
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="Back" Property="Background" Value="{DynamicResource ResourceKey={ComponentResourceKey TypeInTargetAssembly={x:Type lc:Generic},ResourceId=MenuBackNotFocused}}"/>
+                            <Setter TargetName="Back" Property="Background" Value="{DynamicResource ResourceKey={ComponentResourceKey TypeInTargetAssembly={x:Type lc:Generic},ResourceId=MenuBack}}"/>
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="False">
                             <Setter TargetName="Back" Property="Background" Value="Transparent"/>
@@ -403,25 +463,28 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type MenuItem}">
                     <Border x:Name="Border" Background="{StaticResource {ComponentResourceKey TypeInTargetAssembly=lc:Generic,ResourceId=MenuBackNotFocused}}" 
-                            Padding="5" Margin="5" BorderThickness="0" BorderBrush="{StaticResource {ComponentResourceKey TypeInTargetAssembly=lc:Generic,ResourceId=MenuBackFocused}}">
+                            BorderThickness="0" BorderBrush="{StaticResource {ComponentResourceKey TypeInTargetAssembly=lc:Generic,ResourceId=MenuBackFocused}}">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" MaxWidth="30"/>
-                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="100"/>
+                                <ColumnDefinition Width="5"/>
                             </Grid.ColumnDefinitions>
-                            <Image Source="{Binding IconSource}" MaxWidth="30"/>
-                            <ContentPresenter Grid.Column="1" Margin="6,3,6,3" ContentSource="Header" RecognizesAccessKey="True">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="5"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="5"/>
+                            </Grid.RowDefinitions>
+                            <Image Grid.Row="1" Source="{Binding IconSource}" MaxWidth="30"/>
+                            <ContentPresenter Grid.Column="1" Grid.Row="1" Margin="6,3,6,5" VerticalAlignment="Center" ContentSource="Header" RecognizesAccessKey="True">
                                 <ContentPresenter.Effect>
-                                    <DropShadowEffect Opacity="0.2" RenderingBias="Performance" Direction="320"/>
+                                    <DropShadowEffect Opacity="0.25" RenderingBias="Performance" Direction="320"/>
                                 </ContentPresenter.Effect>
                             </ContentPresenter>
-
-                            <Popup x:Name="Popup" Placement="Bottom" IsOpen="{TemplateBinding IsSubmenuOpen}" AllowsTransparency="True" Focusable="False" PopupAnimation="Fade">
-                                <Border x:Name="SubmenuBorder" SnapsToDevicePixels="True" BorderThickness="0" BorderBrush="{StaticResource {ComponentResourceKey TypeInTargetAssembly=lc:Generic,ResourceId=MenuBack}}"
-                                        Background="{StaticResource {ComponentResourceKey TypeInTargetAssembly=lc:Generic,ResourceId=MenuBackNotFocused}}">
-                                    <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Cycle" />
-                                </Border>
-                            </Popup>
+                            <Canvas Grid.Column="2" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Right" Width="4" Height="10"
+                                    Visibility="{Binding IsSelected, Converter={StaticResource MenuVisConverter}}">
+                                <Polygon Points="0,5 4,0 4,10" Fill="{StaticResource {ComponentResourceKey TypeInTargetAssembly=lc:Generic,ResourceId=MenuFontColorActive}}"/>
+                            </Canvas>
                         </Grid>
                     </Border>
                     <ControlTemplate.Triggers>
@@ -451,7 +514,7 @@
         <Setter Property="ItemsPanel">
             <Setter.Value>
                 <ItemsPanelTemplate>
-                    <VirtualizingStackPanel Orientation="{Binding SelectedMenu, Converter={StaticResource ResourceKey=MenuModeConverter}}"/>
+                    <VirtualizingStackPanel VerticalAlignment="Center" Orientation="{Binding SelectedMenu, Converter={StaticResource ResourceKey=MenuModeConverter}}"/>
                 </ItemsPanelTemplate>
             </Setter.Value>
         </Setter>
@@ -474,14 +537,14 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Window}">
-                    <Border BorderBrush="{TemplateBinding BorderBrush}" Background="{StaticResource {ComponentResourceKey TypeInTargetAssembly=lc:Generic, ResourceId=BackgroundColor}}"
+                    <Border BorderBrush="{TemplateBinding BorderBrush}" Background="{StaticResource {ComponentResourceKey TypeInTargetAssembly=lc:Generic,ResourceId=MenuBackNotFocused}}"
                             BorderThickness="{TemplateBinding BorderThickness}">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="*" />
                             </Grid.RowDefinitions>
-                            <DockPanel x:Name="BackBorder" Grid.Row="0" Background="{StaticResource {ComponentResourceKey TypeInTargetAssembly=lc:Generic,ResourceId=MenuBack}}">
+                            <DockPanel x:Name="BackBorder" Grid.Row="0" Background="{StaticResource {ComponentResourceKey TypeInTargetAssembly=lc:Generic,ResourceId=MenuBackNotFocused}}">
                                 <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" RenderOptions.EdgeMode="Aliased">
                                     <Button Style="{StaticResource ManageButton}" Command="{Binding MinWindowCommand}">
                                         <Canvas  Width="14" Height="18">
@@ -517,11 +580,17 @@
                                             TextAlignment="Left" VerticalAlignment="Center"/>
                                 </DockPanel>
                             </DockPanel>
+
                             <!--Меню + контент-->
                             <DockPanel Grid.Row="1">
                                 <Menu DockPanel.Dock="{Binding SelectedMenu}" Visibility="{Binding IsMenuOn, Converter={StaticResource ResourceKey=MenuVisConverter}}"
-                                      ItemsSource="{Binding TabsList}" Style="{StaticResource ResourceKey=MainMenu}"/>
-                                <ContentControl Grid.Row="1" Content="{Binding SelectedPage}"/>
+                                    ItemsSource="{Binding TabsList}" Style="{StaticResource ResourceKey=MainMenu}" Panel.ZIndex="1"/>
+                                <Border CornerRadius="5" BorderThickness="1" BorderBrush="{StaticResource {ComponentResourceKey TypeInTargetAssembly=lc:Generic,ResourceId=MenuBackNotFocused}}">
+                                    <Border.Background>
+                                        <ImageBrush ImageSource="/Resources/Images/Background.png" Stretch="Fill"/>
+                                    </Border.Background>
+                                    <ContentControl Content="{Binding SelectedPage}"/>
+                                </Border>
                             </DockPanel>
                         </Grid>
                     </Border>
@@ -545,5 +614,4 @@
             </Setter.Value>
         </Setter>
     </Style>
-    
 </ResourceDictionary>

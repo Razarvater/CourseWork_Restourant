@@ -6,7 +6,6 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using System.Windows.Documents;
 using System.Linq;
 
 namespace RestourantDesktop.Windows.Pages.RoleManager
@@ -138,7 +137,7 @@ namespace RestourantDesktop.Windows.Pages.RoleManager
                     }
                 }
             }
-            catch (Exception) { /*TODO Сообщение об ошибке*/ }
+            catch (Exception) { /*TODO Сообщение об ошибке*/ return; }
 
             //Назначим для всех отображённых ролей
             for (int i = 0; i < RoleList.Count; i++)
@@ -166,7 +165,7 @@ namespace RestourantDesktop.Windows.Pages.RoleManager
                     }
                 }
             }
-            catch (Exception) { /*TODO Сообщение об ошибке*/ }
+            catch (Exception) { /*TODO Сообщение об ошибке*/ return; }
 
             PagesList.Remove(item);
 
@@ -224,6 +223,32 @@ namespace RestourantDesktop.Windows.Pages.RoleManager
                 }
             }
             catch (Exception) { /*TODO Сообщение об ошибке*/ }
+        }
+
+        /// <summary>
+        /// Удаление страницы из бд (права на доступ к ней у всех)
+        /// </summary>
+        /// <param name="item">Страница</param>
+        /// <returns></returns>
+        public async static Task DeleteRoleAsync(RoleItem item)
+        {
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["AdminConnectionString"].ConnectionString))
+                {
+                    await connection.OpenAsync();
+                    using (SqlCommand command = new SqlCommand("DeleteRole", connection))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.Parameters.Add(new SqlParameter("@id", item.roleID));
+
+                        await command.ExecuteNonQueryAsync();
+                    }
+                }
+            }
+            catch (Exception) { /*TODO Сообщение об ошибке*/ return; }
+
+            RoleList.Remove(item);
         }
 
         /// <summary>

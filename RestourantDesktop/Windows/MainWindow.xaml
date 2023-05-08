@@ -8,5 +8,3 @@
         d:Height="450" d:Width="800"
         Title="Rest-Manager" Icon="/Resources/Images/MainIcon.ico">
 </local:RestourantWindowTemplate>
-
-<!--Background="{DynamicResource {ComponentResourceKey TypeInTargetAssembly={x:Type res:Generic},ResourceId=MenuBack}}"-->

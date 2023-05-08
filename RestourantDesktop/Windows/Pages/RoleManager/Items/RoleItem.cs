@@ -1,7 +1,6 @@
 ﻿using mvvm;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
 
 namespace RestourantDesktop.Windows.Pages.RoleManager.Items
 {
@@ -34,10 +33,23 @@ namespace RestourantDesktop.Windows.Pages.RoleManager.Items
             }
         }
 
+        private Command deleteCommand;
+        public Command DeleteCommand
+        { 
+            get => deleteCommand;
+            set
+            { 
+                deleteCommand = value;
+                OnPropertyChanged();
+            }
+        }
+
         private async void ChangeRoleName() => await RolesModel.ChangeRoleName(this);
 
         public RoleItem(int ID, string Role, IEnumerable<PageRoleItem> items)
         {
+            DeleteCommand = new Command(async (obj) => await RolesModel.DeleteRoleAsync(this));
+
             this.Rights = new ObservableCollection<PageRoleItem>(items);
 
             for (int i = 0; i < Rights.Count; i++)

@@ -2,18 +2,18 @@
 using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace RestourantDesktop.Windows.Pages.RoleManager
+namespace RestourantDesktop.Windows.Pages.UserManager
 {
     /// <summary>
-    /// Логика взаимодействия для RoleManagerPage.xaml
+    /// Логика взаимодействия для UserManagerPage.xaml
     /// </summary>
-    public partial class RoleManagerPage : UserControl
+    public partial class UserManagerPage : UserControl
     {
-        private ViewModelRoles vm;
-        public RoleManagerPage()
+        private ViewModelUsers vm;
+        public UserManagerPage()
         {
             InitializeComponent();
-            vm = new ViewModelRoles();
+            vm = new ViewModelUsers();
             this.DataContext = vm;
         }
 
