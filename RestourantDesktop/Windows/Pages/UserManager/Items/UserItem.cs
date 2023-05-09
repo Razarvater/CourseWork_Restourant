@@ -1,6 +1,7 @@
 ﻿using mvvm;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Windows.Input;
 
 namespace RestourantDesktop.Windows.Pages.UserManager.Items
 {
@@ -18,7 +19,7 @@ namespace RestourantDesktop.Windows.Pages.UserManager.Items
                 OnPropertyChanged();
 
                 #pragma warning disable
-                ChangeRoleName();
+                ChangeUserStats();
             }
         }
         
@@ -32,7 +33,7 @@ namespace RestourantDesktop.Windows.Pages.UserManager.Items
                 OnPropertyChanged();
 
                 #pragma warning disable
-                ChangeRoleName();
+                ChangeUserStats();
             }
         }
 
@@ -46,7 +47,7 @@ namespace RestourantDesktop.Windows.Pages.UserManager.Items
                 OnPropertyChanged();
 
                 #pragma warning disable
-                ChangeRoleName();
+                ChangeUserStats();
             }
         }
         
@@ -60,7 +61,7 @@ namespace RestourantDesktop.Windows.Pages.UserManager.Items
                 OnPropertyChanged();
 
                 #pragma warning disable
-                ChangeRoleName();
+                ChangeUserStats();
             }
         }
 
@@ -85,6 +86,9 @@ namespace RestourantDesktop.Windows.Pages.UserManager.Items
             {
                 selectedPosItem = value;
                 OnPropertyChanged();
+
+                #pragma warning disable
+                ChangeUserStats();
             }
         }
 
@@ -99,7 +103,7 @@ namespace RestourantDesktop.Windows.Pages.UserManager.Items
             }
         }
 
-        private async void ChangeRoleName() => await UserManagerModel.ChangeUserAsync(this);
+        private async void ChangeUserStats() => await UserManagerModel.ChangeUserStatsAsync(this);
 
         public UserItem(int ID, string login, string passport,string FullName, string phoneNumber, PositionItem position, IEnumerable<UserRoleItem> items)
         {
@@ -152,11 +156,12 @@ namespace RestourantDesktop.Windows.Pages.UserManager.Items
 
         private async void ChangeRight() => await UserManagerModel.ChangeUserRole(this);
 
-        public UserRoleItem(int ID, string PageName, bool PageStatusForRole)
+        public UserRoleItem(int ID, int RoleID, string RoleName, bool RoleStatusForUser)
         {
-            this.RoleID = ID;
-            this.roleName = PageName;
-            this.isCan = PageStatusForRole;
+            this.UserID = ID;
+            this.RoleID = RoleID;
+            this.roleName = RoleName;
+            this.isCan = RoleStatusForUser;
         }
     }
 }

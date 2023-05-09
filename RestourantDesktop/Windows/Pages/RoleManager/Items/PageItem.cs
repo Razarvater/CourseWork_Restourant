@@ -1,5 +1,4 @@
 ﻿using mvvm;
-using System;
 using System.Threading.Tasks;
 
 namespace RestourantDesktop.Windows.Pages.RoleManager.Items
@@ -57,11 +56,11 @@ namespace RestourantDesktop.Windows.Pages.RoleManager.Items
         /// <param name="ID">ID страницы</param>
         /// <param name="PageName">Имя страницы</param>
         ///  <param name="deleteAction">Action для удаления элемента</param>
-        public PageItem(int ID, string PageName, Func<PageItem, Task> deleteAction)
+        public PageItem(int ID, string PageName)
         {
             this.iD = ID;
             this.pageName = PageName;
-            DeletePageCommand = new Command(async (obj) => await deleteAction?.Invoke(this));
+            DeletePageCommand = new Command(async (obj) => await RolesModel.DeletePageAsync(this));
         }
     }
 }

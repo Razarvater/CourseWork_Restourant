@@ -41,7 +41,7 @@ namespace RestourantDesktop.Windows.Pages.RoleManager
             (
                 async (obj) =>
                 {
-                    await RolesModel.CreateNewEmptyPageAsync(DeletePageItem);
+                    await RolesModel.CreateNewEmptyPageAsync();
                     OnPropertyChanged(nameof(Pages));
                 }
             );
@@ -65,8 +65,7 @@ namespace RestourantDesktop.Windows.Pages.RoleManager
 
         public async Task InitVM()
         {
-            await RolesModel.GetPagesListAsync(DeletePageItem);
-            await RolesModel.GetRolesList();
+            await RolesModel.InitModel();
             OnPropertyChanged(nameof(Pages));
             OnPropertyChanged(nameof(RolesList));
         }

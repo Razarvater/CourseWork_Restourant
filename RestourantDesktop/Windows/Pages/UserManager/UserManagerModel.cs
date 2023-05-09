@@ -7,18 +7,83 @@ using System.Threading.Tasks;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using RestourantDesktop.Windows.Pages.RoleManager;
+using RestourantDesktop.Windows.Pages.RoleManager.Items;
+using System.Runtime.CompilerServices;
 
 namespace RestourantDesktop.Windows.Pages.UserManager
 {
     internal static class UserManagerModel
     {
+        public static event EventHandler<EventArgs> PositionChanged;
+        public static event EventHandler<EventArgs> PositionDeleted;
+        public static event EventHandler<EventArgs> PositionAdded;
+
         public static ObservableCollection<PositionItem> PositionsList { get; private set; }
         public static ObservableCollection<UserItem> UsersList { get; private set; }
 
         public static async Task InitModel()
         {
+            await RolesModel.InitModel();
+
+            RolesModel.RoleAdded += (sender,e) =>
+            {
+                RoleItem item = sender as RoleItem;
+                for (int i = 0; i < UsersList.Count; i++)
+                    UsersList[i].Roles.Add(new UserRoleItem(UsersList[i].UserID, item.roleID, item.RoleName, false));
+            };
+            RolesModel.RoleDeleted += (sender, e) =>
+            {
+                RoleItem item = sender as RoleItem;
+                for (int i = 0; i < UsersList.Count; i++)
+                    UsersList[i].Roles.Remove(UsersList[i].Roles.FirstOrDefault(x => x.RoleID == item.roleID));
+            };
+            RolesModel.RoleChanged += (sender, e) =>
+            {
+                RoleItem item = sender as RoleItem;
+                for (int i = 0; i < UsersList.Count; i++)
+                    UsersList[i].Roles.FirstOrDefault(x => x.RoleID == item.roleID).RoleName = item.RoleName;
+            };
+
+            PositionAdded += (sender, e) =>
+            {
+                for (int i = 0; i < UsersList.Count; i++)
+                {
+                    UsersList[i].OnPropertyChanged("Positions");
+                    UsersList[i].OnPropertyChanged("SelectedPosItem");
+                }
+            };
+            PositionDeleted += (sender, e) =>
+            {
+                PositionItem item = sender as PositionItem;
+                //Удалим всех пользователей с этой ролью
+                for (int i = 0; i < UsersList.Count; i++)
+                {
+                    if (UsersList[i].SelectedPosItem.ID == item.ID)
+                    {
+                        UsersList.Remove(UsersList[i]);
+                        i--;
+                    }
+                }
+                PositionsList.Remove(item);
+                for (int i = 0; i < UsersList.Count; i++)
+                {
+                    UsersList[i].OnPropertyChanged("Positions");
+                    UsersList[i].OnPropertyChanged("SelectedPosItem");
+                }
+            };
+            PositionChanged += (sender, e) =>
+            {
+                for (int i = 0; i < UsersList.Count; i++)
+                {
+                    UsersList[i].OnPropertyChanged("Positions");
+                    UsersList[i].OnPropertyChanged("SelectedPosItem");
+                }
+            };
+
             UsersList = new ObservableCollection<UserItem>();
             DataTable users = new DataTable();
+            DataTable UserRoles = new DataTable();
             await Task.Run(() =>
             {
                 using (SqlDataAdapter adapter = new SqlDataAdapter("EXEC GetEmployeeUsersList", ConfigurationManager.ConnectionStrings["AdminConnectionString"].ConnectionString))
@@ -27,9 +92,17 @@ namespace RestourantDesktop.Windows.Pages.UserManager
                 }
             });
 
+            await Task.Run(() =>
+            {
+                using (SqlDataAdapter adapter = new SqlDataAdapter("EXEC GetUserRolesList", ConfigurationManager.ConnectionStrings["AdminConnectionString"].ConnectionString))
+                {
+                    adapter.Fill(UserRoles);
+                }
+            });
+
             PositionsList = new ObservableCollection<PositionItem>();
             DataTable positions = new DataTable();
-            //DataTable UserPositions = new DataTable();
+
             await Task.Run(() =>
             {
                 using (SqlDataAdapter adapter = new SqlDataAdapter("EXEC GetPositionList", ConfigurationManager.ConnectionStrings["AdminConnectionString"].ConnectionString))
@@ -58,10 +131,17 @@ namespace RestourantDesktop.Windows.Pages.UserManager
                 string PositionID = users.Rows[i]["Position_ID"].ToString();
                 PositionItem pos = PositionsList.FirstOrDefault(x => x.ID == Convert.ToInt32(PositionID));
 
+                DataRow[] roles = UserRoles.Select($"User_ID={ID}");
+                List<UserRoleItem> UserRolesList = new List<UserRoleItem>();
+                for (int j = 0; j < roles.Length; j++)
+                {
+                    RoleItem item = RolesModel.RoleList.FirstOrDefault(x => x.roleID == Convert.ToInt32(roles[j]["Role_ID"]));
+                   
+                    UserRolesList.Add(new UserRoleItem(ID, item.roleID, item == null ? "" : item.RoleName, Convert.ToBoolean(roles[j]["IsCan"])));
+                }
 
-                UsersList.Add(new UserItem(ID, login, passport, FullName, PhoneNumber, pos, new List<UserRoleItem>()));
+                UsersList.Add(new UserItem(ID, login, passport, FullName, PhoneNumber, pos, UserRolesList));
             }
-
         }
 
         public static async Task UpdatePositionAsync(PositionItem item)
@@ -84,11 +164,7 @@ namespace RestourantDesktop.Windows.Pages.UserManager
             }
             catch (Exception) { /*TODO Сообщение об ошибке*/ return; }
 
-            for (int i = 0; i < UsersList.Count; i++)
-            {
-                UsersList[i].OnPropertyChanged("Positions");
-                UsersList[i].OnPropertyChanged("SelectedPosItem");
-            }
+            PositionChanged?.Invoke(item, new EventArgs());
         }
         
         public static async Task DeletePositionAsync(PositionItem item)
@@ -109,11 +185,7 @@ namespace RestourantDesktop.Windows.Pages.UserManager
             }
             catch (Exception) { /*TODO Сообщение об ошибке*/ return; }
 
-            PositionsList.Remove(item);
-
-            //Удалим данную страницу у всех отображённых прав
-            //for (int i = 0; i < RoleList.Count; i++)
-            //    RoleList[i].Rights.Remove(RoleList[i].Rights.FirstOrDefault(x => x.PageID == item.ID));
+            PositionDeleted?.Invoke(item, new EventArgs());
         }
         
         public static async Task AddNewEmptyPositionAsync()
@@ -133,26 +205,80 @@ namespace RestourantDesktop.Windows.Pages.UserManager
             }
             catch (Exception) { /*TODO Сообщение об ошибке*/ return; }
 
-            PositionsList.Add(new PositionItem(newIndex, "", 0));
-
-            //Добавим Должность для всех отображённых пользователей
-            //for (int i = 0; i < RoleList.Count; i++)
-            //    RoleList[i].Rights.Add(new PageRoleItem(newIndex, "", false));
+            PositionItem newitem = new PositionItem(newIndex, "", 0);
+            PositionsList.Add(newitem);
+            PositionAdded?.Invoke(newitem, new EventArgs());
         }
 
-        public static async Task ChangeUserAsync(UserItem item)
-        { 
-        
+        public static async Task ChangeUserStatsAsync(UserItem item)
+        {
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["AdminConnectionString"].ConnectionString))
+                {
+                    await connection.OpenAsync();
+                    using (SqlCommand command = new SqlCommand("ChangeUserStats", connection))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.Parameters.Add(new SqlParameter("@userid", item.UserID));
+                        command.Parameters.Add(new SqlParameter("@login", item.Login));
+                        command.Parameters.Add(new SqlParameter("@fullName", item.FullName));
+                        command.Parameters.Add(new SqlParameter("@passport", item.Passport));
+                        command.Parameters.Add(new SqlParameter("@phoneNum", item.PhoneNum));
+                        command.Parameters.Add(new SqlParameter("@posID", item.SelectedPosItem.ID));
+
+                        await command.ExecuteNonQueryAsync();
+                    }
+                }
+            }
+            catch (Exception) { /*TODO Сообщение об ошибке*/ return; }
         }
         
         public static async Task DeleteUserAsync(UserItem item)
-        { 
-        
+        {
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["AdminConnectionString"].ConnectionString))
+                {
+                    await connection.OpenAsync();
+                    using (SqlCommand command = new SqlCommand("DeleteUser", connection))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.Parameters.Add(new SqlParameter("@userid", item.UserID));
+
+                        await command.ExecuteNonQueryAsync();
+                    }
+                }
+            }
+            catch (Exception) { /*TODO Сообщение об ошибке*/ return; }
+
+            UsersList.Remove(item);
         }
         
         public static async Task ChangeUserRole(UserRoleItem item)
+        {
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["AdminConnectionString"].ConnectionString))
+                {
+                    await connection.OpenAsync();
+                    using (SqlCommand command = new SqlCommand("ChangeUserRole", connection))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.Parameters.Add(new SqlParameter("@userid", item.UserID));
+                        command.Parameters.Add(new SqlParameter("@roleid", item.RoleID));
+                        command.Parameters.Add(new SqlParameter("@isCan", item.IsCan));
+
+                        await command.ExecuteNonQueryAsync();
+                    }
+                }
+            }
+            catch (Exception) { /*TODO Сообщение об ошибке*/ return; }
+        }
+
+        public static async Task AddNewEmptyUserAsync()
         { 
-        
+            //TODO: это отдельной формой которая будет плавно вылезать снизу
         }
     }
 }

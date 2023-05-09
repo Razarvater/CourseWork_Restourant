@@ -72,7 +72,7 @@
                         Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=res:Generic,ResourceId=BlackButton}}"/>
             </Grid>
         </GroupBox>
-        <GroupBox Header="Пользователи" Grid.Column="2" Grid.Row="1" Margin="5,0,0,0"
+        <GroupBox Header="Пользователи" Grid.Column="2" Grid.Row="1" Margin="10,0,0,0"
                   Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=res:Generic ,ResourceId=GroupBoxBlack}}">
             <Grid>
                 <Grid.RowDefinitions>
@@ -120,14 +120,7 @@
                                                 <TextBox Text="{Binding PhoneNum}" Margin="5" VerticalAlignment="Stretch" Grid.Row="1" Grid.Column="2" MaxLength="17" FontSize="12" Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=res:Generic, ResourceId=TextBoxBlack}}"/>
                                                 <res:BlackComboBox ItemsSource="{Binding Positions, UpdateSourceTrigger=PropertyChanged}"
                                                                    Margin="5" VerticalAlignment="Stretch" Grid.Row="1" Grid.Column="3" FontSize="12"
-                                                                   Validation.ErrorTemplate="{StaticResource validationFailed}">
-                                                    <res:BlackComboBox.SelectedItem>
-                                                        <Binding Path="SelectedPosItem" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
-                                                            <Binding.ValidationRules>
-                                                                <DataErrorValidationRule />
-                                                            </Binding.ValidationRules>
-                                                        </Binding>
-                                                    </res:BlackComboBox.SelectedItem>
+                                                                   Validation.ErrorTemplate="{StaticResource validationFailed}" SelectedItem="{Binding SelectedPosItem, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
                                                 </res:BlackComboBox>
                                             </Grid>
                                             <ItemsControl DockPanel.Dock="Top" ItemsSource="{Binding Roles}" HorizontalContentAlignment="Stretch">

@@ -12,26 +12,57 @@ namespace RestourantDesktop.Windows.Pages.RoleManager
 {
     internal static class RolesModel
     {
+        public static event EventHandler<EventArgs> RoleChanged;
+        public static event EventHandler<EventArgs> RoleDeleted;
+        public static event EventHandler<EventArgs> RoleAdded;
+
+        public static event EventHandler<EventArgs> PageChanged;
+        public static event EventHandler<EventArgs> PageDeleted;
+        public static event EventHandler<EventArgs> PageAdded;
+
         public static ObservableCollection<PageItem> PagesList { get; private set; }
 
-        private static ObservableCollection<RoleItem> roleList;
-        public static ObservableCollection<RoleItem> RoleList 
-        {
-            get
-            {
-                if (roleList == null)
-                    GetRolesList();
+        public static ObservableCollection<RoleItem> RoleList { get; private set; }
 
-                return roleList;
-            }
-            private set { roleList = value; }
+        static RolesModel()
+        {
+            PageAdded += (sender, e) =>
+            {
+                PageItem newItem = sender as PageItem;
+                //Добавим страницу для всех отображённых ролей
+                for (int i = 0; i < RoleList.Count; i++)
+                    RoleList[i].Rights.Add(new PageRoleItem(newItem.ID, newItem.PageName, false));
+            };
+            PageChanged += (sender, e) => 
+            {
+                PageItem newItem = sender as PageItem;
+                //Назначим для всех отображённых ролей
+                for (int i = 0; i < RoleList.Count; i++)
+                    RoleList[i].Rights.FirstOrDefault(x => x.PageID == newItem.ID).PageName = newItem.PageName;
+            };
+            PageDeleted += (sender, e) =>
+            {
+                PageItem newItem = sender as PageItem;
+                //Удалим данную страницу у всех отображённых прав
+                for (int i = 0; i < RoleList.Count; i++)
+                    RoleList[i].Rights.Remove(RoleList[i].Rights.FirstOrDefault(x => x.PageID == newItem.ID));
+            };
+        }
+
+        public static async Task InitModel()
+        {
+            if (PagesList == null)
+                await GetPagesListAsync();
+
+            if (RoleList == null)
+                await GetRolesList();
         }
 
         /// <summary>
         /// Получение списка ролей
         /// </summary>
         /// <returns></returns>
-        public static async Task GetRolesList()
+        private static async Task GetRolesList()
         {
             try
             {
@@ -71,7 +102,7 @@ namespace RestourantDesktop.Windows.Pages.RoleManager
                     RoleList.Add(new RoleItem(ID, roleName, rights));
                 }
             }
-            catch (Exception) { /*TODO Сообщение об ошибке*/}
+            catch (Exception) { /*TODO Сообщение об ошибке*/ }
         }
 
         /// <summary>
@@ -79,7 +110,7 @@ namespace RestourantDesktop.Windows.Pages.RoleManager
         /// </summary>
         /// <param name="deleteAction"></param>
         /// <returns></returns>
-        public static async Task GetPagesListAsync(Func<PageItem, Task> deleteAction)
+        private static async Task GetPagesListAsync()
         {
             try
             {
@@ -91,11 +122,11 @@ namespace RestourantDesktop.Windows.Pages.RoleManager
                         PagesList = new ObservableCollection<PageItem>();
                         adapter.Fill(dt);
                         for (int i = 0; i < dt.Rows.Count; i++)
-                            PagesList.Add(new PageItem(Convert.ToInt32(dt.Rows[i]["ID"]), dt.Rows[i]["PageName"].ToString(), deleteAction));
+                            PagesList.Add(new PageItem(Convert.ToInt32(dt.Rows[i]["ID"]), dt.Rows[i]["PageName"].ToString()));
                     }
                 });
             }
-            catch (Exception) { /*TODO Сообщение об ошибке*/}
+            catch (Exception) { /*TODO Сообщение об ошибке*/ }
         }
 
         /// <summary>
@@ -103,7 +134,7 @@ namespace RestourantDesktop.Windows.Pages.RoleManager
         /// </summary>
         /// <param name="deleteAction">Действие для удаления страницы</param>
         /// <returns></returns>
-        public static async Task CreateNewEmptyPageAsync(Func<PageItem, Task> deleteAction)
+        public static async Task CreateNewEmptyPageAsync()
         {
             int newIndex = 0;
             try
@@ -120,11 +151,9 @@ namespace RestourantDesktop.Windows.Pages.RoleManager
             }
             catch (Exception) { /*TODO Сообщение об ошибке*/ return; }
 
-            PagesList.Add(new PageItem(newIndex, "", deleteAction));
-
-            //Добавим страницу для всех отображённых ролей
-            for (int i = 0; i < RoleList.Count; i++)
-                RoleList[i].Rights.Add(new PageRoleItem(newIndex, "", false));
+            PageItem newItem = new PageItem(newIndex, "");
+            PagesList.Add(newItem);
+            PageAdded?.Invoke(newItem, new EventArgs());
         }
 
         /// <summary>
@@ -151,9 +180,7 @@ namespace RestourantDesktop.Windows.Pages.RoleManager
             }
             catch (Exception) { /*TODO Сообщение об ошибке*/ return; }
 
-            //Назначим для всех отображённых ролей
-            for (int i = 0; i < RoleList.Count; i++)
-                RoleList[i].Rights.FirstOrDefault(x => x.PageID == item.ID).PageName = item.PageName;
+            PageChanged?.Invoke(item, new EventArgs());
         }
 
         /// <summary>
@@ -180,10 +207,7 @@ namespace RestourantDesktop.Windows.Pages.RoleManager
             catch (Exception) { /*TODO Сообщение об ошибке*/ return; }
 
             PagesList.Remove(item);
-
-            //Удалим данную страницу у всех отображённых прав
-            for (int i = 0; i < RoleList.Count; i++)
-                RoleList[i].Rights.Remove(RoleList[i].Rights.FirstOrDefault(x => x.PageID == item.ID));
+            PageDeleted?.Invoke(item, new EventArgs());
         }
 
         /// <summary>
@@ -235,6 +259,8 @@ namespace RestourantDesktop.Windows.Pages.RoleManager
                 }
             }
             catch (Exception) { /*TODO Сообщение об ошибке*/ }
+
+            RoleChanged?.Invoke(role , new EventArgs());
         }
 
         /// <summary>
@@ -261,6 +287,7 @@ namespace RestourantDesktop.Windows.Pages.RoleManager
             catch (Exception) { /*TODO Сообщение об ошибке*/ return; }
 
             RoleList.Remove(item);
+            RoleDeleted?.Invoke(item, new EventArgs());
         }
 
         /// <summary>
@@ -288,6 +315,8 @@ namespace RestourantDesktop.Windows.Pages.RoleManager
             for (int i = 0; i < PagesList.Count; i++)
                 rights.Add(new PageRoleItem(PagesList[i].ID, PagesList[i].PageName, false));
             RoleList.Add(new RoleItem(newIndex, "", rights));
+
+            RoleAdded?.Invoke(RoleList.Last(), new EventArgs());
         }
     }
 }
