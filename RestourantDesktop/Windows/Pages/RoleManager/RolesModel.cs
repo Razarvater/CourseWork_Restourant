@@ -13,7 +13,19 @@ namespace RestourantDesktop.Windows.Pages.RoleManager
     internal static class RolesModel
     {
         public static ObservableCollection<PageItem> PagesList { get; private set; }
-        public static ObservableCollection<RoleItem> RoleList { get; private set; }
+
+        private static ObservableCollection<RoleItem> roleList;
+        public static ObservableCollection<RoleItem> RoleList 
+        {
+            get
+            {
+                if (roleList == null)
+                    GetRolesList();
+
+                return roleList;
+            }
+            private set { roleList = value; }
+        }
 
         /// <summary>
         /// Получение списка ролей

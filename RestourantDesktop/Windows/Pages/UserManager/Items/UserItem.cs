@@ -101,7 +101,7 @@ namespace RestourantDesktop.Windows.Pages.UserManager.Items
 
         private async void ChangeRoleName() => await UserManagerModel.ChangeUserAsync(this);
 
-        public UserItem(int ID, string login, string passport,string FullName, string phoneNumber, IEnumerable<UserRoleItem> items)
+        public UserItem(int ID, string login, string passport,string FullName, string phoneNumber, PositionItem position, IEnumerable<UserRoleItem> items)
         {
             DeleteCommand = new Command(async (obj) => await UserManagerModel.DeleteUserAsync(this));
 
@@ -115,6 +115,7 @@ namespace RestourantDesktop.Windows.Pages.UserManager.Items
             this.passport = passport;
             this.fullName = FullName;
             this.phoneNum = phoneNumber;
+            this.selectedPosItem = position;
         }
     }
 
@@ -124,13 +125,13 @@ namespace RestourantDesktop.Windows.Pages.UserManager.Items
 
         public int RoleID;
 
-        private string pageName;
-        public string PageName
+        private string roleName;
+        public string RoleName
         {
-            get => pageName;
+            get => roleName;
             set
             {
-                pageName = value;
+                roleName = value;
                 OnPropertyChanged();
             }
         }
@@ -154,7 +155,7 @@ namespace RestourantDesktop.Windows.Pages.UserManager.Items
         public UserRoleItem(int ID, string PageName, bool PageStatusForRole)
         {
             this.RoleID = ID;
-            this.PageName = PageName;
+            this.roleName = PageName;
             this.isCan = PageStatusForRole;
         }
     }

@@ -31,25 +31,19 @@
     <Grid Margin="1">
         <Border>
             <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="1*"/>
-                    <ColumnDefinition Width="20"/>
-                </Grid.ColumnDefinitions>
-                <Border x:Name="border" Grid.ColumnSpan="2" CornerRadius="2" BorderThickness="1" SnapsToDevicePixels="True"
+                <Border x:Name="border" CornerRadius="2" BorderThickness="1" SnapsToDevicePixels="True"
                         Background="{StaticResource ResourceKey={ComponentResourceKey TypeInTargetAssembly=local:Generic, ResourceId=NotFocusedTextBoxBackground}}"
                         BorderBrush="{StaticResource ResourceKey={ComponentResourceKey TypeInTargetAssembly=local:Generic, ResourceId=NotFocusedTextBoxBackground}}">
                     <Border.Effect>
                         <DropShadowEffect BlurRadius="8" Color="Black" Opacity="0.35" ShadowDepth="1"/>
                     </Border.Effect>
                 </Border>
-                <TextBlock x:Name="txtSelectedValue" VerticalAlignment="Center" HorizontalAlignment="Center" Style="{StaticResource {ComponentResourceKey TypeInTargetAssembly=local:Generic, ResourceId=TextBlockBlack}}"
-                           Text="{Binding SelectedItem, Mode=TwoWay, RelativeSource={RelativeSource AncestorType=UserControl}}" Panel.ZIndex="1"/>
-                <Button Content="Ʌ  " HorizontalContentAlignment="Right" x:Name="ButtonSelect" Grid.Column="0" Grid.ColumnSpan="2" Click="Button_Click" Background="Transparent" BorderThickness="0"
+                <Button x:Name="ButtonSelect" HorizontalContentAlignment="Stretch" Click="Button_Click" Background="Transparent" BorderThickness="0"
                         Foreground="{StaticResource ResourceKey={ComponentResourceKey TypeInTargetAssembly=local:Generic, ResourceId=MainFontColor}}">
                     <Button.Template>
                         <ControlTemplate TargetType="{x:Type Button}">
                             <Border Name="Back" CornerRadius="2" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
-                                <ContentPresenter HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                <ContentPresenter HorizontalAlignment="Stretch" VerticalAlignment="Center"/>
                             </Border>
                             <ControlTemplate.Triggers>
                                 <Trigger Property="IsMouseOver" Value="True">
@@ -61,6 +55,17 @@
                             </ControlTemplate.Triggers>
                         </ControlTemplate>
                     </Button.Template>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="10"/>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="20"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock x:Name="SelectedValue" HorizontalAlignment="Center" Grid.Column="1" Style="{StaticResource {ComponentResourceKey TypeInTargetAssembly=local:Generic, ResourceId=TextBlockBlack}}"
+                            Text="{Binding SelectedItem, Mode=TwoWay, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
+                        <TextBlock x:Name="Bar" HorizontalAlignment="Center" Grid.Column="2" Style="{StaticResource {ComponentResourceKey TypeInTargetAssembly=local:Generic, ResourceId=TextBlockBlack}}"
+                           Text="Ʌ"/>
+                    </Grid>
                 </Button>
             </Grid>
         </Border>

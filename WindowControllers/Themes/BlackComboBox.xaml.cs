@@ -37,7 +37,7 @@ namespace WindowControllers.Themes
         private static void OnSelectedItemChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             BlackComboBox control = d as BlackComboBox;
-            control.txtSelectedValue.Text = e.NewValue?.ToString() ?? "";
+            ((control.ButtonSelect.Content as Grid).FindName("SelectedValue") as TextBlock).Text = e.NewValue?.ToString() ?? "";
         }
 
         private bool popIsOpened = false;
@@ -45,13 +45,13 @@ namespace WindowControllers.Themes
         {
             if (popIsOpened)
             {
-                ButtonSelect.Content = "Ʌ  ";
+                ((ButtonSelect.Content as Grid).FindName("Bar") as TextBlock).Text = "Ʌ";
                 popList.IsOpen = false;
                 popIsOpened = false;
             }
             else if (!popIsOpened)
             {
-                ButtonSelect.Content = "V  ";
+                ((ButtonSelect.Content as Grid).FindName("Bar") as TextBlock).Text = "V";
                 popList.IsOpen = true;
                 popIsOpened = true;
             }

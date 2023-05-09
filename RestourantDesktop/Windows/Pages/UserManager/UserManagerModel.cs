@@ -6,6 +6,7 @@ using System.Data;
 using System.Threading.Tasks;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace RestourantDesktop.Windows.Pages.UserManager
 {
@@ -16,6 +17,16 @@ namespace RestourantDesktop.Windows.Pages.UserManager
 
         public static async Task InitModel()
         {
+            UsersList = new ObservableCollection<UserItem>();
+            DataTable users = new DataTable();
+            await Task.Run(() =>
+            {
+                using (SqlDataAdapter adapter = new SqlDataAdapter("EXEC GetEmployeeUsersList", ConfigurationManager.ConnectionStrings["AdminConnectionString"].ConnectionString))
+                {
+                    adapter.Fill(users);
+                }
+            });
+
             PositionsList = new ObservableCollection<PositionItem>();
             DataTable positions = new DataTable();
             //DataTable UserPositions = new DataTable();
@@ -27,30 +38,6 @@ namespace RestourantDesktop.Windows.Pages.UserManager
                 }
             });
 
-            UsersList = new ObservableCollection<UserItem>();
-            DataTable users = new DataTable();
-            await Task.Run(() =>
-            {
-                using (SqlDataAdapter adapter = new SqlDataAdapter("EXEC GetEmployeeUsersList", ConfigurationManager.ConnectionStrings["AdminConnectionString"].ConnectionString))
-                {
-                    adapter.Fill(users);
-                }
-            });
-
-            //TODO: список ролей пользователя + список должностей пользователя так же добавить UserPositions TABLE
-            for (int i = 0; i < users.Rows.Count; i++)
-            {
-                int ID = Convert.ToInt32(users.Rows[i]["ID"]);
-                string login = users.Rows[i]["Login"].ToString();
-                string passport = users.Rows[i]["Passport"].ToString();
-                string FullName = users.Rows[i]["FullName"].ToString();
-                string PhoneNumber = users.Rows[i]["PhoneNum"].ToString();
-                //string PositionID = users.Rows[i]["Position_ID"].ToString();
-
-                UsersList.Add(new UserItem(ID, login, passport, FullName, PhoneNumber, new List<UserRoleItem>()));
-            }
-
-
             for (int i = 0; i < positions.Rows.Count; i++)
             {
                 int ID = Convert.ToInt32(positions.Rows[i]["ID"]);
@@ -59,8 +46,23 @@ namespace RestourantDesktop.Windows.Pages.UserManager
 
                 PositionsList.Add(new PositionItem(ID, roleName, Salary));
             }
-        }
 
+            //TODO: список ролей пользователя
+            for (int i = 0; i < users.Rows.Count; i++)
+            {
+                int ID = Convert.ToInt32(users.Rows[i]["ID"]);
+                string login = users.Rows[i]["Login"].ToString();
+                string passport = users.Rows[i]["Passport"].ToString();
+                string FullName = users.Rows[i]["FullName"].ToString();
+                string PhoneNumber = users.Rows[i]["PhoneNum"].ToString();
+                string PositionID = users.Rows[i]["Position_ID"].ToString();
+                PositionItem pos = PositionsList.FirstOrDefault(x => x.ID == Convert.ToInt32(PositionID));
+
+
+                UsersList.Add(new UserItem(ID, login, passport, FullName, PhoneNumber, pos, new List<UserRoleItem>()));
+            }
+
+        }
 
         public static async Task UpdatePositionAsync(PositionItem item)
         {
