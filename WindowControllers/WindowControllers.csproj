@@ -54,9 +54,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="RestourantWindow\ViewModelWindowFunc.cs" />
+    <Compile Include="Themes\BlackComboBox.xaml.cs">
+      <DependentUpon>BlackComboBox.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Themes\ButtonVisConverter.cs" />
     <Compile Include="RestourantWindow\ViewModelNavigation.cs" />
     <Compile Include="Themes\Generic.xaml.cs" />
+    <Page Include="Themes\BlackComboBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Themes\Generic.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

@@ -16,7 +16,7 @@
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type lc:Generic}, ResourceId=GroupBoxBackColor_2}">#FF2b2f37</SolidColorBrush>
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type lc:Generic}, ResourceId=GroupBoxBorderColor}">#FF2E3235</SolidColorBrush>
 
-    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type lc:Generic}, ResourceId=FocusedTextBoxBackground}">#FF323640</SolidColorBrush>
+    <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type lc:Generic}, ResourceId=FocusedTextBoxBackground}">#FF3C404A</SolidColorBrush>
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type lc:Generic}, ResourceId=NotFocusedTextBoxBackground}">#FF32363C</SolidColorBrush>
 
     <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type lc:Generic}, ResourceId=MainFontColor}">#FFCCCCCC</SolidColorBrush>
@@ -231,23 +231,48 @@
         </Setter>
     </Style>
 
+    <!--Тёмный Combobox-->
+    <Style x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type lc:Generic}, ResourceId=ComboBoxBlack}" TargetType="{x:Type ComboBox}">
+        <Setter Property="Background" Value="{StaticResource ResourceKey={ComponentResourceKey TypeInTargetAssembly=lc:Generic, ResourceId=NotFocusedTextBoxBackground}}"/>
+        <Setter Property="Foreground" Value="{StaticResource ResourceKey={ComponentResourceKey TypeInTargetAssembly=lc:Generic, ResourceId=MainFontColor}}"/>
+        <Setter Property="FontSize" Value="12"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="MinHeight" Value="30"/>
+        <Setter Property="Height" Value="30"/>
+        <Setter Property="Padding" Value="1"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ComboBox">
+                    <Grid>
+                        
+                        <Grid Height="{TemplateBinding Height}" MinHeight="{TemplateBinding MinHeight}" Margin="{TemplateBinding Padding}">
+                            <ToggleButton x:Name="ToggleButton" Background="{TemplateBinding Background}" Content="{TemplateBinding SelectionBoxItem}" BorderThickness="0"
+                                Foreground="{TemplateBinding Foreground}" IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"/>
+                            <Popup x:Name="Popup" AllowsTransparency="True" Focusable="False" IsOpen="{Binding IsDropDownOpen, RelativeSource={RelativeSource TemplatedParent}}"
+                                Placement="Bottom" PopupAnimation="Slide">
+                                <Grid>
+                                    <Border x:Name="PopupBorder" Background="{TemplateBinding Background}">
+                                        <ScrollViewer x:Name="ScrollViewer" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                                            <StackPanel x:Name="ItemsPresenter" IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Contained"/>
+                                        </ScrollViewer>
+                                    </Border>
+                                </Grid>
+                            </Popup>
+                        </Grid>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!--Тёмный textBlock-->
+    <Style x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type lc:Generic}, ResourceId=TextBlockBlack}" TargetType="{x:Type TextBlock}">
+        <Setter Property="Foreground" Value="{StaticResource ResourceKey={ComponentResourceKey TypeInTargetAssembly=lc:Generic, ResourceId=MainFontColor}}"/>
+        <Setter Property="FontSize" Value="12"/>
+    </Style>
+    
     <!--Тёмный TextBox-->
     <Style x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type lc:Generic}, ResourceId=TextBoxBlack}" TargetType="{x:Type TextBox}">
-        <!--Триггер - При наличии ошибки будет появляться tooltip с текстом ошибки(определённым во ViewModel)-->
-        <Style.Triggers>
-            <Trigger Property="Validation.HasError" Value="True">
-                <Setter Property="ToolTip" Value="{Binding RelativeSource={RelativeSource Self}, Path=(Validation.Errors)[0].ErrorContent}" />
-                <Setter Property="BorderBrush" Value="#55FF0000"/>
-                <Trigger.EnterActions>
-                    <BeginStoryboard>
-                        <Storyboard>
-                            <ColorAnimation Storyboard.TargetProperty="(Border.BorderBrush).(SolidColorBrush.Color)" Duration="0:0:1" 
-                                From="#55AA0000" To="#FFFF0000" AutoReverse="True" RepeatBehavior="Forever"/>
-                        </Storyboard>
-                    </BeginStoryboard>
-                </Trigger.EnterActions>
-            </Trigger>
-        </Style.Triggers>
         <Setter Property="FontSize" Value="18"/>
         <Setter Property="Background" Value="{StaticResource ResourceKey={ComponentResourceKey TypeInTargetAssembly=lc:Generic, ResourceId=NotFocusedTextBoxBackground}}"/>
         <Setter Property="Foreground" Value="{StaticResource ResourceKey={ComponentResourceKey TypeInTargetAssembly=lc:Generic, ResourceId=MainFontColor}}"/>
@@ -277,6 +302,21 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+        <!--Триггер - При наличии ошибки будет появляться tooltip с текстом ошибки(определённым во ViewModel)-->
+        <Style.Triggers>
+            <Trigger Property="Validation.HasError" Value="True">
+                <Setter Property="ToolTip" Value="{Binding RelativeSource={RelativeSource Self}, Path=(Validation.Errors)[0].ErrorContent}" />
+                <Setter Property="BorderBrush" Value="#55FF0000"/>
+                <Trigger.EnterActions>
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <ColorAnimation Storyboard.TargetProperty="(Border.BorderBrush).(SolidColorBrush.Color)" Duration="0:0:1" 
+                                From="#55AA0000" To="#FFFF0000" AutoReverse="True" RepeatBehavior="Forever"/>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </Trigger.EnterActions>
+            </Trigger>
+        </Style.Triggers>
     </Style>
 
     <!--Тёмный CheckBox-->

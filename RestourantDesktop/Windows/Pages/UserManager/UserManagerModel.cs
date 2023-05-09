@@ -5,7 +5,6 @@ using System.Data.SqlClient;
 using System.Data;
 using System.Threading.Tasks;
 using System;
-using System.Windows.Documents;
 using System.Collections.Generic;
 
 namespace RestourantDesktop.Windows.Pages.UserManager
@@ -83,9 +82,11 @@ namespace RestourantDesktop.Windows.Pages.UserManager
             }
             catch (Exception) { /*TODO Сообщение об ошибке*/ return; }
 
-            //Назначим для всех отображённых пользователей
-            //for (int i = 0; i < RoleList.Count; i++)
-            //    RoleList[i].Rights.FirstOrDefault(x => x.PageID == item.ID).PageName = item.PageName;
+            for (int i = 0; i < UsersList.Count; i++)
+            {
+                UsersList[i].OnPropertyChanged("Positions");
+                UsersList[i].OnPropertyChanged("SelectedPosItem");
+            }
         }
         
         public static async Task DeletePositionAsync(PositionItem item)

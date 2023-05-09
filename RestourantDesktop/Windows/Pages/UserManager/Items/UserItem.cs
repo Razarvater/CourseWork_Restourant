@@ -75,6 +75,19 @@ namespace RestourantDesktop.Windows.Pages.UserManager.Items
             }
         }
 
+        public ObservableCollection<PositionItem> Positions { get => UserManagerModel.PositionsList; }
+
+        public PositionItem selectedPosItem;
+        public PositionItem SelectedPosItem
+        { 
+            get => selectedPosItem;
+            set
+            {
+                selectedPosItem = value;
+                OnPropertyChanged();
+            }
+        }
+
         private Command deleteCommand;
         public Command DeleteCommand
         {

@@ -32,3 +32,5 @@ E:\Курсач\Приложуха\Restourant\CourseWork_Restourant\WindowContro
 E:\Курсач\Приложуха\Restourant\CourseWork_Restourant\WindowControllers\obj\Debug\WindowControllers.csproj.CopyComplete
 E:\Курсач\Приложуха\Restourant\CourseWork_Restourant\WindowControllers\obj\Debug\WindowControllers.dll
 E:\Курсач\Приложуха\Restourant\CourseWork_Restourant\WindowControllers\obj\Debug\WindowControllers.pdb
+E:\Курсач\Приложуха\Restourant\CourseWork_Restourant\WindowControllers\obj\Debug\Themes\BlackComboBox.g.cs
+E:\Курсач\Приложуха\Restourant\CourseWork_Restourant\WindowControllers\obj\Debug\Themes\BlackComboBox.baml

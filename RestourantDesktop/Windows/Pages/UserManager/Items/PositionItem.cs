@@ -81,5 +81,7 @@ namespace RestourantDesktop.Windows.Pages.UserManager.Items
             this.salary = Salary;
             DeletePageCommand = new Command(async (obj) => await UserManagerModel.DeletePositionAsync(this));
         }
+
+        public override string ToString() => positionName;
     }
 }
