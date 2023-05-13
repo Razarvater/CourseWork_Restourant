@@ -4,6 +4,7 @@ using System.Data;
 using System.Threading;
 using System.Xml;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace DependencyChecker
 {
@@ -166,7 +167,8 @@ namespace DependencyChecker
         public void start()
         {
             cancellationTokenSource = new CancellationTokenSource();
-            ThreadPool.QueueUserWorkItem(listen, cancellationTokenSource.Token);
+            //Task task = Task.Run(() => { listen(null); }, cancellationTokenSource.Token);
+            ThreadPool.QueueUserWorkItem(listen, (cancellationTokenSource.Token, SynchronizationContext.Current));
         }
 
         /// <summary>
@@ -220,12 +222,18 @@ namespace DependencyChecker
         {
             try
             {
+                (CancellationToken, SynchronizationContext syncContext) sync = ((CancellationToken, SynchronizationContext))input;
                 Connect();
                 while (true)
                 {
                     var message = ReceiveEvent();
                     if (!string.IsNullOrWhiteSpace(message))
-                        Changed.Invoke(this, new DbChangeEventArgs(message));
+                    {
+                        sync.syncContext.Post(state =>
+                        {
+                            Changed.Invoke(this, new DbChangeEventArgs(message));
+                        }, new object());
+                    }
                 }
             }
             catch { }

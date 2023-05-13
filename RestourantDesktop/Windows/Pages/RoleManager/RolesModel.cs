@@ -11,6 +11,7 @@ using RestourantDesktop.Database;
 using System.Runtime.Remoting.Channels;
 using DependencyChecker;
 using System.Windows;
+using System.Runtime.InteropServices;
 
 namespace RestourantDesktop.Windows.Pages.RoleManager
 {
@@ -31,7 +32,25 @@ namespace RestourantDesktop.Windows.Pages.RoleManager
         private static void PagesListChanged(object sender, DBchangeListener.DbChangeEventArgs e)
         {
             //TODO: сюда переношу все Update и т.д. и так для всех таблиц
-            MessageBox.Show("пашет?");
+            foreach (var item in e.Deleted)
+            {
+                item.TryGetValue("ID", out object value);
+                int ID = Convert.ToInt32(value);
+                PageItem deletedItem = PagesList.FirstOrDefault(x => x.ID == ID);
+                if (deletedItem == null) continue;
+                PagesList.Remove(deletedItem);
+                PageDeleted?.Invoke(deletedItem, new EventArgs());
+            }
+            foreach (var item in e.Inserted)
+            {
+                item.TryGetValue("ID", out object value);
+                item.TryGetValue("PageName", out object PageName);
+                int ID = Convert.ToInt32(value);
+                string Name = Convert.ToString(PageName);
+                PageItem insertedItem = new PageItem(ID, Name);
+                PagesList.Add(insertedItem);
+                PageAdded?.Invoke(insertedItem, new EventArgs());
+            }
         }
 
         static RolesModel()
@@ -162,10 +181,6 @@ namespace RestourantDesktop.Windows.Pages.RoleManager
                 }
             }
             catch (Exception) { /*TODO Сообщение об ошибке*/ return; }
-
-            PageItem newItem = new PageItem(newIndex, "");
-            PagesList.Add(newItem);
-            PageAdded?.Invoke(newItem, new EventArgs());
         }
 
         /// <summary>
@@ -191,8 +206,6 @@ namespace RestourantDesktop.Windows.Pages.RoleManager
                 }
             }
             catch (Exception) { /*TODO Сообщение об ошибке*/ return; }
-
-            PageChanged?.Invoke(item, new EventArgs());
         }
 
         /// <summary>
@@ -217,9 +230,6 @@ namespace RestourantDesktop.Windows.Pages.RoleManager
                 }
             }
             catch (Exception) { /*TODO Сообщение об ошибке*/ return; }
-
-            PagesList.Remove(item);
-            PageDeleted?.Invoke(item, new EventArgs());
         }
 
         /// <summary>
