@@ -7,6 +7,10 @@ using System.Data.SqlClient;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Linq;
+using RestourantDesktop.Database;
+using System.Runtime.Remoting.Channels;
+using DependencyChecker;
+using System.Windows;
 
 namespace RestourantDesktop.Windows.Pages.RoleManager
 {
@@ -24,8 +28,16 @@ namespace RestourantDesktop.Windows.Pages.RoleManager
 
         public static ObservableCollection<RoleItem> RoleList { get; private set; }
 
+        private static void PagesListChanged(object sender, DBchangeListener.DbChangeEventArgs e)
+        {
+            //TODO: сюда переношу все Update и т.д. и так для всех таблиц
+            MessageBox.Show("пашет?");
+        }
+
         static RolesModel()
         {
+            Dependency.manager.ListenTable("PagesList", PagesListChanged);
+
             PageAdded += (sender, e) =>
             {
                 PageItem newItem = sender as PageItem;

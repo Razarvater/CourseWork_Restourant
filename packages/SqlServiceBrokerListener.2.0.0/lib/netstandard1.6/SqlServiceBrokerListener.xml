@@ -1,0 +1,105 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>SqlServiceBrokerListener</name>
+    </assembly>
+    <members>
+        <member name="M:SqlServiceBrokerListener.SqlDependencyEx.TableChangedEventArgs.ReadXDocumentWithInvalidCharacters(System.String)">
+            <summary>
+            Converts an xml string into XElement with no invalid characters check.
+            https://paulselles.wordpress.com/2013/07/03/parsing-xml-with-invalid-characters-in-c-2/
+            </summary>
+            <param name="xml">The input string.</param>
+            <returns>The result XElement.</returns>
+        </member>
+        <member name="F:SqlServiceBrokerListener.SqlDependencyEx.SQL_FORMAT_CREATE_INSTALLATION_PROCEDURE">
+            <summary>
+            T-SQL script-template which creates notification setup procedure.
+            {0} - database name.
+            {1} - setup procedure name.
+            {2} - service broker configuration statement.
+            {3} - notification trigger configuration statement.
+            {4} - notification trigger check statement.
+            {5} - table name.
+            {6} - schema name.
+            </summary>
+        </member>
+        <member name="F:SqlServiceBrokerListener.SqlDependencyEx.SQL_FORMAT_CREATE_UNINSTALLATION_PROCEDURE">
+            <summary>
+            T-SQL script-template which creates notification uninstall procedure.
+            {0} - database name.
+            {1} - uninstall procedure name.
+            {2} - notification trigger drop statement.
+            {3} - service broker uninstall statement.
+            {4} - schema name.
+            {5} - install procedure name.
+            </summary>
+        </member>
+        <member name="F:SqlServiceBrokerListener.SqlDependencyEx.SQL_FORMAT_INSTALL_SEVICE_BROKER_NOTIFICATION">
+            <summary>
+            T-SQL script-template which prepares database for ServiceBroker notification.
+            {0} - database name;
+            {1} - conversation queue name.
+            {2} - conversation service name.
+            {3} - schema name.
+            </summary>
+        </member>
+        <member name="F:SqlServiceBrokerListener.SqlDependencyEx.SQL_FORMAT_UNINSTALL_SERVICE_BROKER_NOTIFICATION">
+            <summary>
+            T-SQL script-template which removes database notification.
+            {0} - conversation queue name.
+            {1} - conversation service name.
+            {2} - schema name.
+            </summary>
+        </member>
+        <member name="F:SqlServiceBrokerListener.SqlDependencyEx.SQL_FORMAT_DELETE_NOTIFICATION_TRIGGER">
+            <summary>
+            T-SQL script-template which creates notification trigger.
+            {0} - notification trigger name. 
+            {1} - schema name.
+            </summary>
+        </member>
+        <member name="F:SqlServiceBrokerListener.SqlDependencyEx.SQL_FORMAT_CREATE_NOTIFICATION_TRIGGER">
+            <summary>
+            T-SQL script-template which creates notification trigger.
+            {0} - monitorable table name.
+            {1} - notification trigger name.
+            {2} - event data (INSERT, DELETE, UPDATE...).
+            {3} - conversation service name. 
+            {4} - detailed changes tracking mode.
+            {5} - schema name.
+            %inserted_select_statement% - sql code which sets trigger "inserted" value to @retvalOUT variable.
+            %deleted_select_statement% - sql code which sets trigger "deleted" value to @retvalOUT variable.
+            </summary>
+        </member>
+        <member name="F:SqlServiceBrokerListener.SqlDependencyEx.SQL_FORMAT_RECEIVE_EVENT">
+            <summary>
+            T-SQL script-template which helps to receive changed data in monitorable table.
+            {0} - database name.
+            {1} - conversation queue name.
+            {2} - timeout.
+            {3} - schema name.
+            </summary>
+        </member>
+        <member name="F:SqlServiceBrokerListener.SqlDependencyEx.SQL_FORMAT_EXECUTE_PROCEDURE">
+            <summary>
+            T-SQL script-template which executes stored procedure.
+            {0} - database name.
+            {1} - procedure name.
+            {2} - schema name.
+            </summary>
+        </member>
+        <member name="F:SqlServiceBrokerListener.SqlDependencyEx.SQL_FORMAT_GET_DEPENDENCY_IDENTITIES">
+            <summary>
+            T-SQL script-template which returns all dependency identities in the database.
+            {0} - database name.
+            </summary>
+        </member>
+        <member name="F:SqlServiceBrokerListener.SqlDependencyEx.SQL_FORMAT_FORCED_DATABASE_CLEANING">
+            <summary>
+            T-SQL script-template which cleans database from notifications.
+            {0} - database name.
+            </summary>
+        </member>
+    </members>
+</doc>

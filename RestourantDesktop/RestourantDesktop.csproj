@@ -35,6 +35,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="DependencyManager">
+      <HintPath>..\DependencyManager\bin\Debug\DependencyManager.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
@@ -60,6 +63,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Database\Dependency.cs" />
     <Compile Include="Windows\Pages\RoleManager\Items\PageItem.cs" />
     <Compile Include="Windows\Pages\RoleManager\Items\RoleItem.cs" />
     <Compile Include="Windows\Pages\RoleManager\RoleManagerPage.xaml.cs">

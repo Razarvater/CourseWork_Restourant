@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RestourantDesktop.Database;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
@@ -13,5 +14,9 @@ namespace RestourantDesktop
     /// </summary>
     public partial class App : Application
     {
+        public App()
+        {
+            this.Exit += (sender, e) => Dependency.CloseApplication();
+        }
     }
 }

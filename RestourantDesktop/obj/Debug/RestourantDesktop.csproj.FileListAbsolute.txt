@@ -43,3 +43,5 @@ E:\Курсач\Приложуха\Restourant\CourseWork_Restourant\RestourantDe
 E:\Курсач\Приложуха\Restourant\CourseWork_Restourant\RestourantDesktop\obj\Debug\Windows\Pages\RoleManager\RoleManagerPage.baml
 E:\Курсач\Приложуха\Restourant\CourseWork_Restourant\RestourantDesktop\obj\Debug\Windows\Pages\UserManager\UserManagerPage.g.cs
 E:\Курсач\Приложуха\Restourant\CourseWork_Restourant\RestourantDesktop\obj\Debug\Windows\Pages\UserManager\UserManagerPage.baml
+E:\Курсач\Приложуха\Restourant\CourseWork_Restourant\RestourantDesktop\bin\Debug\DependencyManager.dll
+E:\Курсач\Приложуха\Restourant\CourseWork_Restourant\RestourantDesktop\bin\Debug\DependencyManager.pdb
