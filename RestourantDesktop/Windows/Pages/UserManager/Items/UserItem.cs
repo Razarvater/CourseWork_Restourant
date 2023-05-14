@@ -84,6 +84,7 @@ namespace RestourantDesktop.Windows.Pages.UserManager.Items
             get => selectedPosItem;
             set
             {
+                if (value == null) return;
                 selectedPosItem = value;
                 OnPropertyChanged();
 
@@ -154,7 +155,7 @@ namespace RestourantDesktop.Windows.Pages.UserManager.Items
             }
         }
 
-        private async void ChangeRight() => await UserManagerModel.ChangeUserRole(this);
+        private async void ChangeRight() => await UserManagerModel.ChangeUserRoleAsync(this);
 
         public UserRoleItem(int ID, int RoleID, string RoleName, bool RoleStatusForUser)
         {

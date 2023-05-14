@@ -55,6 +55,7 @@ namespace DependencyChecker
         /// <param name="dbChanged">Method for notifications about database changes</param>
         public void ListenTable(string TableName, EventHandler<DbChangeEventArgs> dbChanged)
         {
+            if (listeners.TryGetValue(TableName, out DBchangeListener value)) return;
             DBchangeListener listener = new DBchangeListener(DataBaseName,shema,TableName, connectionString);
 
             listener.Changed += dbChanged;

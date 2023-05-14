@@ -19,7 +19,7 @@ namespace RestourantDesktop.Windows.Pages.RoleManager.Items
             }
         }
 
-        private string pageName;
+        public string pageName;
         /// <summary>
         /// Имя страницы
         /// </summary>

@@ -8,10 +8,9 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Linq;
 using RestourantDesktop.Database;
-using System.Runtime.Remoting.Channels;
 using DependencyChecker;
-using System.Windows;
-using System.Runtime.InteropServices;
+using System.Runtime.CompilerServices;
+using System.Windows.Controls;
 
 namespace RestourantDesktop.Windows.Pages.RoleManager
 {
@@ -21,6 +20,10 @@ namespace RestourantDesktop.Windows.Pages.RoleManager
         public static event EventHandler<EventArgs> RoleDeleted;
         public static event EventHandler<EventArgs> RoleAdded;
 
+        public static event EventHandler<EventArgs> RightRoleChanged;
+        public static event EventHandler<EventArgs> RightRoleDeleted;
+        public static event EventHandler<EventArgs> RightRoleAdded;
+
         public static event EventHandler<EventArgs> PageChanged;
         public static event EventHandler<EventArgs> PageDeleted;
         public static event EventHandler<EventArgs> PageAdded;
@@ -29,54 +32,186 @@ namespace RestourantDesktop.Windows.Pages.RoleManager
 
         public static ObservableCollection<RoleItem> RoleList { get; private set; }
 
+        /// <summary>
+        /// Handling changes from the database
+        /// </summary>
+        /// <param name="sender">Listener object <see cref="DBchangeListener"/></param>
+        /// <param name="e">Message data</param>
         private static void PagesListChanged(object sender, DBchangeListener.DbChangeEventArgs e)
         {
-            //TODO: сюда переношу все Update и т.д. и так для всех таблиц
-            foreach (var item in e.Deleted)
-            {
-                item.TryGetValue("ID", out object value);
-                int ID = Convert.ToInt32(value);
-                PageItem deletedItem = PagesList.FirstOrDefault(x => x.ID == ID);
-                if (deletedItem == null) continue;
-                PagesList.Remove(deletedItem);
-                PageDeleted?.Invoke(deletedItem, new EventArgs());
-            }
+            List<int> updated = new List<int>();
             foreach (var item in e.Inserted)
             {
                 item.TryGetValue("ID", out object value);
                 item.TryGetValue("PageName", out object PageName);
                 int ID = Convert.ToInt32(value);
                 string Name = Convert.ToString(PageName);
-                PageItem insertedItem = new PageItem(ID, Name);
-                PagesList.Add(insertedItem);
-                PageAdded?.Invoke(insertedItem, new EventArgs());
+                PageItem updatedElement = PagesList.FirstOrDefault(x => x.ID == ID);
+                if (updatedElement == null)
+                {
+                    PageItem insertedItem = new PageItem(ID, Name);
+                    PagesList.Add(insertedItem);
+                    PageAdded?.Invoke(insertedItem, new EventArgs());
+                }
+                else
+                {
+                    updated.Add(ID);
+                    updatedElement.pageName = Name;
+                    updatedElement.OnPropertyChanged("pageName");
+                    PageChanged?.Invoke(updatedElement, new EventArgs());
+                }
+            }
+
+            foreach (var item in e.Deleted)
+            {
+                item.TryGetValue("ID", out object value);
+                int ID = Convert.ToInt32(value);
+                if (updated.Contains(ID)) continue;
+
+                PageItem deletedItem = PagesList.FirstOrDefault(x => x.ID == ID);
+                if (deletedItem == null) continue;
+                PagesList.Remove(deletedItem);
+                PageDeleted?.Invoke(deletedItem, new EventArgs());
+            }
+        }
+        /// <summary>
+        /// Handling changes from the database
+        /// </summary>
+        /// <param name="sender">Listener object <see cref="DBchangeListener"/></param>
+        /// <param name="e">Message data</param>
+        private static void RoleListChanged(object sender, DBchangeListener.DbChangeEventArgs e)
+        {
+            List<int> updated = new List<int>();
+            foreach (var item in e.Inserted)
+            {
+                item.TryGetValue("ID", out object value);
+                int ID = Convert.ToInt32(value);
+                item.TryGetValue("RoleName", out value);
+                string RoleName = Convert.ToString(value);
+                RoleItem updatedElement = RoleList.FirstOrDefault(x => x.roleID == ID);
+                if (updatedElement == null)
+                {
+                    List<PageRoleItem> rights = new List<PageRoleItem>();
+                    for (int i = 0; i < PagesList.Count; i++)
+                        rights.Add(new PageRoleItem(PagesList[i].ID, PagesList[i].PageName, false));
+                    RoleItem newRole = new RoleItem(ID, RoleName, rights);
+
+                    RoleList.Add(newRole);
+                    RoleAdded?.Invoke(newRole, new EventArgs());
+                    IEnumerable<(int, int ,bool)> cache = CachedPageRoleListItems.Where(x => x.Item1 == ID);
+                    if (cache.Count() != 0)
+                    {
+                        foreach (var cachedItem in cache)
+                        {
+                            PageRoleItem pageRoleItem = newRole.Rights.FirstOrDefault(x => x.PageID == cachedItem.Item2);
+                            pageRoleItem.isCan = cachedItem.Item3;
+                            pageRoleItem.OnPropertyChanged("IsCan");
+                            RightRoleChanged?.Invoke(pageRoleItem, new EventArgs());
+                        }
+                        for (int i = 0; i < CachedPageRoleListItems.Count; i++)
+                        {
+                            if (CachedPageRoleListItems[i].Item1 == ID)
+                            {
+                                CachedPageRoleListItems.RemoveAt(i);
+                                i--;
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    updated.Add(ID);
+                    updatedElement.roleName = RoleName;
+                    updatedElement.OnPropertyChanged("RoleName");
+                    RoleChanged?.Invoke(updatedElement, new EventArgs());
+                }
+            }
+
+            foreach (var item in e.Deleted)
+            {
+                item.TryGetValue("ID", out object value);
+                int ID = Convert.ToInt32(value);
+                if (updated.Contains(ID)) continue;
+
+                RoleItem roleItem = RoleList.FirstOrDefault(x => x.roleID == ID);
+                RoleList.Remove(roleItem);
+                RoleDeleted?.Invoke(roleItem, new EventArgs());
             }
         }
 
+        private static List<(int, int, bool)> CachedPageRoleListItems = new List<(int, int, bool)> ();
+        /// <summary>
+        /// Handling changes from the database
+        /// </summary>
+        /// <param name="sender">Listener object <see cref="DBchangeListener"/></param>
+        /// <param name="e">Message data</param>
+        private static void PageRoleListChanged(object sender, DBchangeListener.DbChangeEventArgs e)
+        {
+            List<(int, int)> updatedPages = new List<(int, int)>();
+            foreach (var item in e.Inserted)
+            {
+                item.TryGetValue("Role_ID", out object value);
+                int RoleID = Convert.ToInt32(value);
+                item.TryGetValue("Page_ID", out value);
+                int PageID = Convert.ToInt32(value);
+
+                item.TryGetValue("IsCan", out value);
+                bool IsCan = Convert.ToInt32(value) == 1;
+
+                RoleItem roleItem = RoleList.FirstOrDefault(x => x.roleID == RoleID);
+
+                //The trigger for adding linking records can work out earlier than the Listener,
+                //so we remove the received data in the cache if there is no such user yet
+                if (roleItem == null)
+                {
+                    CachedPageRoleListItems.Add((RoleID, PageID, IsCan));
+                    continue;
+                }
+                PageRoleItem pageRoleItem = roleItem.Rights.FirstOrDefault(x=>x.PageID == PageID);
+
+                if (pageRoleItem == null)
+                {
+                    PageRoleItem newItem = new PageRoleItem(PageID, PagesList.FirstOrDefault(x => x.ID == PageID).PageName, IsCan);
+                    roleItem.Rights.Add(newItem);
+                    RightRoleAdded?.Invoke(newItem, new EventArgs());
+                }
+                else
+                {
+                    updatedPages.Add((RoleID, PageID));
+                    pageRoleItem.isCan = IsCan;
+                    pageRoleItem.OnPropertyChanged("IsCan");
+                    RightRoleChanged?.Invoke(pageRoleItem, new EventArgs());
+                }
+            }
+
+            foreach (var item in e.Deleted)
+            {
+                item.TryGetValue("Role_ID", out object value);
+                int RoleID = Convert.ToInt32(value);
+                item.TryGetValue("Page_ID", out value);
+                int PageID = Convert.ToInt32(value);
+                if (updatedPages.Contains((RoleID, PageID))) continue;
+
+                RoleItem roleItem = RoleList.FirstOrDefault(x => x.roleID == RoleID);
+                if (roleItem == null) continue;
+                PageRoleItem pageRoleItem = roleItem.Rights.FirstOrDefault(x => x.PageID == PageID);
+                if (pageRoleItem == null) continue;
+
+                roleItem.Rights.Remove(pageRoleItem);
+                RightRoleDeleted?.Invoke(pageRoleItem, new EventArgs());
+            }
+        }
         static RolesModel()
         {
-            Dependency.manager.ListenTable("PagesList", PagesListChanged);
-
-            PageAdded += (sender, e) =>
+            PageChanged += (sender, e)=>
             {
-                PageItem newItem = sender as PageItem;
-                //Добавим страницу для всех отображённых ролей
+                PageItem item = sender as PageItem;
                 for (int i = 0; i < RoleList.Count; i++)
-                    RoleList[i].Rights.Add(new PageRoleItem(newItem.ID, newItem.PageName, false));
-            };
-            PageChanged += (sender, e) => 
-            {
-                PageItem newItem = sender as PageItem;
-                //Назначим для всех отображённых ролей
-                for (int i = 0; i < RoleList.Count; i++)
-                    RoleList[i].Rights.FirstOrDefault(x => x.PageID == newItem.ID).PageName = newItem.PageName;
-            };
-            PageDeleted += (sender, e) =>
-            {
-                PageItem newItem = sender as PageItem;
-                //Удалим данную страницу у всех отображённых прав
-                for (int i = 0; i < RoleList.Count; i++)
-                    RoleList[i].Rights.Remove(RoleList[i].Rights.FirstOrDefault(x => x.PageID == newItem.ID));
+                {
+                    PageRoleItem roleitem = RoleList[i].Rights.FirstOrDefault(x => x.PageID == item.ID);
+                    roleitem.pageName = item.pageName;
+                    roleitem.OnPropertyChanged("PageName");
+                }
             };
         }
 
@@ -87,6 +222,10 @@ namespace RestourantDesktop.Windows.Pages.RoleManager
 
             if (RoleList == null)
                 await GetRolesList();
+
+            Dependency.manager.ListenTable("PagesList", PagesListChanged);
+            Dependency.manager.ListenTable("Roles", RoleListChanged);
+            Dependency.manager.ListenTable("RightRole", PageRoleListChanged);
         }
 
         /// <summary>
@@ -281,8 +420,6 @@ namespace RestourantDesktop.Windows.Pages.RoleManager
                 }
             }
             catch (Exception) { /*TODO Сообщение об ошибке*/ }
-
-            RoleChanged?.Invoke(role , new EventArgs());
         }
 
         /// <summary>
@@ -307,9 +444,6 @@ namespace RestourantDesktop.Windows.Pages.RoleManager
                 }
             }
             catch (Exception) { /*TODO Сообщение об ошибке*/ return; }
-
-            RoleList.Remove(item);
-            RoleDeleted?.Invoke(item, new EventArgs());
         }
 
         /// <summary>
@@ -332,13 +466,6 @@ namespace RestourantDesktop.Windows.Pages.RoleManager
                 }
             }
             catch (Exception) { /*TODO Сообщение об ошибке*/ return; }
-
-            List<PageRoleItem> rights = new List<PageRoleItem>();
-            for (int i = 0; i < PagesList.Count; i++)
-                rights.Add(new PageRoleItem(PagesList[i].ID, PagesList[i].PageName, false));
-            RoleList.Add(new RoleItem(newIndex, "", rights));
-
-            RoleAdded?.Invoke(RoleList.Last(), new EventArgs());
         }
     }
 }

@@ -61,7 +61,7 @@
                     <ItemsControl ItemsSource="{Binding RolesList}" HorizontalContentAlignment="Stretch">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
-                                <GroupBox Header="{Binding RoleName}" KeyDown="RoleName_KeyDown" Margin="5" Background="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=res:Generic,ResourceId=GroupBoxBackColor_2}}"
+                                <GroupBox Header="{Binding RoleName, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" KeyDown="RoleName_KeyDown" Margin="5" Background="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=res:Generic,ResourceId=GroupBoxBackColor_2}}"
                                      Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=res:Generic,ResourceId=GroupBoxBlack}}">
                                     <GroupBox.HeaderTemplate>
                                         <DataTemplate>
@@ -78,9 +78,10 @@
                                                             <ColumnDefinition Width="1*"/>
                                                             <ColumnDefinition Width="20"/>
                                                         </Grid.ColumnDefinitions>
-                                                        <TextBlock Grid.Column="0" Text="{Binding PageName}" Margin="5,0,0,0"
-                                                               Foreground="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=res:Generic,ResourceId=FontColorFocused}}"/>
-                                                        <CheckBox Grid.Column="1" IsChecked="{Binding IsCan}" Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=res:Generic,ResourceId=CheckBoxBlack}}"/>
+                                                        <TextBlock Grid.Column="0" Text="{Binding PageName, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" Margin="5,0,0,0"
+                                                                Foreground="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=res:Generic,ResourceId=FontColorFocused}}"/>
+                                                        <CheckBox Grid.Column="1" IsChecked="{Binding IsCan, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                                Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=res:Generic,ResourceId=CheckBoxBlack}}"/>
                                                     </Grid>
                                                 </DataTemplate>
                                             </ItemsControl.ItemTemplate>

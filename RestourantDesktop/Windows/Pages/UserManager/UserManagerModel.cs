@@ -9,77 +9,81 @@ using System.Collections.Generic;
 using System.Linq;
 using RestourantDesktop.Windows.Pages.RoleManager;
 using RestourantDesktop.Windows.Pages.RoleManager.Items;
-using System.Runtime.CompilerServices;
+using RestourantDesktop.Database;
+using DependencyChecker;
 
 namespace RestourantDesktop.Windows.Pages.UserManager
 {
     internal static class UserManagerModel
     {
-        public static event EventHandler<EventArgs> PositionChanged;
         public static event EventHandler<EventArgs> PositionDeleted;
         public static event EventHandler<EventArgs> PositionAdded;
+
+        public static event EventHandler<EventArgs> UserDeleted;
+        public static event EventHandler<EventArgs> UserAdded;
+
+        public static event EventHandler<EventArgs> UserRoleAdded;
+        public static event EventHandler<EventArgs> UserRoleDeleted;
 
         public static ObservableCollection<PositionItem> PositionsList { get; private set; }
         public static ObservableCollection<UserItem> UsersList { get; private set; }
 
-        public static async Task InitModel()
+        /// <summary>
+        /// Handling changes from the database
+        /// </summary>
+        /// <param name="sender">Listener object <see cref="DBchangeListener"/></param>
+        /// <param name="e">Message data</param>
+        private static void PositionsListChanged(object sender, DBchangeListener.DbChangeEventArgs e)
+        {
+            foreach (var item in e.Deleted)
+            {
+
+            }
+
+            foreach (var item in e.Inserted)
+            {
+
+            }
+        }
+        
+        /// <summary>
+        /// Handling changes from the database
+        /// </summary>
+        /// <param name="sender">Listener object <see cref="DBchangeListener"/></param>
+        /// <param name="e">Message data</param>
+        private static void UserListChanged(object sender, DBchangeListener.DbChangeEventArgs e)
+        {
+            foreach (var item in e.Deleted)
+            {
+
+            }
+
+            foreach (var item in e.Inserted)
+            {
+
+            }
+        }
+        /// <summary>
+        /// Handling changes from the database
+        /// </summary>
+        /// <param name="sender">Listener object <see cref="DBchangeListener"/></param>
+        /// <param name="e">Message data</param>
+        private static void UserRolesChanged(object sender, DBchangeListener.DbChangeEventArgs e)
+        {
+            foreach (var item in e.Deleted)
+            {
+
+            }
+
+            foreach (var item in e.Inserted)
+            {
+
+            }
+        }
+
+        public static async Task InitModelAsync()
         {
             await RolesModel.InitModel();
-
-            RolesModel.RoleAdded += (sender,e) =>
-            {
-                RoleItem item = sender as RoleItem;
-                for (int i = 0; i < UsersList.Count; i++)
-                    UsersList[i].Roles.Add(new UserRoleItem(UsersList[i].UserID, item.roleID, item.RoleName, false));
-            };
-            RolesModel.RoleDeleted += (sender, e) =>
-            {
-                RoleItem item = sender as RoleItem;
-                for (int i = 0; i < UsersList.Count; i++)
-                    UsersList[i].Roles.Remove(UsersList[i].Roles.FirstOrDefault(x => x.RoleID == item.roleID));
-            };
-            RolesModel.RoleChanged += (sender, e) =>
-            {
-                RoleItem item = sender as RoleItem;
-                for (int i = 0; i < UsersList.Count; i++)
-                    UsersList[i].Roles.FirstOrDefault(x => x.RoleID == item.roleID).RoleName = item.RoleName;
-            };
-
-            PositionAdded += (sender, e) =>
-            {
-                for (int i = 0; i < UsersList.Count; i++)
-                {
-                    UsersList[i].OnPropertyChanged("Positions");
-                    UsersList[i].OnPropertyChanged("SelectedPosItem");
-                }
-            };
-            PositionDeleted += (sender, e) =>
-            {
-                PositionItem item = sender as PositionItem;
-                //Удалим всех пользователей с этой ролью
-                for (int i = 0; i < UsersList.Count; i++)
-                {
-                    if (UsersList[i].SelectedPosItem.ID == item.ID)
-                    {
-                        UsersList.Remove(UsersList[i]);
-                        i--;
-                    }
-                }
-                PositionsList.Remove(item);
-                for (int i = 0; i < UsersList.Count; i++)
-                {
-                    UsersList[i].OnPropertyChanged("Positions");
-                    UsersList[i].OnPropertyChanged("SelectedPosItem");
-                }
-            };
-            PositionChanged += (sender, e) =>
-            {
-                for (int i = 0; i < UsersList.Count; i++)
-                {
-                    UsersList[i].OnPropertyChanged("Positions");
-                    UsersList[i].OnPropertyChanged("SelectedPosItem");
-                }
-            };
 
             UsersList = new ObservableCollection<UserItem>();
             DataTable users = new DataTable();
@@ -120,7 +124,6 @@ namespace RestourantDesktop.Windows.Pages.UserManager
                 PositionsList.Add(new PositionItem(ID, roleName, Salary));
             }
 
-            //TODO: список ролей пользователя
             for (int i = 0; i < users.Rows.Count; i++)
             {
                 int ID = Convert.ToInt32(users.Rows[i]["ID"]);
@@ -139,9 +142,12 @@ namespace RestourantDesktop.Windows.Pages.UserManager
                    
                     UserRolesList.Add(new UserRoleItem(ID, item.roleID, item == null ? "" : item.RoleName, Convert.ToBoolean(roles[j]["IsCan"])));
                 }
-
-                UsersList.Add(new UserItem(ID, login, passport, FullName, PhoneNumber, pos, UserRolesList));
+                UsersList.Add(new UserItem(ID, login, passport, FullName, PhoneNumber, pos,UserRolesList));
             }
+
+            Dependency.manager.ListenTable("Positions", PositionsListChanged);
+            Dependency.manager.ListenTable("EmployeeUsers", UserListChanged);
+            Dependency.manager.ListenTable("UserRoles", UserRolesChanged);
         }
 
         public static async Task UpdatePositionAsync(PositionItem item)
@@ -163,8 +169,6 @@ namespace RestourantDesktop.Windows.Pages.UserManager
                 }
             }
             catch (Exception) { /*TODO Сообщение об ошибке*/ return; }
-
-            PositionChanged?.Invoke(item, new EventArgs());
         }
         
         public static async Task DeletePositionAsync(PositionItem item)
@@ -184,8 +188,6 @@ namespace RestourantDesktop.Windows.Pages.UserManager
                 }
             }
             catch (Exception) { /*TODO Сообщение об ошибке*/ return; }
-
-            PositionDeleted?.Invoke(item, new EventArgs());
         }
         
         public static async Task AddNewEmptyPositionAsync()
@@ -204,10 +206,6 @@ namespace RestourantDesktop.Windows.Pages.UserManager
                 }
             }
             catch (Exception) { /*TODO Сообщение об ошибке*/ return; }
-
-            PositionItem newitem = new PositionItem(newIndex, "", 0);
-            PositionsList.Add(newitem);
-            PositionAdded?.Invoke(newitem, new EventArgs());
         }
 
         public static async Task ChangeUserStatsAsync(UserItem item)
@@ -255,7 +253,7 @@ namespace RestourantDesktop.Windows.Pages.UserManager
             UsersList.Remove(item);
         }
         
-        public static async Task ChangeUserRole(UserRoleItem item)
+        public static async Task ChangeUserRoleAsync(UserRoleItem item)
         {
             try
             {
@@ -276,9 +274,27 @@ namespace RestourantDesktop.Windows.Pages.UserManager
             catch (Exception) { /*TODO Сообщение об ошибке*/ return; }
         }
 
-        public static async Task AddNewEmptyUserAsync()
-        { 
-            //TODO: это отдельной формой которая будет плавно вылезать снизу
+        public static async Task AddNewUserAsync(string login, string fullName, string passport, string phoneNumber, PositionItem selectedPos)
+        {
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["AdminConnectionString"].ConnectionString))
+                {
+                    await connection.OpenAsync();
+                    using (SqlCommand command = new SqlCommand("CreateEmployeeUser", connection))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.Parameters.Add(new SqlParameter("@login", login));
+                        command.Parameters.Add(new SqlParameter("@fullName", fullName));
+                        command.Parameters.Add(new SqlParameter("@passport", passport));
+                        command.Parameters.Add(new SqlParameter("@phoneNum", phoneNumber));
+                        command.Parameters.Add(new SqlParameter("@posID", selectedPos.ID));
+
+                        await command.ExecuteNonQueryAsync();
+                    }
+                }
+            }
+            catch (Exception) { /*TODO Сообщение об ошибке*/ return; }
         }
     }
 }

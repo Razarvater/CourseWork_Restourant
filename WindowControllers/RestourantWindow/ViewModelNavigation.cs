@@ -200,7 +200,10 @@ namespace WindowControllers
             get
             {
                 if (ContentPageType != null && pageContent == null)
+                {
                     pageContent = (UserControl)Activator.CreateInstance(ContentPageType);
+                    return pageContent;
+                }
 
                 return pageContent;
             }

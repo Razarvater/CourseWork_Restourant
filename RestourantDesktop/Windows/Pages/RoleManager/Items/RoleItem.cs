@@ -8,7 +8,7 @@ namespace RestourantDesktop.Windows.Pages.RoleManager.Items
     {
         public int roleID;
 
-        private string roleName;
+        public string roleName;
         public string RoleName
         { 
             get => roleName;
@@ -56,7 +56,7 @@ namespace RestourantDesktop.Windows.Pages.RoleManager.Items
                 Rights[i].RoleID = ID;
 
             this.roleID = ID;
-            this.RoleName = Role;
+            this.roleName = Role;
         }
     }
 
@@ -66,7 +66,7 @@ namespace RestourantDesktop.Windows.Pages.RoleManager.Items
 
         public int PageID;
 
-        private string pageName;
+        public string pageName;
         public string PageName
         {
             get => pageName;
@@ -77,7 +77,7 @@ namespace RestourantDesktop.Windows.Pages.RoleManager.Items
             }
         }
 
-        private bool isCan;
+        public bool isCan;
         public bool IsCan
         {
             get => isCan;
@@ -96,7 +96,7 @@ namespace RestourantDesktop.Windows.Pages.RoleManager.Items
         public PageRoleItem(int ID, string PageName, bool PageStatusForRole)
         {
             this.PageID = ID;
-            this.PageName = PageName;
+            this.pageName = PageName;
             this.isCan = PageStatusForRole;
         }
     }

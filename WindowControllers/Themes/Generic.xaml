@@ -349,7 +349,7 @@
                             <Setter TargetName="Yes1" Property="Visibility" Value="Hidden"/>
                             <Setter TargetName="Yes2" Property="Visibility" Value="Hidden"/>
                         </Trigger>
-                        
+
                         <Trigger Property="IsPressed" Value="true">
                             <Setter TargetName="Border" Property="Background" Value="#d9d9d9"/>
                             <Setter TargetName="Border" Property="BorderThickness" Value="1.5"/>
@@ -359,7 +359,7 @@
             </Setter.Value>
         </Setter>
     </Style>
-
+    
     <!--Тёмная Button-->
     <Style x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type lc:Generic}, ResourceId=BlackButton}" TargetType="{x:Type Button}">
         <Setter Property="Template">
@@ -436,7 +436,40 @@
             </Setter.Value>
         </Setter>
     </Style>
-    
+
+
+    <!--GroupBox для выпадающего меню-->
+    <Style x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type lc:Generic}, ResourceId=GroupBoxDropMenu}" TargetType="{x:Type GroupBox}"
+           BasedOn="{StaticResource {ComponentResourceKey TypeInTargetAssembly=lc:Generic, ResourceId=GroupBoxBlack}}">
+        <Setter Property="Height" Value="0"/>
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding IsMenuOpened}" Value="True">
+                <DataTrigger.EnterActions>
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetProperty="Height" To="150" Duration="0:0:1.4">
+                                <DoubleAnimation.EasingFunction>
+                                    <CubicEase/>
+                                </DoubleAnimation.EasingFunction>
+                            </DoubleAnimation>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </DataTrigger.EnterActions>
+                <DataTrigger.ExitActions>
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetProperty="Height" To="0" Duration="0:0:1.4">
+                                <DoubleAnimation.EasingFunction>
+                                    <CubicEase/>
+                                </DoubleAnimation.EasingFunction>
+                            </DoubleAnimation>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </DataTrigger.ExitActions>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
     <!--Кнопки справа сверху(Менеджмент окна)-->
     <Style x:Key="ManageButton" TargetType="{x:Type Button}">
         <Setter Property="Background" Value="Transparent"/>

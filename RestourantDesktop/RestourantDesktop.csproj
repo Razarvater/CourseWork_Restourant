@@ -71,6 +71,7 @@
     </Compile>
     <Compile Include="Windows\Pages\RoleManager\RolesModel.cs" />
     <Compile Include="Windows\Pages\RoleManager\ViewModelRoles.cs" />
+    <Compile Include="Windows\Pages\UserManager\CreateUserViewModel.cs" />
     <Compile Include="Windows\Pages\UserManager\Items\PositionItem.cs" />
     <Compile Include="Windows\Pages\UserManager\Items\UserItem.cs" />
     <Compile Include="Windows\Pages\UserManager\UserManagerModel.cs" />
