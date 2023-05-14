@@ -22,7 +22,7 @@ namespace RestourantDesktop.Windows.Pages.UserManager.Items
             }
         }
 
-        private string positionName;
+        public string positionName;
         /// <summary>
         /// Имя должности
         /// </summary>
@@ -40,7 +40,7 @@ namespace RestourantDesktop.Windows.Pages.UserManager.Items
             }
         }
 
-        private double salary;
+        public double salary;
         public double Salary
         { 
             get => salary;

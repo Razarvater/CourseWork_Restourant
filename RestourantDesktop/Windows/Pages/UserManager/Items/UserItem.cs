@@ -1,7 +1,6 @@
 ﻿using mvvm;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Windows.Input;
 
 namespace RestourantDesktop.Windows.Pages.UserManager.Items
 {
@@ -9,7 +8,7 @@ namespace RestourantDesktop.Windows.Pages.UserManager.Items
     {
         public int UserID;
 
-        private string login;
+        public string login;
         public string Login
         {
             get => login;
@@ -23,7 +22,7 @@ namespace RestourantDesktop.Windows.Pages.UserManager.Items
             }
         }
         
-        private string fullName;
+        public string fullName;
         public string FullName
         {
             get => fullName;
@@ -37,7 +36,7 @@ namespace RestourantDesktop.Windows.Pages.UserManager.Items
             }
         }
 
-        private string passport;
+        public string passport;
         public string Passport
         {
             get => passport;
@@ -51,7 +50,7 @@ namespace RestourantDesktop.Windows.Pages.UserManager.Items
             }
         }
         
-        private string phoneNum;
+        public string phoneNum;
         public string PhoneNum
         {
             get => phoneNum;
@@ -141,7 +140,7 @@ namespace RestourantDesktop.Windows.Pages.UserManager.Items
             }
         }
 
-        private bool isCan;
+        public bool isCan;
         public bool IsCan
         {
             get => isCan;

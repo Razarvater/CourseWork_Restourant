@@ -11,18 +11,23 @@ using RestourantDesktop.Windows.Pages.RoleManager;
 using RestourantDesktop.Windows.Pages.RoleManager.Items;
 using RestourantDesktop.Database;
 using DependencyChecker;
+using System.Runtime.CompilerServices;
+using System.Windows.Controls;
 
 namespace RestourantDesktop.Windows.Pages.UserManager
 {
     internal static class UserManagerModel
     {
         public static event EventHandler<EventArgs> PositionDeleted;
+        public static event EventHandler<EventArgs> PositionChanged;
         public static event EventHandler<EventArgs> PositionAdded;
 
         public static event EventHandler<EventArgs> UserDeleted;
+        public static event EventHandler<EventArgs> UserChanged;
         public static event EventHandler<EventArgs> UserAdded;
 
         public static event EventHandler<EventArgs> UserRoleAdded;
+        public static event EventHandler<EventArgs> UserRoleChanged;
         public static event EventHandler<EventArgs> UserRoleDeleted;
 
         public static ObservableCollection<PositionItem> PositionsList { get; private set; }
@@ -35,14 +40,46 @@ namespace RestourantDesktop.Windows.Pages.UserManager
         /// <param name="e">Message data</param>
         private static void PositionsListChanged(object sender, DBchangeListener.DbChangeEventArgs e)
         {
-            foreach (var item in e.Deleted)
-            {
-
-            }
-
+            List<int> updated = new List<int>();
             foreach (var item in e.Inserted)
             {
+                item.TryGetValue("ID", out object value);
+                int ID = Convert.ToInt32(value);
+                
+                item.TryGetValue("Name", out value);
+                string PosName = Convert.ToString(value);
 
+                item.TryGetValue("Salary", out value);
+                double Salary = Convert.ToDouble(value);
+                
+                PositionItem UpdatedItem = PositionsList.FirstOrDefault(x => x.ID == ID);
+                if (UpdatedItem == null)
+                {
+                    updated.Add(ID);
+                    UpdatedItem.salary = Salary;
+                    UpdatedItem.positionName = PosName;
+                    UpdatedItem.OnPropertyChanged("Salary");
+                    UpdatedItem.OnPropertyChanged("PositionName");
+                    PositionChanged?.Invoke(UpdatedItem, new EventArgs());
+                }
+                else
+                {
+                    PositionItem NewPosition = new PositionItem(ID, PosName, Salary);
+                    PositionsList.Add(NewPosition);
+                    PositionAdded?.Invoke(NewPosition, new EventArgs());
+                }
+            }
+
+            foreach (var item in e.Deleted)
+            {
+                item.TryGetValue("ID", out object value);
+                int ID = Convert.ToInt32(value);
+
+                if (updated.Contains(ID)) continue;
+
+                PositionItem DeletedItem = PositionsList.FirstOrDefault(x => x.ID == ID);
+                PositionsList.Remove(DeletedItem);
+                PositionDeleted?.Invoke(DeletedItem, new EventArgs());
             }
         }
         
@@ -53,16 +90,83 @@ namespace RestourantDesktop.Windows.Pages.UserManager
         /// <param name="e">Message data</param>
         private static void UserListChanged(object sender, DBchangeListener.DbChangeEventArgs e)
         {
-            foreach (var item in e.Deleted)
-            {
-
-            }
-
+            List<int> updated = new List<int>();
             foreach (var item in e.Inserted)
             {
+                item.TryGetValue("ID", out object value);
+                int UserID = Convert.ToInt32(value);
+                item.TryGetValue("Login", out value);
+                string Login = Convert.ToString(value);
+                item.TryGetValue("FullName", out value);
+                string FullName = Convert.ToString(value);
+                item.TryGetValue("Passport", out value);
+                string Passport = Convert.ToString(value);
+                item.TryGetValue("PhoneNum", out value);
+                string PhoneNum = Convert.ToString(value);
+                item.TryGetValue("Position_ID", out value);
+                int PositionID = Convert.ToInt32(value);
+                PositionItem PosItem = PositionsList.FirstOrDefault(x => x.ID == PositionID);
 
+                UserItem updatedItem = UsersList.FirstOrDefault(x => x.UserID == UserID);
+                if (updatedItem == null)
+                {
+                    List<UserRoleItem> Roles = new List<UserRoleItem>();
+                    for (int i = 0; i < RolesModel.RoleList.Count; i++)
+                        Roles.Add(new UserRoleItem(UserID, RolesModel.RoleList[i].roleID, RolesModel.RoleList[i].RoleName, false));
+                    
+                    UserItem newItem = new UserItem(UserID, Login, Passport, FullName, PhoneNum, PosItem, Roles);
+                    UserAdded?.Invoke(newItem, new EventArgs());
+
+                    IEnumerable<(int, int, bool)> cache = CachedUserRolesListItems.Where(x => x.Item1 == UserID);
+                    if (cache.Count() != 0)
+                    {
+                        foreach (var cachedItem in cache)
+                        {
+                            UserRoleItem userRoleItem = newItem.Roles.FirstOrDefault(x => x.RoleID == cachedItem.Item2);
+                            userRoleItem.isCan = cachedItem.Item3;
+                            userRoleItem.OnPropertyChanged("IsCan");
+                            UserRoleChanged?.Invoke(userRoleItem, new EventArgs());
+                        }
+                        for (int i = 0; i < CachedUserRolesListItems.Count; i++)
+                        {
+                            if (CachedUserRolesListItems[i].Item1 == UserID)
+                            {
+                                CachedUserRolesListItems.RemoveAt(i);
+                                i--;
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    updated.Add(UserID);
+                    updatedItem.login = Login;
+                    updatedItem.fullName = FullName;
+                    updatedItem.passport = Passport;
+                    updatedItem.phoneNum = PhoneNum;
+                    updatedItem.selectedPosItem = PosItem;
+                    updatedItem.OnPropertyChanged("Login");
+                    updatedItem.OnPropertyChanged("FullName");
+                    updatedItem.OnPropertyChanged("Passport");
+                    updatedItem.OnPropertyChanged("PhoneNum");
+                    updatedItem.OnPropertyChanged("SelectedPosItem");
+                    
+                    UserChanged?.Invoke(updated, new EventArgs());
+                }
+            }
+            foreach (var item in e.Deleted)
+            {
+                item.TryGetValue("ID", out object value);
+                int UserID = Convert.ToInt32(value);
+                if (updated.Contains(UserID)) continue;
+
+                UserItem deletedItem = UsersList.FirstOrDefault(x=>x.UserID == UserID);
+                UsersList.Remove(deletedItem);
+                UserDeleted?.Invoke(deletedItem, new EventArgs());
             }
         }
+
+        private static List<(int, int, bool)> CachedUserRolesListItems = new List<(int, int, bool)>();
         /// <summary>
         /// Handling changes from the database
         /// </summary>
@@ -70,21 +174,72 @@ namespace RestourantDesktop.Windows.Pages.UserManager
         /// <param name="e">Message data</param>
         private static void UserRolesChanged(object sender, DBchangeListener.DbChangeEventArgs e)
         {
-            foreach (var item in e.Deleted)
-            {
-
-            }
-
+            List<(int, int)> updated = new List<(int, int)>();
             foreach (var item in e.Inserted)
             {
+                item.TryGetValue("User_ID", out object value);
+                int UserID = Convert.ToInt32(value);
+                item.TryGetValue("Role_ID", out value);
+                int RoleID = Convert.ToInt32(value);
+                item.TryGetValue("IsCan", out value);
+                bool IsCan = Convert.ToInt32(value) == 1;
 
+                UserItem userItem = UsersList.FirstOrDefault(x => x.UserID == UserID);
+                if (userItem == null)
+                {
+                    CachedUserRolesListItems.Add((UserID, RoleID, IsCan));
+                    continue;
+                }
+
+                UserRoleItem UserRoleItem = userItem.Roles.FirstOrDefault(x => x.RoleID == RoleID);
+
+                if (UserRoleItem == null)
+                {
+                    UserRoleItem NewItem = new UserRoleItem(UserID, RoleID, RolesModel.RoleList.FirstOrDefault(x => x.roleID == RoleID).RoleName ,IsCan);
+                    userItem.Roles.Add(NewItem);
+                    UserRoleAdded?.Invoke(NewItem, new EventArgs());
+                }
+                else
+                {
+                    updated.Add((UserID, RoleID));
+                    UserRoleItem.isCan = IsCan;
+                    UserRoleItem.OnPropertyChanged("IsCan");
+                    UserRoleChanged?.Invoke(UserRoleItem, new EventArgs());
+                }
+            }
+
+            foreach (var item in e.Deleted)
+            {
+                item.TryGetValue("User_ID", out object value);
+                int UserID = Convert.ToInt32(value);
+                item.TryGetValue("Role_ID", out value);
+                int RoleID = Convert.ToInt32(value);
+
+                if (updated.Contains((UserID, RoleID))) continue;
+                UserItem userItem = UsersList.FirstOrDefault(x => x.UserID == UserID);
+                if (userItem == null) continue;
+                UserRoleItem DeletedItem = userItem.Roles.FirstOrDefault(x => x.RoleID == RoleID);
+                if (DeletedItem == null) continue;
+
+                userItem.Roles.Remove(DeletedItem);
+                UserRoleDeleted?.Invoke(DeletedItem,new EventArgs());
             }
         }
 
         public static async Task InitModelAsync()
         {
+            if (UsersList != null) return;
             await RolesModel.InitModel();
 
+            RolesModel.RoleChanged += (sender, e) =>
+            {
+                RoleItem ChangedRole = sender as RoleItem;
+                for (int i = 0; i < UsersList.Count; i++)
+                {
+                    UserRoleItem Changed = UsersList[i].Roles.FirstOrDefault(x=>x.RoleID == ChangedRole.roleID);
+                    Changed.RoleName = ChangedRole.roleName;
+                }
+            };
             UsersList = new ObservableCollection<UserItem>();
             DataTable users = new DataTable();
             DataTable UserRoles = new DataTable();

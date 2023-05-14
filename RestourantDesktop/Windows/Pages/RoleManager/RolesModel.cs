@@ -9,8 +9,6 @@ using System.Threading.Tasks;
 using System.Linq;
 using RestourantDesktop.Database;
 using DependencyChecker;
-using System.Runtime.CompilerServices;
-using System.Windows.Controls;
 
 namespace RestourantDesktop.Windows.Pages.RoleManager
 {
