@@ -11,8 +11,7 @@ using RestourantDesktop.Windows.Pages.RoleManager;
 using RestourantDesktop.Windows.Pages.RoleManager.Items;
 using RestourantDesktop.Database;
 using DependencyChecker;
-using System.Runtime.CompilerServices;
-using System.Windows.Controls;
+using RestourantDesktop.UserController;
 
 namespace RestourantDesktop.Windows.Pages.UserManager
 {
@@ -450,6 +449,27 @@ namespace RestourantDesktop.Windows.Pages.UserManager
                 }
             }
             catch (Exception) { /*TODO Сообщение об ошибке*/ return; }
+        }
+        
+        public static async Task ChangeUserPasswordAsync(UserItem item)
+        {
+            try
+            {
+                (string HashedPassword, string salt) data = await UserController.UserController.CalculateNewPassword(item.Password);
+
+                /*using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["AdminConnectionString"].ConnectionString))
+                {
+                    await connection.OpenAsync();
+                    using (SqlCommand command = new SqlCommand("ChangeUserPassword", connection))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.Parameters.Add(new SqlParameter("@password", data.HashedPassword));
+                        command.Parameters.Add(new SqlParameter("@salt", data.salt));
+                        await command.ExecuteNonQueryAsync();
+                    }
+                }*/
+            }
+            catch (Exception) { /*TODO: Сообщение об ошибке*/ return; }
         }
     }
 }

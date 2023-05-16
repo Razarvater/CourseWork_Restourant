@@ -24,6 +24,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -64,6 +65,8 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Database\Dependency.cs" />
+    <Compile Include="UserController\UserController.cs" />
+    <Compile Include="UserController\UserKrypt.cs" />
     <Compile Include="Windows\Pages\RoleManager\Items\PageItem.cs" />
     <Compile Include="Windows\Pages\RoleManager\Items\RoleItem.cs" />
     <Compile Include="Windows\Pages\RoleManager\RoleManagerPage.xaml.cs">

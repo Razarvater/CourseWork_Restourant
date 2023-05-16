@@ -21,7 +21,27 @@ namespace RestourantDesktop.Windows.Pages.UserManager.Items
                 ChangeUserStats();
             }
         }
-        
+
+        private string password;
+        public string Password
+        {
+            get => password;
+            set
+            {
+                //TODO: Диалог с пользователем точно ли он хочет сменить пароль
+                if (true)
+                {
+                    password = value;
+                    ChangeUserPassword();
+                }
+                else
+                {
+                    password = password;
+                }
+                OnPropertyChanged();
+            }
+        }
+
         public string fullName;
         public string FullName
         {
@@ -104,6 +124,7 @@ namespace RestourantDesktop.Windows.Pages.UserManager.Items
         }
 
         private async void ChangeUserStats() => await UserManagerModel.ChangeUserStatsAsync(this);
+        private async void ChangeUserPassword() => await UserManagerModel.ChangeUserPasswordAsync(this);
 
         public UserItem(int ID, string login, string passport,string FullName, string phoneNumber, PositionItem position, IEnumerable<UserRoleItem> items)
         {
