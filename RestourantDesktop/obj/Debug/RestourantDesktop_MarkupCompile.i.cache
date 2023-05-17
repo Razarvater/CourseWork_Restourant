@@ -10,11 +10,11 @@ none
 false
 DEBUG;TRACE
 E:\Курсач\Приложуха\Restourant\CourseWork_Restourant\RestourantDesktop\App.xaml
-3-1708834712
+4-1852314487
 
-201379940724
+25766876781
 18-83447787
-Windows\MainWindow.xaml;Windows\Pages\RoleManager\RoleManagerPage.xaml;Windows\Pages\UserManager\UserManagerPage.xaml;
+Windows\Pages\Auth\MainPage.xaml;Windows\MainWindow.xaml;Windows\Pages\RoleManager\RoleManagerPage.xaml;Windows\Pages\UserManager\UserManagerPage.xaml;
 
-False
+True
 

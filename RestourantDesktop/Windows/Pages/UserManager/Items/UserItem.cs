@@ -33,10 +33,11 @@ namespace RestourantDesktop.Windows.Pages.UserManager.Items
                 {
                     password = value;
                     ChangeUserPassword();
+                    password = string.Empty;
                 }
                 else
                 {
-                    password = password;
+                    password = string.Empty;
                 }
                 OnPropertyChanged();
             }

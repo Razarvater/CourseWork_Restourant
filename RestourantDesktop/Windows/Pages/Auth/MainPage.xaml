@@ -1,0 +1,36 @@
+﻿<UserControl x:Class="RestourantDesktop.DialogManager.Dialogs.AuthorizeDialog.Pages.MainPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:RestourantDesktop.DialogManager.Dialogs.AuthorizeDialog.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="350" d:DesignWidth="450"
+      xmlns:res="clr-namespace:WindowControllers.Themes;assembly=WindowControllers">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.2*"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="0.2*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.8*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="0.4*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
+
+        <GroupBox Header="Логин" Grid.Row="1" Grid.Column="1" Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=res:Generic ,ResourceId=GroupBoxBlack}}">
+            <TextBox Margin="5" Text="{Binding Login, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" MaxLength="100" KeyDown="RoleName_KeyDown"
+                Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=res:Generic, ResourceId=TextBoxBlack}}" VerticalAlignment="Center"/>
+        </GroupBox>
+        <GroupBox Header="Пароль" Grid.Row="3" Grid.Column="1" Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=res:Generic ,ResourceId=GroupBoxBlack}}">
+            <TextBox Margin="5" Text="{Binding Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" KeyDown="RoleName_KeyDown"
+                Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=res:Generic, ResourceId=TextBoxBlack}}"
+                VerticalAlignment="Center"/>
+        </GroupBox>
+        <Button Grid.Row="4" Grid.Column="1" Margin="10" Padding="10" HorizontalAlignment="Right" Content="Войти" VerticalAlignment="Top"
+                Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=res:Generic, ResourceId=BlackButton}}" Command="{Binding AuthCommand}"/>
+    </Grid>
+</UserControl>

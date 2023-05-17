@@ -14,13 +14,13 @@ namespace RestourantDesktop.UserController
             await Task.Run(() =>
             {
                 Random rnd = new Random();
-                byte[] saltBytes = new byte[rnd.Next(8, 16)];
-                using (RandomNumberGenerator rng = RandomNumberGenerator.Create())
+                int lng = rnd.Next(8, 16);
+                byte[] saltBytes = new byte[lng];
+                using (RNGCryptoServiceProvider rng = new RNGCryptoServiceProvider())
                 {
                     rng.GetBytes(saltBytes);
                 }
-
-                Salt = BitConverter.ToString(saltBytes).Replace("-", "");
+                Salt = Convert.ToBase64String(saltBytes).Substring(0, lng);
             });
 
             return Salt;

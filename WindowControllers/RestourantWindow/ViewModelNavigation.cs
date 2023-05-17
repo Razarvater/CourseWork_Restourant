@@ -65,7 +65,12 @@ namespace WindowControllers
                         break;
 
                     case MenuMode.None:
-                        IsMenuOn = false;
+                        {
+                            IsMenuOn = false;
+                            if (tabsList.Count <= 0) return;
+
+                            SelectedPage = tabsList.First().PageContent;
+                        }
                         break;
                 }
             }

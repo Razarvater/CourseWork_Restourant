@@ -65,6 +65,13 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Database\Dependency.cs" />
+    <Compile Include="DialogManager\DialogManager.cs" />
+    <Compile Include="Windows\Pages\Auth\Auth.cs" />
+    <Compile Include="Windows\Pages\Auth\MainPage.xaml.cs">
+      <DependentUpon>MainPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\Pages\Auth\ViewModel.cs" />
+    <Compile Include="UserController\User.cs" />
     <Compile Include="UserController\UserController.cs" />
     <Compile Include="UserController\UserKrypt.cs" />
     <Compile Include="Windows\Pages\RoleManager\Items\PageItem.cs" />
@@ -82,6 +89,10 @@
       <DependentUpon>UserManagerPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\Pages\UserManager\ViewModelUsers.cs" />
+    <Page Include="Windows\Pages\Auth\MainPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Windows\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -143,6 +154,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Images\Background.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="DialogManager\Dialogs\AuthorizeDialog\Pages\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

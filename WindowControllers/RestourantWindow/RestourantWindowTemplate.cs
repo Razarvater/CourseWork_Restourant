@@ -36,7 +36,11 @@ namespace WindowControllers
         private void InitializeComponent()
         {
             //Задание дефолтного стиля для окна
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(RestourantWindowTemplate), new FrameworkPropertyMetadata(typeof(RestourantWindowTemplate)));
+            try
+            {
+               DefaultStyleKeyProperty.OverrideMetadata(typeof(RestourantWindowTemplate), new FrameworkPropertyMetadata(typeof(RestourantWindowTemplate)));
+            }
+            catch (Exception) { }
         }
 
         private void RestourantWindowTemplate_StateChanged(object sender, EventArgs e)

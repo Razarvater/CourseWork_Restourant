@@ -371,7 +371,7 @@
                                 <DropShadowEffect BlurRadius="10" Color="Black" Opacity="0.35" ShadowDepth="1"/>
                             </Border.Effect>
                         </Border>
-                        <Label x:Name="txt" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="11" SnapsToDevicePixels="True"
+                        <Label x:Name="txt" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="11" SnapsToDevicePixels="True" Padding="{TemplateBinding Padding}"
                                Foreground="{StaticResource ResourceKey={ComponentResourceKey TypeInTargetAssembly=lc:Generic,ResourceId=FontColorNotFocused}}" Content="{TemplateBinding Content}"/>
                         <!--Label заглушка, для того, чтобы лог раземры кнопки были постоянны-->
                         <Label x:Name="txt_2" VerticalAlignment="Center" Visibility="Hidden" HorizontalAlignment="Center" FontSize="11" SnapsToDevicePixels="True"
@@ -597,8 +597,6 @@
     <Style TargetType="local:RestourantWindowTemplate">
         <Setter Property="AllowsTransparency" Value="True"/>
         <Setter Property="WindowStyle" Value="None"/>
-        <Setter Property="MinWidth" Value="800"/>
-        <Setter Property="MinHeight" Value="450"/>
 
         <Setter Property="WindowState" Value="{Binding WindowStateM, UpdateSourceTrigger=PropertyChanged}"/>
         <Setter Property="ResizeMode" Value="{Binding ResMode, UpdateSourceTrigger=PropertyChanged}"/>
@@ -611,7 +609,7 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Window}">
                     <Border BorderBrush="{TemplateBinding BorderBrush}" Background="{StaticResource {ComponentResourceKey TypeInTargetAssembly=lc:Generic,ResourceId=MenuBackNotFocused}}"
-                            BorderThickness="{TemplateBinding BorderThickness}">
+                            BorderThickness="{TemplateBinding BorderThickness}" MinWidth="{TemplateBinding MinWidth}" MinHeight="{TemplateBinding MinHeight}">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto" />
