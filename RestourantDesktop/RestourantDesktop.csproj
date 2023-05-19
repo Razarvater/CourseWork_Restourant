@@ -65,7 +65,6 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Database\Dependency.cs" />
-    <Compile Include="DialogManager\DialogManager.cs" />
     <Compile Include="Windows\Pages\Auth\Auth.cs" />
     <Compile Include="Windows\Pages\Auth\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
@@ -155,8 +154,6 @@
   <ItemGroup>
     <Resource Include="Resources\Images\Background.png" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="DialogManager\Dialogs\AuthorizeDialog\Pages\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

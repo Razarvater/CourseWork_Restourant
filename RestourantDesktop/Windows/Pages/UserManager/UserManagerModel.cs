@@ -49,7 +49,7 @@ namespace RestourantDesktop.Windows.Pages.UserManager
                 string PosName = Convert.ToString(value);
 
                 item.TryGetValue("Salary", out value);
-                double Salary = Convert.ToDouble(value);
+                double Salary = Convert.ToDouble(value.ToString().Replace('.', ','));
                 
                 PositionItem UpdatedItem = PositionsList.FirstOrDefault(x => x.ID == ID);
                 if (UpdatedItem == null)
@@ -300,8 +300,9 @@ namespace RestourantDesktop.Windows.Pages.UserManager
             }
 
             Dependency.manager.ListenTable("Positions", PositionsListChanged);
-            Dependency.manager.ListenTable("EmployeeUsers", UserListChanged);
-            Dependency.manager.ListenTable("UserRoles", UserRolesChanged);
+
+            Dependency.EmployeeUsersChangedEvent += (sender, e) => UserListChanged(sender, e);
+            Dependency.UserRolesChangedEvent += (sender, e) => UserRolesChanged(sender, e);
         }
 
         public static async Task UpdatePositionAsync(PositionItem item)

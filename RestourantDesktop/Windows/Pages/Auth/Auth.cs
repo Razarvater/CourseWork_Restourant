@@ -6,9 +6,7 @@ namespace RestourantDesktop.DialogManager.Dialogs.AuthorizeDialog.Pages
     {
         public static event EventHandler<bool> authEvent;
 
-        public static void SendAuth(bool result)
-        {
+        public static void SendAuth(bool result) =>
             authEvent?.Invoke(null, result);
-        }
     }
 }

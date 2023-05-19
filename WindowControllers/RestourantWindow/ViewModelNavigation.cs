@@ -14,7 +14,7 @@ namespace WindowControllers
     {
         private Dock selectedMenu;
         /// <summary>
-        /// Выбранное меню
+        /// Выбранное меню Mode
         /// </summary>
         public Dock SelectedMenu
         {
@@ -99,7 +99,7 @@ namespace WindowControllers
                 OnPropertyChanged();
             }
         }
-        private MenuItem lastSelected = null;
+        public MenuItem lastSelected = null;
 
         private ObservableCollection<MenuItem> tabsList = new ObservableCollection<MenuItem>();
         /// <summary>

@@ -211,6 +211,10 @@ namespace RestourantDesktop.Windows.Pages.RoleManager
                     roleitem.OnPropertyChanged("PageName");
                 }
             };
+
+            Dependency.RoleRightChangedEvent += (sender, e) => PageRoleListChanged(sender, e);
+            Dependency.RoleChangedEvent += (sender, e) => RoleListChanged(sender, e);
+            Dependency.PagesChangedEvent += (sender, e) => PagesListChanged(sender, e);
         }
 
         public static async Task InitModel()

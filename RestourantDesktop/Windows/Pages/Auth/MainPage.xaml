@@ -16,16 +16,16 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="0.8*"/>
             <RowDefinition Height="1*"/>
-            <RowDefinition Height="0.4*"/>
+            <RowDefinition Height="20"/>
             <RowDefinition Height="1*"/>
             <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
 
-        <GroupBox Header="Логин" Grid.Row="1" Grid.Column="1" Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=res:Generic ,ResourceId=GroupBoxBlack}}">
+        <GroupBox Header="Логин" Grid.Row="1" Grid.Column="1" VerticalAlignment="Bottom" Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=res:Generic ,ResourceId=GroupBoxBlack}}">
             <TextBox Margin="5" Text="{Binding Login, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" MaxLength="100" KeyDown="RoleName_KeyDown"
                 Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=res:Generic, ResourceId=TextBoxBlack}}" VerticalAlignment="Center"/>
         </GroupBox>
-        <GroupBox Header="Пароль" Grid.Row="3" Grid.Column="1" Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=res:Generic ,ResourceId=GroupBoxBlack}}">
+        <GroupBox Header="Пароль" Grid.Row="3" Grid.Column="1" VerticalAlignment="Top" Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=res:Generic ,ResourceId=GroupBoxBlack}}">
             <TextBox Margin="5" Text="{Binding Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" KeyDown="RoleName_KeyDown"
                 Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=res:Generic, ResourceId=TextBoxBlack}}"
                 VerticalAlignment="Center"/>

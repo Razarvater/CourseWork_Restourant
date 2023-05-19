@@ -9,7 +9,9 @@ namespace RestourantDesktop.UserController
     internal static class UserController
     {
         public static User AuthorizedUser;
-
+        public static event EventHandler AuthorizedUserStatsChangedEvent;
+        public static void AuthorizedUserStatsChanged() => 
+            AuthorizedUserStatsChangedEvent?.Invoke(new object(), new EventArgs());
         public static async Task<bool> TryAuthorizeUser(string password, string login)
         {
             string UserToken = string.Empty;
@@ -45,9 +47,31 @@ namespace RestourantDesktop.UserController
             catch (Exception) { /*TODO Сообщение об ошибке*/ }
 
             if (UserToken != string.Empty)
-                AuthorizedUser = new User() { UserSessionToken = UserToken };
+            {
+                AuthorizedUser = new User() { UserID = UserToken };
+                AuthorizedUser.GetUserPagesList();
+            }
 
             return AuthorizedUser != null;
+        }
+
+        public static async Task<DataTable> GetPagesListAsync(string UserID)
+        {
+            DataTable returnDT = new DataTable();
+            try
+            {
+                await Task.Run(() =>
+                {
+                    using (SqlDataAdapter adapter = new SqlDataAdapter("EXEC GetUserPagesList @UserID", ConfigurationManager.ConnectionStrings["AdminConnectionString"].ConnectionString))
+                    {
+                        adapter.SelectCommand.Parameters.Add(new SqlParameter("@UserID", UserID));
+                        adapter.Fill(returnDT);
+                    }
+                });
+            }
+            catch (Exception) { /*TODO Сообщение об ошибке*/ }
+
+            return returnDT;
         }
 
         public static async Task<(string HashedPassword, string salt)> CalculateNewPassword(string password)
