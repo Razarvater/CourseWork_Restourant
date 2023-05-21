@@ -1,4 +1,5 @@
 ﻿using RestourantDesktop.DialogManager.Dialogs.AuthorizeDialog.Pages;
+using RestourantDesktop.Windows.Pages.ProductDishesManager;
 using RestourantDesktop.Windows.Pages.RoleManager;
 using RestourantDesktop.Windows.Pages.UserManager;
 using System;
@@ -22,6 +23,8 @@ namespace RestourantDesktop
             UserController.UserController.AuthorizedUserStatsChangedEvent += PagesListChanged;
             pagesList.Add("Роли", new MenuItem("Роли", typeof(RoleManagerPage), new Icon(this.GetType(), "Resources.Images.Admin.ico")));
             pagesList.Add("Пользователи", new MenuItem("Пользователи", typeof(UserManagerPage), new Icon(this.GetType(), "Resources.Images.Admin.ico")));
+            pagesList.Add("Кухня", new MenuItem("Кухня", typeof(ProductDishesManager), new Icon(this.GetType(), "Resources.Images.Admin.ico")));
+            pagesList.Add("Авторизация", new MenuItem("Авторизация", typeof(MainPage), new Icon(this.GetType(), "Resources.Images.Admin.ico")));
         }
 
         private void PagesListChanged(object sender, EventArgs e)
@@ -32,7 +35,6 @@ namespace RestourantDesktop
                 if (pagesList.TryGetValue(item, out MenuItem pageValue))
                     tempCollection.Add(pageValue);
             }
-
             ObservableCollection<MenuItem> deleteList = new ObservableCollection<MenuItem>();
             foreach (MenuItem item in vm.TabsList)
             {
@@ -56,18 +58,13 @@ namespace RestourantDesktop
                 if(!vm.TabsList.Contains(item))
                     vm.TabsList.Add(item);
             }
-           
+            
         }
 
         private void OpenAuthMenu()
         {
             vm.TabsList.Clear();
             vm.TabsList.Add(new MenuItem("Авторизация", typeof(MainPage), new Icon(this.GetType(), "Resources.Images.Admin.ico")));
-        }
-
-        private void UserAuth(object a, bool e)
-        {
-            if(!e) this.Close();
         }
     }
 }

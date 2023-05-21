@@ -52,7 +52,7 @@ namespace RestourantDesktop.Windows.Pages.UserManager
                 double Salary = Convert.ToDouble(value.ToString().Replace('.', ','));
                 
                 PositionItem UpdatedItem = PositionsList.FirstOrDefault(x => x.ID == ID);
-                if (UpdatedItem == null)
+                if (UpdatedItem != null)
                 {
                     updated.Add(ID);
                     UpdatedItem.salary = Salary;

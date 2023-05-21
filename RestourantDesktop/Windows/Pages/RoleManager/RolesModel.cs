@@ -50,6 +50,27 @@ namespace RestourantDesktop.Windows.Pages.RoleManager
                     PageItem insertedItem = new PageItem(ID, Name);
                     PagesList.Add(insertedItem);
                     PageAdded?.Invoke(insertedItem, new EventArgs());
+                    //IEnumerable<(int, int, bool)> cache = CachedPageRoleListItems.Where(x => x.Item1 == ID);
+                    //if (cache.Count() != 0)
+                    //{
+                    //    foreach (var cachedItem in cache)
+                    //    {
+                    //        PageRoleItem pageRoleItem = insertedItem.Rights.FirstOrDefault(x => x.PageID == cachedItem.Item2);
+                    //        pageRoleItem.isCan = cachedItem.Item3;
+                    //        pageRoleItem.OnPropertyChanged("IsCan");
+                    //        RightRoleChanged?.Invoke(pageRoleItem, new EventArgs());
+                    //    }
+
+                    //    for (int i = 0; i < CachedPageRoleListItems.Count; i++)
+                    //    {
+                    //        if (CachedPageRoleListItems[i].Item1 == ID)
+                    //        {
+                    //            CachedPageRoleListItems.RemoveAt(i);
+                    //            i--;
+                    //        }
+                    //    }
+                    //}
+
                 }
                 else
                 {
@@ -91,7 +112,7 @@ namespace RestourantDesktop.Windows.Pages.RoleManager
                 {
                     List<PageRoleItem> rights = new List<PageRoleItem>();
                     for (int i = 0; i < PagesList.Count; i++)
-                        rights.Add(new PageRoleItem(PagesList[i].ID, PagesList[i].PageName, false));
+                        rights.Add(new PageRoleItem(PagesList[i].ID, ID, PagesList[i].PageName, false));
                     RoleItem newRole = new RoleItem(ID, RoleName, rights);
 
                     RoleList.Add(newRole);
@@ -157,19 +178,18 @@ namespace RestourantDesktop.Windows.Pages.RoleManager
                 bool IsCan = Convert.ToInt32(value) == 1;
 
                 RoleItem roleItem = RoleList.FirstOrDefault(x => x.roleID == RoleID);
-
+                PageItem pageItem = PagesList.FirstOrDefault(x => x.ID == PageID);
                 //The trigger for adding linking records can work out earlier than the Listener,
                 //so we remove the received data in the cache if there is no such user yet
-                if (roleItem == null)
+                if (roleItem == null || pageItem == null)
                 {
                     CachedPageRoleListItems.Add((RoleID, PageID, IsCan));
                     continue;
                 }
-                PageRoleItem pageRoleItem = roleItem.Rights.FirstOrDefault(x=>x.PageID == PageID);
-
+                PageRoleItem pageRoleItem = roleItem.Rights.FirstOrDefault(x => x.PageID == PageID);
                 if (pageRoleItem == null)
                 {
-                    PageRoleItem newItem = new PageRoleItem(PageID, PagesList.FirstOrDefault(x => x.ID == PageID).PageName, IsCan);
+                    PageRoleItem newItem = new PageRoleItem(PageID, roleItem.roleID, pageItem.PageName, IsCan);
                     roleItem.Rights.Add(newItem);
                     RightRoleAdded?.Invoke(newItem, new EventArgs());
                 }
@@ -224,10 +244,6 @@ namespace RestourantDesktop.Windows.Pages.RoleManager
 
             if (RoleList == null)
                 await GetRolesList();
-
-            Dependency.manager.ListenTable("PagesList", PagesListChanged);
-            Dependency.manager.ListenTable("Roles", RoleListChanged);
-            Dependency.manager.ListenTable("RightRole", PageRoleListChanged);
         }
 
         /// <summary>
@@ -268,7 +284,7 @@ namespace RestourantDesktop.Windows.Pages.RoleManager
                     {
                         int CurrentPageID = Convert.ToInt32(pageRoles[j]["Page_ID"]);
                         PageItem page = PagesList.FirstOrDefault(x => x.ID == CurrentPageID);
-                        rights.Add(new PageRoleItem(CurrentPageID, page.PageName, Convert.ToBoolean(pageRoles[j]["IsCan"])));
+                        rights.Add(new PageRoleItem(CurrentPageID, ID, page.PageName, Convert.ToBoolean(pageRoles[j]["IsCan"])));
                     }
 
                     RoleList.Add(new RoleItem(ID, roleName, rights));

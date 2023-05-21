@@ -93,9 +93,10 @@ namespace RestourantDesktop.Windows.Pages.RoleManager.Items
 
         private async void ChangeRight() => await RolesModel.ChangeRight(this);
 
-        public PageRoleItem(int ID, string PageName, bool PageStatusForRole)
+        public PageRoleItem(int ID, int RoleID, string PageName, bool PageStatusForRole)
         {
             this.PageID = ID;
+            this.RoleID = RoleID;
             this.pageName = PageName;
             this.isCan = PageStatusForRole;
         }

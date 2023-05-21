@@ -29,10 +29,10 @@ namespace RestourantDesktop.UserController
             Dependency.PagesChangedEvent -= (sender, e) => GetUserPagesList();
         }
 
-        public async void GetUserPagesList()
+        public void GetUserPagesList()
         {
             PagesListForUser.Clear();
-            DataTable pages = await UserController.GetPagesListAsync(UserID);
+            DataTable pages = UserController.GetPagesListAsync(UserID);
 
             for (int i = 0; i < pages.Rows.Count; i++)
                 PagesListForUser.Add(pages.Rows[i]["PageName"].ToString());

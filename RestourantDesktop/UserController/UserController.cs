@@ -55,19 +55,16 @@ namespace RestourantDesktop.UserController
             return AuthorizedUser != null;
         }
 
-        public static async Task<DataTable> GetPagesListAsync(string UserID)
+        public static DataTable GetPagesListAsync(string UserID)
         {
             DataTable returnDT = new DataTable();
             try
             {
-                await Task.Run(() =>
+                using (SqlDataAdapter adapter = new SqlDataAdapter("EXEC GetUserPagesList @UserID", ConfigurationManager.ConnectionStrings["AdminConnectionString"].ConnectionString))
                 {
-                    using (SqlDataAdapter adapter = new SqlDataAdapter("EXEC GetUserPagesList @UserID", ConfigurationManager.ConnectionStrings["AdminConnectionString"].ConnectionString))
-                    {
-                        adapter.SelectCommand.Parameters.Add(new SqlParameter("@UserID", UserID));
-                        adapter.Fill(returnDT);
-                    }
-                });
+                    adapter.SelectCommand.Parameters.Add(new SqlParameter("@UserID", UserID));
+                    adapter.Fill(returnDT);
+                }
             }
             catch (Exception) { /*TODO Сообщение об ошибке*/ }
 
