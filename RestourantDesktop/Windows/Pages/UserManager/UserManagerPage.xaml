@@ -56,9 +56,9 @@
                                             <ColumnDefinition Width="140"/>
                                             <ColumnDefinition Width="70"/>
                                         </Grid.ColumnDefinitions>
-                                        <TextBox Margin="5" Text="{Binding PositionName, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" MaxLength="50" KeyDown="RoleName_KeyDown"
+                                        <TextBox Margin="5" Text="{Binding PositionName, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" MaxLength="50" KeyDown="TextBoxKeyValidator"
                                             Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=res:Generic, ResourceId=TextBoxBlack}}"/>
-                                        <TextBox Margin="5" Grid.Column="1" Text="{Binding Salary, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" MaxLength="10" KeyDown="RoleName_KeyDown"
+                                        <TextBox Margin="5" Grid.Column="1" Text="{Binding Salary, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" MaxLength="10" KeyDown="TextBoxKeyValidator"
                                             Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=res:Generic, ResourceId=TextBoxBlack}}"/>
                                         <Button Content="Удалить" Margin="5" Grid.Column="2" Command="{Binding DeletePageCommand}"
                                                     Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=res:Generic, ResourceId=BlackButton}}"/>
@@ -75,7 +75,7 @@
         <DockPanel Grid.Column="2" Grid.Row="1" Margin="10,0,0,0">
             <GroupBox x:Name="CreateUser_Menu" DockPanel.Dock="Bottom" Header="Создание пользователя"
                       Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=res:Generic ,ResourceId=GroupBoxDropMenu}}">
-                <GroupBox Header="{Binding RedLogin}" KeyDown="RoleName_KeyDown" Margin="5" Background="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=res:Generic,ResourceId=GroupBoxBackColor_2}}"
+                <GroupBox Header="{Binding RedLogin}" KeyDown="TextBoxKeyValidator" Margin="5" Background="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=res:Generic,ResourceId=GroupBoxBackColor_2}}"
                                         Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=res:Generic,ResourceId=GroupBoxBlack}}">
                     <GroupBox.HeaderTemplate>
                         <DataTemplate>
@@ -133,7 +133,7 @@
                         <ItemsControl ItemsSource="{Binding Users}" HorizontalContentAlignment="Stretch">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
-                                    <GroupBox Header="{Binding Login}" KeyDown="RoleName_KeyDown" Margin="5" Background="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=res:Generic,ResourceId=GroupBoxBackColor_2}}"
+                                    <GroupBox Header="{Binding Login}" KeyDown="TextBoxKeyValidator" Margin="5" Background="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=res:Generic,ResourceId=GroupBoxBackColor_2}}"
                                         Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=res:Generic,ResourceId=GroupBoxBlack}}">
                                         <GroupBox.HeaderTemplate>
                                             <DataTemplate>
