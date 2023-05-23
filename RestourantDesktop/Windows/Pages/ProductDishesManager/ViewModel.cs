@@ -1,19 +1,18 @@
 ﻿using mvvm;
 using RestourantDesktop.Windows.Pages.ProductDishesManager.Items;
 using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 
 namespace RestourantDesktop.Windows.Pages.ProductDishesManager
 {
     internal class ViewModel : NotifyPropertyChanged
     {
-        public ObservableCollection<ProductItem> Products { get; set; }
+        public ObservableCollection<ProductItem> Products { get => ProductsModel.products; }
 
-        public ViewModel()
-        {
-            Products = new ObservableCollection<ProductItem>
-            {
-                new ProductItem(0, "ааа", "C:\\Users\\risma\\OneDrive\\Bureau\\БД.png", 10)
-            };
+        public async Task InitModel()
+        { 
+            await ProductsModel.InitModel();
+            OnPropertyChanged(nameof(Products));
         }
     }
 }

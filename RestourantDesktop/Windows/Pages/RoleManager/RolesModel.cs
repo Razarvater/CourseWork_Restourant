@@ -50,27 +50,6 @@ namespace RestourantDesktop.Windows.Pages.RoleManager
                     PageItem insertedItem = new PageItem(ID, Name);
                     PagesList.Add(insertedItem);
                     PageAdded?.Invoke(insertedItem, new EventArgs());
-                    //IEnumerable<(int, int, bool)> cache = CachedPageRoleListItems.Where(x => x.Item1 == ID);
-                    //if (cache.Count() != 0)
-                    //{
-                    //    foreach (var cachedItem in cache)
-                    //    {
-                    //        PageRoleItem pageRoleItem = insertedItem.Rights.FirstOrDefault(x => x.PageID == cachedItem.Item2);
-                    //        pageRoleItem.isCan = cachedItem.Item3;
-                    //        pageRoleItem.OnPropertyChanged("IsCan");
-                    //        RightRoleChanged?.Invoke(pageRoleItem, new EventArgs());
-                    //    }
-
-                    //    for (int i = 0; i < CachedPageRoleListItems.Count; i++)
-                    //    {
-                    //        if (CachedPageRoleListItems[i].Item1 == ID)
-                    //        {
-                    //            CachedPageRoleListItems.RemoveAt(i);
-                    //            i--;
-                    //        }
-                    //    }
-                    //}
-
                 }
                 else
                 {

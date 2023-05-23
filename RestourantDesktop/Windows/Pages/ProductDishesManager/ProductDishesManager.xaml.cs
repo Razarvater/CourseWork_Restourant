@@ -25,5 +25,10 @@ namespace RestourantDesktop.Windows.Pages.ProductDishesManager
                 FocusManager.SetFocusedElement(FocusManager.GetFocusScope(sender as DependencyObject), null);
             }
         }
+
+        private async void PageLoaded(object sender, RoutedEventArgs e)
+        {
+            await vm.InitModel();
+        }
     }
 }

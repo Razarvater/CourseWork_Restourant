@@ -77,6 +77,7 @@
     <Compile Include="Windows\Pages\ProductDishesManager\ProductDishesManager.xaml.cs">
       <DependentUpon>ProductDishesManager.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Windows\Pages\ProductDishesManager\ProductsModel.cs" />
     <Compile Include="Windows\Pages\ProductDishesManager\ViewModel.cs" />
     <Compile Include="Windows\Pages\RoleManager\Items\PageItem.cs" />
     <Compile Include="Windows\Pages\RoleManager\Items\RoleItem.cs" />
