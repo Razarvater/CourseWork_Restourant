@@ -41,5 +41,61 @@ namespace RestourantDesktop.Windows.Pages.ProductDishesManager
             catch (Exception) {/*TODO: Сообщение об ошибке*/ }            
         }
 
+        public static async Task UpdateProduct(ProductItem item)
+        {
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["AdminConnectionString"].ConnectionString))
+                {
+                    await connection.OpenAsync();
+                    using (SqlCommand command = new SqlCommand("ChangeProduct", connection))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.Parameters.Add(new SqlParameter("@id", item.ID));
+                        command.Parameters.Add(new SqlParameter("@productName", item.ProductName));
+                        command.Parameters.Add(new SqlParameter("@picture", item.Picture));
+                        command.Parameters.Add(new SqlParameter("@count", item.ProductCount));
+
+                        await command.ExecuteNonQueryAsync();
+                    }
+                }
+            }
+            catch (Exception) { /*TODO Сообщение об ошибке*/ }
+        }
+
+        public static async Task CreateNewProductAsync()
+        {
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["AdminConnectionString"].ConnectionString))
+                {
+                    await connection.OpenAsync();
+                    using (SqlCommand command = new SqlCommand("CreateProduct", connection))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        await command.ExecuteNonQueryAsync();
+                    }
+                }
+            }
+            catch (Exception) { /*TODO Сообщение об ошибке*/ }
+        }
+
+        public static async Task DeleteProductAsync(ProductItem item)
+        {
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["AdminConnectionString"].ConnectionString))
+                {
+                    await connection.OpenAsync();
+                    using (SqlCommand command = new SqlCommand("DeleteProduct", connection))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.Parameters.Add(new SqlParameter("@id", item.ID));
+                        await command.ExecuteNonQueryAsync();
+                    }
+                }
+            }
+            catch (Exception) { /*TODO Сообщение об ошибке*/ }
+        }
     }
 }

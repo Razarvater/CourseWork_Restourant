@@ -9,6 +9,25 @@ namespace RestourantDesktop.Windows.Pages.ProductDishesManager
     {
         public ObservableCollection<ProductItem> Products { get => ProductsModel.products; }
 
+        private Command addNewProductCommand;
+        public Command AddNewProductCommand
+        {
+            get => addNewProductCommand;
+            set
+            { 
+                addNewProductCommand = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public ViewModel()
+        {
+            addNewProductCommand = new Command
+            (
+                async (obj) => await ProductsModel.CreateNewProductAsync()
+            );
+        }
+
         public async Task InitModel()
         { 
             await ProductsModel.InitModel();

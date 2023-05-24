@@ -15,6 +15,8 @@ namespace RestourantDesktop.Windows.Pages.ProductDishesManager.Items
             {
                 picture = value;
                 OnPropertyChanged();
+
+                Changestats();
             }
         }
 
@@ -26,6 +28,8 @@ namespace RestourantDesktop.Windows.Pages.ProductDishesManager.Items
             { 
                 productName = value;
                 OnPropertyChanged();
+
+                Changestats();
             }
         }
 
@@ -37,6 +41,8 @@ namespace RestourantDesktop.Windows.Pages.ProductDishesManager.Items
             {
                 productCount = value;
                 OnPropertyChanged();
+
+                Changestats();
             }
         }
 
@@ -51,12 +57,31 @@ namespace RestourantDesktop.Windows.Pages.ProductDishesManager.Items
             }
         }
 
+        private Command deleteProductCommand;
+        public Command DeleteProductCommand
+        {
+            get => deleteProductCommand;
+            set
+            {
+                deleteProductCommand = value;
+                OnPropertyChanged();
+            }
+        }
+
+
+        private async void Changestats() => await ProductsModel.UpdateProduct(this);
+
         public ProductItem(int ID, string ProductName, string Picture, double ProductCount)
         {
             this.ID = ID;
             this.productName = ProductName;
             this.picture = Picture;
             this.productCount = ProductCount;
+
+            DeleteProductCommand = new Command
+            (
+                async (obj) => await ProductsModel.DeleteProductAsync(this)
+            );
 
             getNewPicture = new Command
             (
