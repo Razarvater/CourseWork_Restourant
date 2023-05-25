@@ -7,7 +7,7 @@ namespace RestourantDesktop.Windows.Pages.ProductDishesManager.Items
     {
         public int ID { get; private set; }
 
-        private string picture;
+        public string picture;
         public string Picture
         {
             get => picture;
@@ -20,7 +20,7 @@ namespace RestourantDesktop.Windows.Pages.ProductDishesManager.Items
             }
         }
 
-        private string productName;
+        public string productName;
         public string ProductName
         {
             get => productName;
@@ -33,7 +33,7 @@ namespace RestourantDesktop.Windows.Pages.ProductDishesManager.Items
             }
         }
 
-        private double productCount;
+        public double productCount;
         public double ProductCount
         {
             get => productCount;

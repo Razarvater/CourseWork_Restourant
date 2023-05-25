@@ -1,16 +1,73 @@
-﻿using RestourantDesktop.Windows.Pages.ProductDishesManager.Items;
+﻿using DependencyChecker;
+using RestourantDesktop.Database;
+using RestourantDesktop.Windows.Pages.ProductDishesManager.Items;
 using System;
 using System.Collections.ObjectModel;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Threading.Tasks;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace RestourantDesktop.Windows.Pages.ProductDishesManager
 {
     internal static class ProductsModel
     {
         public static ObservableCollection<ProductItem> products = new ObservableCollection<ProductItem>();
+
+        public static event EventHandler<ProductItem> ProductChanged;
+        public static event EventHandler<ProductItem> ProductDeleted;
+        public static event EventHandler<ProductItem> ProductAdded;
+
+        public static void productListChanged(object sender, DBchangeListener.DbChangeEventArgs e)
+        {
+            List<int> updated = new List<int>();
+            foreach (var item in e.Inserted) 
+            {
+                item.TryGetValue("ID", out object value);
+                int ID = Convert.ToInt32(value);
+                item.TryGetValue("Name", out value);
+                string productName = value.ToString();
+                item.TryGetValue("ProductPicture", out value);
+                string productPicture = value.ToString();
+                item.TryGetValue("CountInStock", out value);
+                double CountInStock = Convert.ToDouble(value.ToString().Replace('.', ','));
+
+                ProductItem updatedItem = products.FirstOrDefault(x => x.ID == ID);
+                if (updatedItem == null)
+                {
+                    ProductItem newItem = new ProductItem(ID, productName, productPicture, CountInStock);
+                    products.Add(newItem);
+                    ProductAdded?.Invoke(null, newItem);
+                }
+                else
+                {
+                    updated.Add(ID);
+                    updatedItem.productName = productName;
+                    updatedItem.picture = productPicture;
+                    updatedItem.productCount = CountInStock;
+                    updatedItem.OnPropertyChanged("productName");
+                    updatedItem.OnPropertyChanged("picture");
+                    updatedItem.OnPropertyChanged("productCount");
+
+                    ProductChanged?.Invoke(null, updatedItem);
+                }
+            }
+
+            foreach (var item in e.Deleted)
+            {
+                item.TryGetValue("ID", out object value);
+                int ID = Convert.ToInt32(value);
+                if (updated.Contains(ID)) continue;
+
+                ProductItem deletedItem = products.FirstOrDefault(x => x.ID == ID);
+                if (deletedItem == null) continue;
+
+                products.Remove(deletedItem);
+                ProductDeleted?.Invoke(null, deletedItem);
+            }
+        }
 
         public static async Task InitModel()
         {
@@ -38,7 +95,9 @@ namespace RestourantDesktop.Windows.Pages.ProductDishesManager
                     products.Add(new ProductItem(ID, ProductName, Picture, ProductCount));
                 }
             }
-            catch (Exception) {/*TODO: Сообщение об ошибке*/ }            
+            catch (Exception) {/*TODO: Сообщение об ошибке*/ }
+
+            Dependency.manager.ListenTable("ProductsInStock", productListChanged);
         }
 
         public static async Task UpdateProduct(ProductItem item)
