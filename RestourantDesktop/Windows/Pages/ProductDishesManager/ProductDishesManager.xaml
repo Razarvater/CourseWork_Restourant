@@ -62,42 +62,86 @@
             </Grid>
         </GroupBox>
         <GroupBox Header="Блюда" Grid.Column="1" Margin="10" Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=res:Generic ,ResourceId=GroupBoxBlack}}">
-            <!--<Grid>
+            <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="1*"/>
                     <RowDefinition Height="35"/>
                 </Grid.RowDefinitions>
                 <ScrollViewer Grid.Row="0" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Margin="5,0,5,0"
                               Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=res:Generic, ResourceId=ScrollViewerBlack}}">
-                    <ItemsControl ItemsSource="{Binding RolesList}" HorizontalContentAlignment="Stretch">
+                    <ItemsControl ItemsSource="{Binding FoodList}" HorizontalContentAlignment="Stretch">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
-                                <GroupBox Header="{Binding RoleName, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" KeyDown="RoleName_KeyDown" Margin="5" Background="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=res:Generic,ResourceId=GroupBoxBackColor_2}}"
+                                <GroupBox Header="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" KeyDown="TextBoxKeyValidator" Margin="10" Background="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=res:Generic,ResourceId=GroupBoxBackColor_2}}"
                                      Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=res:Generic,ResourceId=GroupBoxBlack}}">
                                     <GroupBox.HeaderTemplate>
                                         <DataTemplate>
-                                            <TextBox Text="{Binding RelativeSource={RelativeSource AncestorType={x:Type GroupBox}}, Path=DataContext.RoleName, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" MaxLength="50"
-                                                 FontSize="12" Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=res:Generic, ResourceId=TextBoxBlack}}" MinWidth="100" HorizontalContentAlignment="Center"/>
+                                            <TextBox Text="{Binding RelativeSource={RelativeSource AncestorType={x:Type GroupBox}}, Path=DataContext.Name, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" MaxLength="50"
+                                                FontSize="12" Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=res:Generic, ResourceId=TextBoxBlack}}" MinWidth="100" HorizontalContentAlignment="Center"/>
                                         </DataTemplate>
                                     </GroupBox.HeaderTemplate>
                                     <DockPanel>
-                                        <ItemsControl DockPanel.Dock="Top" ItemsSource="{Binding Rights}" HorizontalContentAlignment="Stretch">
-                                            <ItemsControl.ItemTemplate>
-                                                <DataTemplate>
-                                                    <Grid>
-                                                        <Grid.ColumnDefinitions>
-                                                            <ColumnDefinition Width="1*"/>
-                                                            <ColumnDefinition Width="20"/>
-                                                        </Grid.ColumnDefinitions>
-                                                        <TextBlock Grid.Column="0" Text="{Binding PageName, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" Margin="5,0,0,0"
-                                                                Foreground="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=res:Generic,ResourceId=FontColorFocused}}"/>
-                                                        <CheckBox Grid.Column="1" IsChecked="{Binding IsCan, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                                                Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=res:Generic,ResourceId=CheckBoxBlack}}"/>
-                                                    </Grid>
-                                                </DataTemplate>
-                                            </ItemsControl.ItemTemplate>
-                                        </ItemsControl>
-                                        <Button Content="Удалить роль" Command="{Binding DeleteCommand}" Margin="0,5,0,0"
+                                        <Grid DockPanel.Dock="Top">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="1*"/>
+                                                <ColumnDefinition Width="100"/>
+                                                <ColumnDefinition Width="150"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="auto"/>
+                                                <RowDefinition Height="1*"/>
+                                            </Grid.RowDefinitions>
+                                            <TextBlock Text="Описание" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Center" Foreground="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=res:Generic,ResourceId=FontColorFocused}}"/>
+                                            <TextBlock Text="Цена" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" Foreground="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=res:Generic,ResourceId=FontColorFocused}}"/>
+                                            <TextBlock Text="Время приготовления" Grid.Row="0" Grid.Column="2" HorizontalAlignment="Center" Foreground="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=res:Generic,ResourceId=FontColorFocused}}"/>
+
+                                            <TextBox Grid.Row="1" Margin="5" Grid.Column="0" VerticalAlignment="Top" Text="{Binding Description, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" MaxLength="50" KeyDown="TextBoxKeyValidator"
+                                                Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=res:Generic, ResourceId=TextBoxBlack}}"/>
+                                            <TextBox Grid.Row="1" Margin="5" Grid.Column="1" VerticalAlignment="Top" Text="{Binding Cost, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" MaxLength="50" KeyDown="TextBoxKeyValidator"
+                                                Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=res:Generic, ResourceId=TextBoxBlack}}"/>
+                                            <TextBox Grid.Row="1" Margin="5" Grid.Column="2" VerticalAlignment="Top" Text="{Binding CookingTime, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" MaxLength="50" KeyDown="TextBoxKeyValidator"
+                                                Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=res:Generic, ResourceId=TextBoxBlack}}"/>
+                                        </Grid>
+
+                                        <GroupBox DockPanel.Dock="Top" Header="Изображения" Margin="10" Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=res:Generic ,ResourceId=GroupBoxBlack}}">
+                                            <DockPanel>
+                                                <ItemsControl DockPanel.Dock="Top" ItemsSource="{Binding Pictures}" MaxHeight="150" HorizontalContentAlignment="Stretch">
+                                                    <ItemsControl.ItemsPanel>
+                                                        <ItemsPanelTemplate>
+                                                            <VirtualizingStackPanel Orientation="Horizontal"/>
+                                                        </ItemsPanelTemplate>
+                                                    </ItemsControl.ItemsPanel>
+                                                    <ItemsControl.ItemTemplate>
+                                                        <DataTemplate>
+                                                            <GroupBox Margin="5" Grid.Row="0" Grid.RowSpan="2" Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=res:Generic,ResourceId=GroupBoxBlack}}">
+                                                                <StackPanel Orientation="Vertical">
+                                                                    <Image Source="{Binding Adress}" MinHeight="50" MaxHeight="100"/>
+                                                                    <Button Content="Удалить" Margin="1" Command="{Binding DeletePicture}"
+                                                                Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=res:Generic, ResourceId=BlackButton}}"/>
+                                                                </StackPanel>
+                                                            </GroupBox>
+                                                        </DataTemplate>
+                                                    </ItemsControl.ItemTemplate>
+                                                </ItemsControl>
+                                                <Button Content="Добавить изображение" Command="{Binding AddImage}" DockPanel.Dock="Top" Margin="0,5,0,0"
+                                                    Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=res:Generic, ResourceId=BlackButton}}"/>
+                                            </DockPanel>
+                                        </GroupBox>
+                                        
+                                        <GroupBox DockPanel.Dock="Top" Header="Ингридиенты" Margin="10" Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=res:Generic ,ResourceId=GroupBoxBlack}}">
+                                            <DockPanel>
+                                                <ItemsControl DockPanel.Dock="Top" ItemsSource="{Binding Products}" HorizontalContentAlignment="Stretch">
+                                                    <ItemsControl.ItemTemplate>
+                                                        <DataTemplate>
+
+                                                        </DataTemplate>
+                                                    </ItemsControl.ItemTemplate>
+                                                </ItemsControl>
+                                                <Button Content="Добавить Блюдо" Command="{Binding DeleteCommand}" Margin="0,5,0,0"
+                                                    Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=res:Generic, ResourceId=BlackButton}}"/>
+                                            </DockPanel>
+                                        </GroupBox>
+                                        <Button Content="Удалить Блюдо" Command="{Binding DeleteCommand}" Margin="0,5,0,0"
                                             Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=res:Generic, ResourceId=BlackButton}}"/>
                                     </DockPanel>
                                 </GroupBox>
@@ -105,9 +149,9 @@
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
                 </ScrollViewer>
-                <Button Content="Добавить роль" Grid.Row="1" Margin="5" Command="{Binding AddNewRoleCommand}"
+                <Button Content="Добавить Блюдо" Grid.Row="1" Margin="5" Command="{Binding AddNewDishCommand}"
                         Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=res:Generic, ResourceId=BlackButton}}"/>
-            </Grid>-->
+            </Grid>
         </GroupBox>
     </Grid>
 </UserControl>

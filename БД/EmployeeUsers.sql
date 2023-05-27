@@ -348,3 +348,35 @@ AS
 BEGIN
 	DELETE FROM [dbo].[ProductsInStock] WHERE [ID] = @id;
 END;
+--f
+CREATE PROC GetDishesList
+AS 
+BEGIN
+	SELECT * FROM [dbo].[Dishes];
+END;
+
+CREATE PROC ChangeDish
+	@id int,
+	@Name nvarchar(100),
+	@cost money,
+	@time int,
+	@description nvarchar(1024),
+	@pictures nvarchar(max)
+AS
+BEGIN
+	UPDATE [dbo].[Dishes] SET [Name] = @Name, [Cost] = @cost, [TimeCooking] = @time, [Description] = @description, [Pictures] = @pictures
+	WHERE [ID] = @id;
+END;
+
+CREATE PROC CreateDish
+AS
+BEGIN
+	INSERT INTO [dbo].[Dishes] VALUES ('', 0, 0, '', '');
+END;
+
+CREATE PROC DeleteDish
+	@id int
+AS
+BEGIN
+	DELETE FROM [dbo].[Dishes] WHERE [ID] = @id;
+END;

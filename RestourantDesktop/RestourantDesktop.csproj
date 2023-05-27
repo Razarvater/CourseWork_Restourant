@@ -73,6 +73,8 @@
     <Compile Include="UserController\User.cs" />
     <Compile Include="UserController\UserController.cs" />
     <Compile Include="UserController\UserKrypt.cs" />
+    <Compile Include="Windows\Pages\ProductDishesManager\DishesModel.cs" />
+    <Compile Include="Windows\Pages\ProductDishesManager\Items\DishItem.cs" />
     <Compile Include="Windows\Pages\ProductDishesManager\Items\ProductItem.cs" />
     <Compile Include="Windows\Pages\ProductDishesManager\ProductDishesManager.xaml.cs">
       <DependentUpon>ProductDishesManager.xaml</DependentUpon>

@@ -88,7 +88,7 @@ namespace RestourantDesktop.Windows.Pages.ProductDishesManager.Items
                 (obj) => 
                 {
                     OpenFileDialog dialog = new OpenFileDialog();
-                    dialog.Filter = "JPEG files (*.jpg)|*.jpg|PNG files (*.png)|*.png";
+                    dialog.Filter = "Images (*.bmp, *.jpg, *.png)|*.bmp;*.jpg;*.png";
                     if (!(bool)dialog.ShowDialog()) return;
                     this.Picture = dialog.FileName;
                 }
