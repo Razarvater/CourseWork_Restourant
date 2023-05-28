@@ -300,6 +300,24 @@ namespace RestourantDesktop.Windows.Pages.UserManager
 
             Dependency.manager.ListenTable("Positions", PositionsListChanged);
 
+
+            PositionChanged += (obj, e) =>
+            {
+                foreach (UserItem item in UsersList)
+                {
+                    if (item.SelectedPosItem.ID != (obj as PositionItem).ID) continue;
+
+                    var temp = item.SelectedPosItem;
+
+                    //Костыль, что-бы сменялось имя
+                    item.selectedPosItem = null;
+                    item.OnPropertyChanged(nameof(item.SelectedPosItem));
+                    item.selectedPosItem = temp;
+                    item.OnPropertyChanged(nameof(item.SelectedPosItem));
+                    item.OnPropertyChanged(nameof(item.Positions));
+                    break;
+                }
+            };
             Dependency.EmployeeUsersChangedEvent += (sender, e) => UserListChanged(sender, e);
             Dependency.UserRolesChangedEvent += (sender, e) => UserRolesChanged(sender, e);
         }

@@ -20,6 +20,8 @@ namespace RestourantDesktop.Windows.Pages.ProductDishesManager.Items
             }
         }
 
+        public string Name { get => productName; }
+
         public string productName;
         public string ProductName
         {
@@ -28,6 +30,7 @@ namespace RestourantDesktop.Windows.Pages.ProductDishesManager.Items
             { 
                 productName = value;
                 OnPropertyChanged();
+                OnPropertyChanged("Name");
 
                 Changestats();
             }

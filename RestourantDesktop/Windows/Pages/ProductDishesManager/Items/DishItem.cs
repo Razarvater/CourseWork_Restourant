@@ -216,9 +216,9 @@ namespace RestourantDesktop.Windows.Pages.ProductDishesManager.Items
     public class DishProductItem : NotifyPropertyChanged
     {
         public int ID { get; private set; }
+        public int Dish_ID { get; private set; }
 
         public string Picture { get => SelectedProduct == null ? "" : SelectedProduct.Picture; }
-
         public ObservableCollection<ProductItem> ProductItems { get => ProductsModel.products; } 
 
         public ProductItem selectedProduct;
@@ -260,10 +260,11 @@ namespace RestourantDesktop.Windows.Pages.ProductDishesManager.Items
         }
 
         private async void ChangeDishProduct() => await DishesModel.ChangeDishProductAsync(this);
-        public DishProductItem(int ID, double Count, ProductItem selectedProduct)
+        public DishProductItem(int ID,int Dish_ID, double Count, ProductItem selectedProduct)
         {
             this.ID = ID;
             this.count = Count;
+            this.Dish_ID = Dish_ID;
             this.selectedProduct = selectedProduct;
 
             DeleteDishProductCommand = new Command(async (obj) => await DishesModel.DeleteDishProductAsync(ID));

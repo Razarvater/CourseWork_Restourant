@@ -19,6 +19,10 @@ namespace RestourantDesktop.Windows.Pages.ProductDishesManager
         public static event EventHandler<DishItem> DishChanged;
         public static event EventHandler<DishItem> DishDeleted;
         public static event EventHandler<DishItem> DishAdded;
+        
+        public static event EventHandler<DishProductItem> DishProductChanged;
+        public static event EventHandler<DishProductItem> DishProductDeleted;
+        public static event EventHandler<DishProductItem> DishProductAdded;
 
         public static void DishListChanged(object sender, DBchangeListener.DbChangeEventArgs e)
         {
@@ -82,7 +86,67 @@ namespace RestourantDesktop.Windows.Pages.ProductDishesManager
 
         public static void DishProductListChanged(object sender, DBchangeListener.DbChangeEventArgs e)
         {
-            
+            List<(int ID, int dishID)> updated = new List<(int ID, int dishID)>();
+
+            foreach (var item in e.Inserted)
+            {
+                item.TryGetValue("ID", out object value);
+                int ID = Convert.ToInt32(value);
+                
+                item.TryGetValue("Dish_ID", out  value);
+                int DishID = Convert.ToInt32(value);
+
+                item.TryGetValue("Product_ID", out value);
+                int ProductID = Convert.ToInt32(value == null ? "" : value);
+
+                item.TryGetValue("Count", out value);
+                double.TryParse(value.ToString().Replace('.', ','), out double count);
+
+                DishItem dish = dishes.FirstOrDefault(x => x.ID == DishID);
+                if (dish == null) continue;
+
+                ProductItem product = ProductsModel.products.FirstOrDefault(x => x.ID == ProductID);
+
+                DishProductItem updatedItem = dish.Products.FirstOrDefault(x => x.ID == ID);
+                if (updatedItem == null)
+                {
+                    DishProductItem newItem = new DishProductItem(ID, DishID, count, product);
+                    dish.products.Add(newItem);
+                    DishProductAdded?.Invoke(null, newItem);
+                }
+                else
+                {
+                    updated.Add((ID, DishID));
+                    updatedItem.selectedProduct = product;
+                    updatedItem.count = count;
+                    updatedItem.OnPropertyChanged(nameof(updatedItem.Count));
+                    updatedItem.OnPropertyChanged(nameof(updatedItem.SelectedProduct));
+                    updatedItem.OnPropertyChanged(nameof(updatedItem.Picture));
+
+                    DishProductChanged?.Invoke(null, updatedItem);
+                }
+            }
+
+            foreach (var item in e.Deleted)
+            {
+                item.TryGetValue("ID", out object value);
+                int ID = Convert.ToInt32(value);
+
+                item.TryGetValue("Dish_ID", out value);
+                int DishID = Convert.ToInt32(value);
+
+                if (updated.Contains((ID, DishID))) continue;
+
+                DishItem dish = dishes.FirstOrDefault(x => x.ID == DishID);
+                if (dish == null) continue;
+
+                DishProductItem deletedItem = dish.Products.FirstOrDefault(x => x.ID == ID);
+                if (deletedItem == null) continue;
+
+                dish.products.Remove(deletedItem);
+
+                DishProductDeleted?.Invoke(null, deletedItem);
+            }
         }
 
         public static async Task InitModel()
@@ -133,7 +197,7 @@ namespace RestourantDesktop.Windows.Pages.ProductDishesManager
                         double Count = Convert.ToInt32(row["Count"]);
                         ProductItem product = ProductsModel.products.FirstOrDefault(x=>x.ID == ProductID);
                         
-                        DishProductItem newItem = new DishProductItem(link_ID, Count, product);
+                        DishProductItem newItem = new DishProductItem(link_ID, ID, Count, product);
 
                         added.Products.Add(newItem);
                     }
@@ -150,15 +214,21 @@ namespace RestourantDesktop.Windows.Pages.ProductDishesManager
                     {
                         if (row.selectedProduct.ID != e.ID) continue;
 
-                        row.OnPropertyChanged("SelectedProduct");
-                        row.OnPropertyChanged("Picture");
-                        row.OnPropertyChanged("ProductItems");
+                        var temp = row.SelectedProduct;
+
+                        //Костыль, что-бы сменялось имя
+                        row.selectedProduct = null;
+                        row.OnPropertyChanged(nameof(row.SelectedProduct));
+                        row.selectedProduct = temp;
+                        row.OnPropertyChanged(nameof(row.SelectedProduct));
+
+                        row.OnPropertyChanged(nameof(row.Picture));
                     }
                 }
             };
 
             Dependency.manager.ListenTable("Dishes", DishListChanged);
-            Dependency.manager.ListenTable("DishProductListChanged", DishListChanged);
+            Dependency.manager.ListenTable("ProductForDishes", DishProductListChanged);
         }
 
         public static async Task ChangeDishAsync(DishItem item)

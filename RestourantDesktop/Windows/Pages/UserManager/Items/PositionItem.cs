@@ -1,8 +1,5 @@
 ﻿using mvvm;
-using RestourantDesktop.Windows.Pages.RoleManager.Items;
-using RestourantDesktop.Windows.Pages.RoleManager;
 using System.Threading.Tasks;
-using System;
 
 namespace RestourantDesktop.Windows.Pages.UserManager.Items
 {
@@ -82,6 +79,6 @@ namespace RestourantDesktop.Windows.Pages.UserManager.Items
             DeletePageCommand = new Command(async (obj) => await UserManagerModel.DeletePositionAsync(this));
         }
 
-        public override string ToString() => positionName;
+        public override string ToString() => PositionName;
     }
 }
