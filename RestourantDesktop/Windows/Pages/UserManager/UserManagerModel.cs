@@ -11,7 +11,6 @@ using RestourantDesktop.Windows.Pages.RoleManager;
 using RestourantDesktop.Windows.Pages.RoleManager.Items;
 using RestourantDesktop.Database;
 using DependencyChecker;
-using RestourantDesktop.UserController;
 
 namespace RestourantDesktop.Windows.Pages.UserManager
 {

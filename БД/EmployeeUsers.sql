@@ -70,6 +70,7 @@ CREATE TABLE [dbo].[Dishes]
 
 CREATE TABLE [dbo].[ProductForDishes]
 (
+	[ID] int IDENTITY(1,1) PRIMARY KEY,
 	[Product_ID] int REFERENCES [dbo].[ProductsInStock]([ID]),
 	[Dish_ID] int REFERENCES [dbo].[Dishes]([ID]),
 	[Count] float NOT NULL DEFAULT 0
@@ -379,4 +380,33 @@ CREATE PROC DeleteDish
 AS
 BEGIN
 	DELETE FROM [dbo].[Dishes] WHERE [ID] = @id;
+END;
+--fff
+CREATE PROC GetDishesProductList
+AS 
+BEGIN
+	SELECT * FROM [dbo].[ProductForDishes];
+END;
+
+CREATE PROC ChangeDishesProduct
+	@ID int,
+	@count float,
+	@Product_ID int
+AS
+BEGIN
+	UPDATE [dbo].[ProductForDishes] SET [Count] = @count, [Product_ID] = @Product_ID WHERE [ID] = @ID
+END;
+
+CREATE PROC CreateDishesProduct
+	@Dish_ID int
+AS
+BEGIN
+	INSERT INTO [dbo].[ProductForDishes] ([Dish_ID],[Count]) VALUES (@Dish_ID, 0);
+END;
+
+CREATE PROC DeleteDishProduct
+	@ID int
+AS
+BEGIN
+	DELETE FROM [dbo].[ProductForDishes] WHERE [ID] = @ID;
 END;

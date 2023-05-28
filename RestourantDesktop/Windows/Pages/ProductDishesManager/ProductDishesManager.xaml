@@ -7,6 +7,15 @@
       xmlns:res="clr-namespace:WindowControllers.Themes;assembly=WindowControllers"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800" Loaded="PageLoaded">
+    <UserControl.Resources>
+        <ControlTemplate x:Key="validationFailed">
+            <StackPanel Orientation="Horizontal">
+                <Border BorderBrush="Transparent" BorderThickness="2">
+                    <AdornedElementPlaceholder />
+                </Border>
+            </StackPanel>
+        </ControlTemplate>
+    </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*"/>
@@ -67,7 +76,7 @@
                     <RowDefinition Height="1*"/>
                     <RowDefinition Height="35"/>
                 </Grid.RowDefinitions>
-                <ScrollViewer Grid.Row="0" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Margin="5,0,5,0"
+                <ScrollViewer Grid.Row="0" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" Margin="5,0,5,0"
                               Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=res:Generic, ResourceId=ScrollViewerBlack}}">
                     <ItemsControl ItemsSource="{Binding FoodList}" HorizontalContentAlignment="Stretch">
                         <ItemsControl.ItemTemplate>
@@ -103,43 +112,67 @@
                                                 Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=res:Generic, ResourceId=TextBoxBlack}}"/>
                                         </Grid>
 
-                                        <GroupBox DockPanel.Dock="Top" Header="Изображения" Margin="10" Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=res:Generic ,ResourceId=GroupBoxBlack}}">
+                                        <GroupBox DockPanel.Dock="Top" HorizontalAlignment="Left" Header="Изображения" Margin="10" Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=res:Generic ,ResourceId=GroupBoxBlack}}">
                                             <DockPanel>
-                                                <ItemsControl DockPanel.Dock="Top" ItemsSource="{Binding Pictures}" MaxHeight="150" HorizontalContentAlignment="Stretch">
-                                                    <ItemsControl.ItemsPanel>
-                                                        <ItemsPanelTemplate>
-                                                            <VirtualizingStackPanel Orientation="Horizontal"/>
-                                                        </ItemsPanelTemplate>
-                                                    </ItemsControl.ItemsPanel>
-                                                    <ItemsControl.ItemTemplate>
-                                                        <DataTemplate>
-                                                            <GroupBox Margin="5" Grid.Row="0" Grid.RowSpan="2" Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=res:Generic,ResourceId=GroupBoxBlack}}">
-                                                                <StackPanel Orientation="Vertical">
-                                                                    <Image Source="{Binding Adress}" MinHeight="50" MaxHeight="100"/>
-                                                                    <Button Content="Удалить" Margin="1" Command="{Binding DeletePicture}"
-                                                                Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=res:Generic, ResourceId=BlackButton}}"/>
-                                                                </StackPanel>
-                                                            </GroupBox>
-                                                        </DataTemplate>
-                                                    </ItemsControl.ItemTemplate>
-                                                </ItemsControl>
+                                                <ScrollViewer DockPanel.Dock="Top" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Margin="5,0,5,0"
+                                                    Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=res:Generic, ResourceId=ScrollViewerBlack}}">
+                                                    <ItemsControl ItemsSource="{Binding Pictures}" MaxHeight="150" VerticalAlignment="Stretch">
+                                                        <ItemsControl.ItemsPanel>
+                                                            <ItemsPanelTemplate>
+                                                                <VirtualizingStackPanel Orientation="Horizontal"/>
+                                                            </ItemsPanelTemplate>
+                                                        </ItemsControl.ItemsPanel>
+                                                        <ItemsControl.ItemTemplate>
+                                                            <DataTemplate>
+                                                                <GroupBox Margin="5" Grid.Row="0" Grid.RowSpan="2" Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=res:Generic,ResourceId=GroupBoxBlack}}">
+                                                                    <StackPanel Orientation="Vertical">
+                                                                        <Image Source="{Binding Adress}" MinHeight="50" MaxHeight="100"/>
+                                                                        <Button Content="Удалить" Margin="1" Command="{Binding DeletePicture}"
+                                                                        Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=res:Generic, ResourceId=BlackButton}}"/>
+                                                                    </StackPanel>
+                                                                </GroupBox>
+                                                            </DataTemplate>
+                                                        </ItemsControl.ItemTemplate>
+                                                    </ItemsControl>
+                                                </ScrollViewer>
                                                 <Button Content="Добавить изображение" Command="{Binding AddImage}" DockPanel.Dock="Top" Margin="0,5,0,0"
                                                     Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=res:Generic, ResourceId=BlackButton}}"/>
                                             </DockPanel>
                                         </GroupBox>
                                         
                                         <GroupBox DockPanel.Dock="Top" Header="Ингридиенты" Margin="10" Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=res:Generic ,ResourceId=GroupBoxBlack}}">
-                                            <DockPanel>
-                                                <ItemsControl DockPanel.Dock="Top" ItemsSource="{Binding Products}" HorizontalContentAlignment="Stretch">
+                                            <StackPanel>
+                                                <ItemsControl ItemsSource="{Binding Products}" HorizontalContentAlignment="Stretch">
                                                     <ItemsControl.ItemTemplate>
                                                         <DataTemplate>
-
+                                                            <GroupBox Margin="5" Grid.Row="0" Grid.RowSpan="2" Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=res:Generic,ResourceId=GroupBoxBlack}}">
+                                                                <Grid MinHeight="50" MaxHeight="150">
+                                                                    <Grid.ColumnDefinitions>
+                                                                        <ColumnDefinition Width="300"/>
+                                                                        <ColumnDefinition Width="1*"/>
+                                                                    </Grid.ColumnDefinitions>
+                                                                    <StackPanel Grid.Column="0">
+                                                                        <Image Source="{Binding Picture}" MinHeight="50" MaxHeight="100"/>
+                                                                        <res:BlackComboBox ItemsSource="{Binding ProductItems, UpdateSourceTrigger=PropertyChanged}"
+                                                                            Margin="5" VerticalAlignment="Stretch" FontSize="12"
+                                                                            Validation.ErrorTemplate="{StaticResource validationFailed}" SelectedItem="{Binding SelectedProduct, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+                                                                        </res:BlackComboBox>
+                                                                    </StackPanel>
+                                                                    <DockPanel Grid.Column="1">
+                                                                        <TextBlock Text="Количество" DockPanel.Dock="Top" HorizontalAlignment="Center" Foreground="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=res:Generic,ResourceId=FontColorFocused}}"/>
+                                                                        <TextBox DockPanel.Dock="Top" Margin="5" VerticalAlignment="Center" Text="{Binding Count, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" MaxLength="50" KeyDown="TextBoxKeyValidator"
+                                                                            Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=res:Generic, ResourceId=TextBoxBlack}}"/>
+                                                                        <Button DockPanel.Dock="Bottom" VerticalAlignment="Bottom" Content="Удалить ингридиент" Command="{Binding DeleteDishProductCommand}" Margin="0,5,0,0"
+                                                                            Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=res:Generic, ResourceId=BlackButton}}"/>
+                                                                    </DockPanel>
+                                                                </Grid>
+                                                            </GroupBox>
                                                         </DataTemplate>
                                                     </ItemsControl.ItemTemplate>
-                                                </ItemsControl>
-                                                <Button Content="Добавить Блюдо" Command="{Binding DeleteCommand}" Margin="0,5,0,0"
+                                                </ItemsControl><!--update из БД + update из pictures-->
+                                                <Button Content="Добавить ингридиент" Command="{Binding AddNewDishProductCommand}" Margin="0,5,0,0"
                                                     Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=res:Generic, ResourceId=BlackButton}}"/>
-                                            </DockPanel>
+                                            </StackPanel>
                                         </GroupBox>
                                         <Button Content="Удалить Блюдо" Command="{Binding DeleteCommand}" Margin="0,5,0,0"
                                             Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=res:Generic, ResourceId=BlackButton}}"/>

@@ -83,6 +83,17 @@ namespace RestourantDesktop.Windows.Pages.ProductDishesManager.Items
             }
         }
 
+        public ObservableCollection<DishProductItem> products;
+        public ObservableCollection<DishProductItem> Products
+        {
+            get => products;
+            set
+            {
+                products = value;
+                OnPropertyChanged();
+            }
+        }
+
         public double cost;
         public double Cost
         {
@@ -120,6 +131,17 @@ namespace RestourantDesktop.Windows.Pages.ProductDishesManager.Items
             }
         }
         
+        private Command addNewDishProductCommand;
+        public Command AddNewDishProductCommand
+        {
+            get => addNewDishProductCommand;
+            set
+            {
+                addNewDishProductCommand = value;
+                OnPropertyChanged();
+            }
+        }
+        
         private Command addImage;
         public Command AddImage
         {
@@ -131,7 +153,7 @@ namespace RestourantDesktop.Windows.Pages.ProductDishesManager.Items
             }
         }
 
-        private async void ChangeDish() => await DishesModel.ChangeDish(this);
+        private async void ChangeDish() => await DishesModel.ChangeDishAsync(this);
 
         public DishItem(int ID, string name, string desc, string Pictures, int cookingTime, double cost)
         {
@@ -169,6 +191,82 @@ namespace RestourantDesktop.Windows.Pages.ProductDishesManager.Items
                     ChangeDish();
                 }
             );
+
+            AddNewDishProductCommand = new Command( async (obj) => await DishesModel.AddNewDishProductAsync(ID) );
+            Products = new ObservableCollection<DishProductItem>();
+        }
+
+        public void SetNewPicture(string Pictures)
+        {
+            ObservableCollection<PictureDishItem> items = new ObservableCollection<PictureDishItem>();
+            foreach (var item in Pictures.Split(';'))
+            {
+                if (!string.IsNullOrEmpty(item))
+                    items.Add(new PictureDishItem(item, (obj) =>
+                    {
+                        items.Remove(obj);
+                        ChangeDish();
+                    }));
+            }
+            pictures = items;
+            OnPropertyChanged("Pictures");
+        }
+    }
+
+    public class DishProductItem : NotifyPropertyChanged
+    {
+        public int ID { get; private set; }
+
+        public string Picture { get => SelectedProduct == null ? "" : SelectedProduct.Picture; }
+
+        public ObservableCollection<ProductItem> ProductItems { get => ProductsModel.products; } 
+
+        public ProductItem selectedProduct;
+        public ProductItem SelectedProduct
+        {
+            get => selectedProduct;
+            set
+            {
+                selectedProduct = value;
+                OnPropertyChanged();
+                OnPropertyChanged("Picture");
+
+                ChangeDishProduct();
+            }
+        }
+
+        public double count;
+        public double Count
+        {
+            get => count;
+            set
+            {
+                count = value;
+                OnPropertyChanged();
+
+                ChangeDishProduct();
+            }
+        }
+
+        private Command deleteDishProductCommand;
+        public Command DeleteDishProductCommand
+        {
+            get => deleteDishProductCommand;
+            set
+            {
+                deleteDishProductCommand = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private async void ChangeDishProduct() => await DishesModel.ChangeDishProductAsync(this);
+        public DishProductItem(int ID, double Count, ProductItem selectedProduct)
+        {
+            this.ID = ID;
+            this.count = Count;
+            this.selectedProduct = selectedProduct;
+
+            DeleteDishProductCommand = new Command(async (obj) => await DishesModel.DeleteDishProductAsync(ID));
         }
     }
 }

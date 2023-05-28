@@ -3,7 +3,7 @@ using mvvm;
 
 namespace RestourantDesktop.Windows.Pages.ProductDishesManager.Items
 {
-    internal class ProductItem : NotifyPropertyChanged
+    public class ProductItem : NotifyPropertyChanged
     {
         public int ID { get; private set; }
 
@@ -94,5 +94,7 @@ namespace RestourantDesktop.Windows.Pages.ProductDishesManager.Items
                 }
             );
         }
+
+        public override string ToString() => productName;
     }
 }
