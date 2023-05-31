@@ -73,6 +73,11 @@
     <Compile Include="UserController\User.cs" />
     <Compile Include="UserController\UserController.cs" />
     <Compile Include="UserController\UserKrypt.cs" />
+    <Compile Include="Windows\Pages\Orders\Orders.xaml.cs">
+      <DependentUpon>Orders.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\Pages\Orders\OrdersModel.cs" />
+    <Compile Include="Windows\Pages\Orders\ViewModel.cs" />
     <Compile Include="Windows\Pages\ProductDishesManager\DishesModel.cs" />
     <Compile Include="Windows\Pages\ProductDishesManager\Items\DishItem.cs" />
     <Compile Include="Windows\Pages\ProductDishesManager\Items\ProductItem.cs" />
@@ -112,6 +117,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Windows\Pages\Orders\Orders.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Windows\Pages\ProductDishesManager\ProductDishesManager.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -166,6 +175,8 @@
   <ItemGroup>
     <Resource Include="Resources\Images\Background.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Windows\Pages\Orders\Items\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

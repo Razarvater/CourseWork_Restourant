@@ -1,4 +1,5 @@
 ﻿using RestourantDesktop.DialogManager.Dialogs.AuthorizeDialog.Pages;
+using RestourantDesktop.Windows.Pages.Orders;
 using RestourantDesktop.Windows.Pages.ProductDishesManager;
 using RestourantDesktop.Windows.Pages.RoleManager;
 using RestourantDesktop.Windows.Pages.UserManager;
@@ -25,6 +26,7 @@ namespace RestourantDesktop
             pagesList.Add("Пользователи", new MenuItem("Пользователи", typeof(UserManagerPage), new Icon(this.GetType(), "Resources.Images.Admin.ico")));
             pagesList.Add("Кухня", new MenuItem("Кухня", typeof(ProductDishesManager), new Icon(this.GetType(), "Resources.Images.Admin.ico")));
             pagesList.Add("Авторизация", new MenuItem("Авторизация", typeof(MainPage), new Icon(this.GetType(), "Resources.Images.Admin.ico")));
+            pagesList.Add("Заказы", new MenuItem("Заказы", typeof(Orders), new Icon(this.GetType(), "Resources.Images.Admin.ico")));
         }
 
         private void PagesListChanged(object sender, EventArgs e)

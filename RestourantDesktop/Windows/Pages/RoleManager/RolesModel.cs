@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Linq;
 using RestourantDesktop.Database;
 using DependencyChecker;
+using System.Xaml;
 
 namespace RestourantDesktop.Windows.Pages.RoleManager
 {
@@ -47,9 +48,36 @@ namespace RestourantDesktop.Windows.Pages.RoleManager
                 PageItem updatedElement = PagesList.FirstOrDefault(x => x.ID == ID);
                 if (updatedElement == null)
                 {
+                    for (int i = 0; i < RoleList.Count; i++)
+                        RoleList[i].Rights.Add(new PageRoleItem(ID, RoleList[i].roleID, Name, false));
+
                     PageItem insertedItem = new PageItem(ID, Name);
                     PagesList.Add(insertedItem);
                     PageAdded?.Invoke(insertedItem, new EventArgs());
+
+                    IEnumerable<(int roleID, int pageID, bool isCan)> cache = CachedPageRoleListItems.Where(x => x.pageID == ID);
+                    if (cache.Count() != 0)
+                    {
+                        foreach (var cachedItem in cache)
+                        {
+                            if (insertedItem.ID == cachedItem.pageID)
+                            {
+                                RoleItem updatedRoleItem = RoleList.FirstOrDefault(x => x.roleID == cachedItem.roleID);
+                                PageRoleItem pageRoleItem = updatedRoleItem.Rights.FirstOrDefault(x => x.PageID == cachedItem.pageID);
+                                pageRoleItem.isCan = cachedItem.isCan;
+                                pageRoleItem.OnPropertyChanged("IsCan");
+                                RightRoleChanged?.Invoke(pageRoleItem, new EventArgs());
+                            }
+                        }
+                        for (int i = 0; i < CachedPageRoleListItems.Count; i++)
+                        {
+                            if (CachedPageRoleListItems[i].pageID == ID)
+                            {
+                                CachedPageRoleListItems.RemoveAt(i);
+                                i--;
+                            }
+                        }
+                    }
                 }
                 else
                 {
@@ -137,7 +165,7 @@ namespace RestourantDesktop.Windows.Pages.RoleManager
             }
         }
 
-        private static List<(int, int, bool)> CachedPageRoleListItems = new List<(int, int, bool)> ();
+        private static List<(int roleID, int pageID, bool isCan)> CachedPageRoleListItems = new List<(int roleID, int pageID, bool isCan)> ();
         /// <summary>
         /// Handling changes from the database
         /// </summary>

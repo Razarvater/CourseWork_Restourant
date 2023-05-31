@@ -49,3 +49,5 @@ E:\Курсач\Приложуха\Restourant\CourseWork_Restourant\RestourantDe
 E:\Курсач\Приложуха\Restourant\CourseWork_Restourant\RestourantDesktop\obj\Debug\Windows\Pages\Auth\MainPage.baml
 E:\Курсач\Приложуха\Restourant\CourseWork_Restourant\RestourantDesktop\obj\Debug\Windows\Pages\ProductDishesManager\ProductDishesManager.g.cs
 E:\Курсач\Приложуха\Restourant\CourseWork_Restourant\RestourantDesktop\obj\Debug\Windows\Pages\ProductDishesManager\ProductDishesManager.baml
+E:\Курсач\Приложуха\Restourant\CourseWork_Restourant\RestourantDesktop\obj\Debug\Windows\Pages\Orders\Orders.g.cs
+E:\Курсач\Приложуха\Restourant\CourseWork_Restourant\RestourantDesktop\obj\Debug\Windows\Pages\Orders\Orders.baml

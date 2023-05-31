@@ -146,7 +146,7 @@
                                                     <ItemsControl.ItemTemplate>
                                                         <DataTemplate>
                                                             <GroupBox Margin="5" Grid.Row="0" Grid.RowSpan="2" Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=res:Generic,ResourceId=GroupBoxBlack}}">
-                                                                <Grid MinHeight="50" MaxHeight="150">
+                                                                <Grid MinHeight="50" MaxHeight="150" Margin="5">
                                                                     <Grid.ColumnDefinitions>
                                                                         <ColumnDefinition Width="300"/>
                                                                         <ColumnDefinition Width="1*"/>

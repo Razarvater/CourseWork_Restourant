@@ -97,7 +97,7 @@ namespace RestourantDesktop.Windows.Pages.ProductDishesManager
                 int DishID = Convert.ToInt32(value);
 
                 item.TryGetValue("Product_ID", out value);
-                int ProductID = Convert.ToInt32(value == null ? "" : value);
+                int ProductID = Convert.ToInt32(value == null ? "-1" : value);
 
                 item.TryGetValue("Count", out value);
                 double.TryParse(value.ToString().Replace('.', ','), out double count);
