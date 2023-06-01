@@ -22,3 +22,11 @@ E:\курсач\Приложуха\CourseWork_Restourant\mvvm\obj\Debug\mvvm.csp
 E:\курсач\Приложуха\CourseWork_Restourant\mvvm\obj\Debug\mvvm.csproj.CoreCompileInputs.cache
 E:\курсач\Приложуха\CourseWork_Restourant\mvvm\obj\Debug\mvvm.dll
 E:\курсач\Приложуха\CourseWork_Restourant\mvvm\obj\Debug\mvvm.pdb
+E:\Курсач\CourseWork_Restourant\mvvm\bin\Debug\mvvm.dll
+E:\Курсач\CourseWork_Restourant\mvvm\bin\Debug\mvvm.pdb
+E:\Курсач\CourseWork_Restourant\mvvm\obj\Debug\mvvm.csproj.AssemblyReference.cache
+E:\Курсач\CourseWork_Restourant\mvvm\obj\Debug\mvvm.Properties.Resources.resources
+E:\Курсач\CourseWork_Restourant\mvvm\obj\Debug\mvvm.csproj.GenerateResource.cache
+E:\Курсач\CourseWork_Restourant\mvvm\obj\Debug\mvvm.csproj.CoreCompileInputs.cache
+E:\Курсач\CourseWork_Restourant\mvvm\obj\Debug\mvvm.dll
+E:\Курсач\CourseWork_Restourant\mvvm\obj\Debug\mvvm.pdb

@@ -1,10 +1,10 @@
-﻿using RestourantDesktop.Windows.Pages.ProductDishesManager.Items;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Configuration;
 using System.Data.SqlClient;
 using System.Data;
 using System.Threading.Tasks;
 using System;
+using RestourantDesktop.Windows.Pages.Orders.Items;
 
 namespace RestourantDesktop.Windows.Pages.Orders
 {
@@ -37,8 +37,8 @@ namespace RestourantDesktop.Windows.Pages.Orders
                     int.TryParse(OrdersTable.Rows[i]["CookingTime"].ToString(), out int CookingTime);
                     double.TryParse(OrdersTable.Rows[i]["Sum"].ToString(), out double Sum);
 
-                    OpenedOrderItem item = new OpenedOrderItem(ID, EmpID, CreateDatetime, tableinfo, CookingTime, Sum);
-                    OrderList.Add(item);
+                    //OpenedOrderItem item = new OpenedOrderItem(ID, EmpID, CreateDatetime, tableinfo, CookingTime, Sum);
+                    //OrderList.Add(item);
                 }
             }
             catch (Exception) {/*TODO: Сообщение об ошибке*/ }

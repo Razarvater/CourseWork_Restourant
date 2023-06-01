@@ -10,3 +10,9 @@ E:\курсач\Приложуха\CourseWork_Restourant\DependencyManager\obj\D
 E:\курсач\Приложуха\CourseWork_Restourant\DependencyManager\obj\Debug\DependencyManager.csproj.CoreCompileInputs.cache
 E:\курсач\Приложуха\CourseWork_Restourant\DependencyManager\obj\Debug\DependencyManager.dll
 E:\курсач\Приложуха\CourseWork_Restourant\DependencyManager\obj\Debug\DependencyManager.pdb
+E:\Курсач\CourseWork_Restourant\DependencyManager\bin\Debug\DependencyManager.dll
+E:\Курсач\CourseWork_Restourant\DependencyManager\bin\Debug\DependencyManager.pdb
+E:\Курсач\CourseWork_Restourant\DependencyManager\obj\Debug\DependencyManager.csproj.AssemblyReference.cache
+E:\Курсач\CourseWork_Restourant\DependencyManager\obj\Debug\DependencyManager.csproj.CoreCompileInputs.cache
+E:\Курсач\CourseWork_Restourant\DependencyManager\obj\Debug\DependencyManager.dll
+E:\Курсач\CourseWork_Restourant\DependencyManager\obj\Debug\DependencyManager.pdb

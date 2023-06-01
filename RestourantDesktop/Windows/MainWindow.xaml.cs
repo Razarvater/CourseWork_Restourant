@@ -60,7 +60,6 @@ namespace RestourantDesktop
                 if(!vm.TabsList.Contains(item))
                     vm.TabsList.Add(item);
             }
-            
         }
 
         private void OpenAuthMenu()

@@ -113,6 +113,7 @@ namespace RestourantDesktop.Windows.Pages.UserManager
                         Roles.Add(new UserRoleItem(UserID, RolesModel.RoleList[i].roleID, RolesModel.RoleList[i].RoleName, false));
                     
                     UserItem newItem = new UserItem(UserID, Login, Passport, FullName, PhoneNum, PosItem, Roles);
+                    UsersList.Add(newItem);
                     UserAdded?.Invoke(newItem, new EventArgs());
 
                     IEnumerable<(int, int, bool)> cache = CachedUserRolesListItems.Where(x => x.Item1 == UserID);
