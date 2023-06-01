@@ -73,6 +73,7 @@
     <Compile Include="UserController\User.cs" />
     <Compile Include="UserController\UserController.cs" />
     <Compile Include="UserController\UserKrypt.cs" />
+    <Compile Include="Windows\Pages\Orders\Items\OpenedOrderItem.cs" />
     <Compile Include="Windows\Pages\Orders\Orders.xaml.cs">
       <DependentUpon>Orders.xaml</DependentUpon>
     </Compile>
@@ -175,8 +176,6 @@
   <ItemGroup>
     <Resource Include="Resources\Images\Background.png" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Windows\Pages\Orders\Items\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

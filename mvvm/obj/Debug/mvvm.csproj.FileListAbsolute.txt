@@ -14,3 +14,11 @@ E:\Курсач\Приложуха\Restourant\CourseWork_Restourant\mvvm\obj\Deb
 E:\Курсач\Приложуха\Restourant\CourseWork_Restourant\mvvm\obj\Debug\mvvm.csproj.CoreCompileInputs.cache
 E:\Курсач\Приложуха\Restourant\CourseWork_Restourant\mvvm\obj\Debug\mvvm.dll
 E:\Курсач\Приложуха\Restourant\CourseWork_Restourant\mvvm\obj\Debug\mvvm.pdb
+E:\курсач\Приложуха\CourseWork_Restourant\mvvm\bin\Debug\mvvm.dll
+E:\курсач\Приложуха\CourseWork_Restourant\mvvm\bin\Debug\mvvm.pdb
+E:\курсач\Приложуха\CourseWork_Restourant\mvvm\obj\Debug\mvvm.csproj.AssemblyReference.cache
+E:\курсач\Приложуха\CourseWork_Restourant\mvvm\obj\Debug\mvvm.Properties.Resources.resources
+E:\курсач\Приложуха\CourseWork_Restourant\mvvm\obj\Debug\mvvm.csproj.GenerateResource.cache
+E:\курсач\Приложуха\CourseWork_Restourant\mvvm\obj\Debug\mvvm.csproj.CoreCompileInputs.cache
+E:\курсач\Приложуха\CourseWork_Restourant\mvvm\obj\Debug\mvvm.dll
+E:\курсач\Приложуха\CourseWork_Restourant\mvvm\obj\Debug\mvvm.pdb

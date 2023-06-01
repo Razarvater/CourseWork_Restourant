@@ -276,3 +276,11 @@ BEGIN
 	--Освобождаем память выделенную под курсор
 	DEALLOCATE tables_cursor
 END;
+
+	IF EXISTS(SELECT * FROM sys.databases WHERE name = 'Restourant' AND is_broker_enabled = 0)
+	BEGIN
+		ALTER DATABASE Restourant SET SINGLE_USER WITH ROLLBACK IMMEDIATE;
+		ALTER DATABASE Restourant SET ENABLE_BROKER;
+		ALTER DATABASE Restourant SET MULTI_USER WITH ROLLBACK IMMEDIATE;
+		PRINT 'Включен Service Broker';
+	END

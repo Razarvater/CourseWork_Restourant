@@ -76,6 +76,43 @@ CREATE TABLE [dbo].[ProductForDishes]
 	[Count] float NOT NULL DEFAULT 0
 )
 
+--Раздел заказов
+
+CREATE TABLE [dbo].[OpenedOrder]
+(
+	[ID] int IDENTITY(1,1) PRIMARY KEY,
+	[EmployeeUserID] int REFERENCES [dbo].[EmployeeUsers]([ID]),
+	[CreateDateTime] datetime NULL,
+	[TableInfo] nvarchar(250),
+	[CookingTime] int NOT NULL DEFAULT 0,
+	[Sum] money NOT NULL DEFAULT 0
+)
+
+CREATE TABLE [dbo].[OpenedOrderLists]
+(
+	[ID] int IDENTITY(1,1) PRIMARY KEY,
+	[OrderID] int REFERENCES [dbo].[OpenedOrder]([ID]),
+	[ProductID] int REFERENCES [dbo].[ProductsInStock]([ID])
+)
+
+CREATE TABLE [dbo].[ClosedOrders]
+(
+	[ID] int IDENTITY(1,1) PRIMARY KEY,
+	[EmployeeUserID] int REFERENCES [dbo].[EmployeeUsers]([ID]),
+	[CreateDateTime] datetime NULL,
+	[CloseDateTime] datetime NULL,
+	[TableInfo] nvarchar(250),
+	[CookingTime] int NOT NULL DEFAULT 0,
+	[Sum] money NOT NULL DEFAULT 0
+)
+
+CREATE TABLE [dbo].[ClosedOrderLists]
+(
+	[ID] int IDENTITY(1,1) PRIMARY KEY,
+	[OrderID] int REFERENCES [dbo].[OpenedOrder]([ID]),
+	[ProductID] int REFERENCES [dbo].[ProductsInStock]([ID])
+)
+
 --Триггеры
 CREATE TRIGGER AddNewPageTrigger ON [dbo].[PagesList]
 AFTER INSERT
