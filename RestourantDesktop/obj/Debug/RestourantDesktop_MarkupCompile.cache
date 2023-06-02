@@ -4,17 +4,17 @@
 winexe
 C#
 .cs
-E:\Курсач\CourseWork_Restourant\RestourantDesktop\obj\Debug\
+F:\Курсач\CourseWork_Restourant\RestourantDesktop\obj\Debug\
 RestourantDesktop
 none
 false
 DEBUG;TRACE
-E:\Курсач\CourseWork_Restourant\RestourantDesktop\App.xaml
+F:\Курсач\CourseWork_Restourant\RestourantDesktop\App.xaml
 61029150439
 
-34144603007
-18274989038
+33-1777175114
+18-166513525
 Windows\Pages\Auth\MainPage.xaml;Windows\MainWindow.xaml;Windows\Pages\Orders\Orders.xaml;Windows\Pages\ProductDishesManager\ProductDishesManager.xaml;Windows\Pages\RoleManager\RoleManagerPage.xaml;Windows\Pages\UserManager\UserManagerPage.xaml;
 
-True
+False
 

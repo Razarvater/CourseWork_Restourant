@@ -30,3 +30,11 @@ E:\Курсач\CourseWork_Restourant\mvvm\obj\Debug\mvvm.csproj.GenerateResourc
 E:\Курсач\CourseWork_Restourant\mvvm\obj\Debug\mvvm.csproj.CoreCompileInputs.cache
 E:\Курсач\CourseWork_Restourant\mvvm\obj\Debug\mvvm.dll
 E:\Курсач\CourseWork_Restourant\mvvm\obj\Debug\mvvm.pdb
+F:\Курсач\CourseWork_Restourant\mvvm\bin\Debug\mvvm.dll
+F:\Курсач\CourseWork_Restourant\mvvm\bin\Debug\mvvm.pdb
+F:\Курсач\CourseWork_Restourant\mvvm\obj\Debug\mvvm.csproj.AssemblyReference.cache
+F:\Курсач\CourseWork_Restourant\mvvm\obj\Debug\mvvm.Properties.Resources.resources
+F:\Курсач\CourseWork_Restourant\mvvm\obj\Debug\mvvm.csproj.GenerateResource.cache
+F:\Курсач\CourseWork_Restourant\mvvm\obj\Debug\mvvm.csproj.CoreCompileInputs.cache
+F:\Курсач\CourseWork_Restourant\mvvm\obj\Debug\mvvm.dll
+F:\Курсач\CourseWork_Restourant\mvvm\obj\Debug\mvvm.pdb
