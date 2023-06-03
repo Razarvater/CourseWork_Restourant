@@ -2,7 +2,6 @@
 using mvvm;
 using System;
 using System.Collections.ObjectModel;
-using System.Windows;
 
 namespace RestourantDesktop.Windows.Pages.ProductDishesManager.Items
 {
@@ -211,6 +210,8 @@ namespace RestourantDesktop.Windows.Pages.ProductDishesManager.Items
             pictures = items;
             OnPropertyChanged("Pictures");
         }
+
+        public override string ToString() => Name;
     }
 
     public class DishProductItem : NotifyPropertyChanged

@@ -212,7 +212,7 @@ namespace RestourantDesktop.Windows.Pages.ProductDishesManager
                 {
                     foreach(DishProductItem row in item.Products) 
                     {
-                        if (row.selectedProduct.ID != e.ID) continue;
+                        if (row.SelectedProduct == null || row.selectedProduct.ID != e.ID) continue;
 
                         var temp = row.SelectedProduct;
 

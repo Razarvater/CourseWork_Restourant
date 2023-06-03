@@ -169,7 +169,7 @@
                                                             </GroupBox>
                                                         </DataTemplate>
                                                     </ItemsControl.ItemTemplate>
-                                                </ItemsControl><!--update из БД + update из pictures-->
+                                                </ItemsControl>
                                                 <Button Content="Добавить ингридиент" Command="{Binding AddNewDishProductCommand}" Margin="0,5,0,0"
                                                     Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=res:Generic, ResourceId=BlackButton}}"/>
                                             </StackPanel>

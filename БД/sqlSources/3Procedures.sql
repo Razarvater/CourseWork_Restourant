@@ -296,9 +296,41 @@ BEGIN
 	SELECT * FROM [dbo].[OpenedOrder];
 END
 --разделитель|
-CREATE PROC CreateOpenedOrder
-	@EmpID int
+CREATE PROC GetOpenedDishOrderList
 AS
 BEGIN
-	INSERT INTO [dbo].[OpenedOrder] VALUES (@EmpID, GETDATE(), '',0,0);
-END
+	SELECT * FROM [dbo].[OpenedOrderLists];
+END;
+--разделитель|
+CREATE PROC CloseOrder
+	@orderID int
+AS
+BEGIN
+	INSERT INTO [ClosedOrderLists] SELECT * FROM [OpenedOrderLists] WHERE [OrderID] = @orderID;
+	DELETE FROM [OpenedOrderLists] WHERE [OrderID] = @orderID;
+
+	INSERT INTO [ClosedOrders] SELECT [ID],[EmployeeUserID],[CreateDateTime],GETDATE(),[TableInfo],[CookingTime],[Sum] FROM [OpenedOrder] WHERE [ID] = @orderID;
+	DELETE FROM [OpenedOrder] WHERE [ID] = @orderID;
+END;
+--разделитель|
+CREATE PROC CreateOpenedOrder
+	@EmpID int,
+	@TableInfo nvarchar(250),
+	@cookingTime int,
+	@sum money,
+	@guid nvarchar(250)
+AS
+BEGIN
+	INSERT INTO [dbo].[OpenedOrder] VALUES (@EmpID, GETDATE(), @TableInfo, @cookingTime, @sum);
+	INSERT INTO [dbo].[OpenedOrderLists] SELECT SCOPE_IDENTITY(),[DishID],[ProductCount] FROM [dbo].[OpenedOrderListsTemp] WHERE [GUID] = @guid;
+	DELETE FROM [dbo].[OpenedOrderListsTemp] WHERE [GUID] = @guid;
+END;
+--разделитель|
+CREATE PROC CreateOpenedOrderList
+	@guid nvarchar(250),
+	@dishID int,
+	@count int
+AS
+BEGIN
+	INSERT INTO [dbo].[OpenedOrderListsTemp] VALUES (@guid, @dishID, @count);
+END;

@@ -74,6 +74,8 @@
     <Compile Include="UserController\UserController.cs" />
     <Compile Include="UserController\UserKrypt.cs" />
     <Compile Include="Windows\Pages\Orders\Items\OpenedOrderItem.cs" />
+    <Compile Include="Windows\Pages\Orders\Items\OrderDishItem.cs" />
+    <Compile Include="Windows\Pages\Orders\Items\SelecteDish.cs" />
     <Compile Include="Windows\Pages\Orders\Orders.xaml.cs">
       <DependentUpon>Orders.xaml</DependentUpon>
     </Compile>
