@@ -9,6 +9,7 @@ using RestourantDesktop.Windows.Pages.ProductDishesManager.Items;
 using RestourantDesktop.Windows.Pages.ProductDishesManager;
 using System.Linq;
 using System.Collections.Generic;
+using DependencyChecker;
 
 namespace RestourantDesktop.Windows.Pages.Orders
 {
@@ -16,7 +17,56 @@ namespace RestourantDesktop.Windows.Pages.Orders
     {
         public static ObservableCollection<OpenedOrderItem> OrderList = new ObservableCollection<OpenedOrderItem>();
 
+        public static void OrderListsChanged(object sender, DBchangeListener.DbChangeEventArgs e)
+        {
+            foreach (var item in e.Inserted)
+            {
+                item.TryGetValue("OrderID", out object value);
+                int ID = Convert.ToInt32(value);
+                item.TryGetValue("DishID", out  value);
+                int dishID = Convert.ToInt32(value);
 
+                item.TryGetValue("ProductCount", out value);
+                int count = Convert.ToInt32(value);
+
+                OrderList.FirstOrDefault(x => x.ID == ID)?.Dishes.Add(new OrderDishItem(DishesModel.dishes.FirstOrDefault(x=>x.ID == dishID),count));
+            }
+        }
+            
+        public static void OrderListChanged(object sender, DBchangeListener.DbChangeEventArgs e)
+        {
+            foreach (var item in e.Inserted)
+            {
+                item.TryGetValue("ID", out object value);
+                int ID = Convert.ToInt32(value);
+
+                item.TryGetValue("EmployeeUserID", out value);
+                int EmpID = Convert.ToInt32(value);
+
+                item.TryGetValue("CreateDateTime", out value);
+                DateTime CreateDateTime = DateTime.Parse(value.ToString());
+                
+                item.TryGetValue("TableInfo", out value);
+                string TableInfo = value.ToString();
+
+                item.TryGetValue("CookingTime", out value);
+                int CookingTime = Convert.ToInt32(value); 
+                
+                item.TryGetValue("CookingTime", out value);
+                double Sum = Convert.ToInt32(value);
+                ObservableCollection<OrderDishItem> items = new ObservableCollection<OrderDishItem>();
+                OpenedOrderItem newitem = new OpenedOrderItem(ID, EmpID, CreateDateTime, TableInfo, CookingTime, Sum, items);
+                OrderList.Add(newitem);
+            }
+            foreach (var item in e.Deleted)
+            {
+                item.TryGetValue("ID", out object value);
+                int ID = Convert.ToInt32(value);
+
+                OpenedOrderItem deleted = OrderList.FirstOrDefault(x => x.ID == ID);
+                OrderList.Remove(deleted);
+            }
+        }
 
         public static async Task InitOrderList()
         {
@@ -66,6 +116,9 @@ namespace RestourantDesktop.Windows.Pages.Orders
                 }
             }
             catch (Exception) {/*TODO: Сообщение об ошибке*/ }
+
+            Database.Dependency.manager.ListenTable("OpenedOrder", OrderListChanged);
+            Database.Dependency.manager.ListenTable("OpenedOrderLists", OrderListsChanged);
         }
 
         public static async Task CloseOrderAsync(OpenedOrderItem item)

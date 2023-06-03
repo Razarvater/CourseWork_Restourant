@@ -114,7 +114,7 @@ CREATE TABLE [dbo].[ClosedOrders]
 CREATE TABLE [dbo].[ClosedOrderLists]
 (
 	[ID] int PRIMARY KEY,
-	[OrderID] int REFERENCES [dbo].[OpenedOrder]([ID]),
+	[OrderID] int REFERENCES [dbo].[ClosedOrders]([ID]),
 	[DishID] int REFERENCES [dbo].[ProductsInStock]([ID]),
 	[ProductCount] int
 )

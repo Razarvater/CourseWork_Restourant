@@ -93,7 +93,7 @@ namespace RestourantDesktop.Windows.Pages.ProductDishesManager
                 item.TryGetValue("ID", out object value);
                 int ID = Convert.ToInt32(value);
                 
-                item.TryGetValue("Dish_ID", out  value);
+                item.TryGetValue("DishID", out  value);
                 int DishID = Convert.ToInt32(value);
 
                 item.TryGetValue("Product_ID", out value);

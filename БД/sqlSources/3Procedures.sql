@@ -306,10 +306,10 @@ CREATE PROC CloseOrder
 	@orderID int
 AS
 BEGIN
-	INSERT INTO [ClosedOrderLists] SELECT * FROM [OpenedOrderLists] WHERE [OrderID] = @orderID;
-	DELETE FROM [OpenedOrderLists] WHERE [OrderID] = @orderID;
-
 	INSERT INTO [ClosedOrders] SELECT [ID],[EmployeeUserID],[CreateDateTime],GETDATE(),[TableInfo],[CookingTime],[Sum] FROM [OpenedOrder] WHERE [ID] = @orderID;
+	INSERT INTO [ClosedOrderLists] SELECT * FROM [OpenedOrderLists] WHERE [OrderID] = @orderID;
+
+	DELETE FROM [OpenedOrderLists] WHERE [OrderID] = @orderID;
 	DELETE FROM [OpenedOrder] WHERE [ID] = @orderID;
 END;
 --разделитель|
