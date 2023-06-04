@@ -1,4 +1,5 @@
 ﻿using RestourantDesktop.Database;
+using System.IO;
 using System.Windows;
 
 namespace RestourantDesktop
@@ -11,6 +12,8 @@ namespace RestourantDesktop
         public App()
         {
             this.Exit += (sender, e) => Dependency.CloseApplication();
+
+            Directory.CreateDirectory("Images");
         }
     }
 }

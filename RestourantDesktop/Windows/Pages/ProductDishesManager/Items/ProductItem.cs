@@ -1,5 +1,9 @@
 ﻿using Microsoft.Win32;
 using mvvm;
+using System;
+using System.IO;
+using System.Linq;
+using System.Threading;
 
 namespace RestourantDesktop.Windows.Pages.ProductDishesManager.Items
 {
@@ -10,7 +14,7 @@ namespace RestourantDesktop.Windows.Pages.ProductDishesManager.Items
         public string picture;
         public string Picture
         {
-            get => picture;
+            get => Environment.CurrentDirectory + picture;
             set
             {
                 picture = value;
@@ -93,7 +97,35 @@ namespace RestourantDesktop.Windows.Pages.ProductDishesManager.Items
                     OpenFileDialog dialog = new OpenFileDialog();
                     dialog.Filter = "Images (*.bmp, *.jpg, *.png)|*.bmp;*.jpg;*.png";
                     if (!(bool)dialog.ShowDialog()) return;
-                    this.Picture = dialog.FileName;
+                    string newName = $"/Images/product_{ID}_{Guid.NewGuid()}.{dialog.FileName.Split('.').Last()}";
+                    try
+                    {
+                        if (File.Exists(Picture))
+                            File.Delete(Picture);
+                    }
+                    catch (Exception) { }
+
+                    File.Copy(dialog.FileName, Environment.CurrentDirectory + newName);
+
+                    this.Picture = newName;
+                    if (File.Exists(Environment.CurrentDirectory + newName))
+                    {
+                        new Thread(() =>
+                        {
+                            int time = 0;
+                            while (true)
+                            {
+                                try
+                                {
+                                    //Ждём до 50 попыток, дабы если файл открыт ещё где-то, не пытаться сделать это вечно 
+                                    if (time > 50) return;
+                                    File.Delete(Environment.CurrentDirectory + newName);
+                                    break;
+                                }
+                                catch (Exception) { Thread.Sleep(1000); time += 1; }
+                            }
+                        }).Start();
+                    }
                 }
             );
         }

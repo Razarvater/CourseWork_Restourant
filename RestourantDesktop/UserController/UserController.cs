@@ -49,6 +49,7 @@ namespace RestourantDesktop.UserController
             if (UserToken != string.Empty)
             {
                 AuthorizedUser = new User() { UserID = UserToken };
+                AuthorizedUser.Name = login;
                 AuthorizedUser.GetUserPagesList();
             }
 

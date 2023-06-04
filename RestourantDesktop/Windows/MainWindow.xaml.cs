@@ -27,6 +27,8 @@ namespace RestourantDesktop
             pagesList.Add("Кухня", new MenuItem("Кухня", typeof(ProductDishesManager), new Icon(this.GetType(), "Resources.Images.Admin.ico")));
             pagesList.Add("Авторизация", new MenuItem("Авторизация", typeof(MainPage), new Icon(this.GetType(), "Resources.Images.Admin.ico")));
             pagesList.Add("Заказы", new MenuItem("Заказы", typeof(Orders), new Icon(this.GetType(), "Resources.Images.Admin.ico")));
+
+            UserController.UserController.AuthorizedUserStatsChangedEvent += (sender, e) => this.Title = UserController.UserController.AuthorizedUser.Name;
         }
 
         private void PagesListChanged(object sender, EventArgs e)

@@ -244,13 +244,14 @@ namespace RestourantDesktop.Windows.Pages.RoleManager
             Dependency.PagesChangedEvent += (sender, e) => PagesListChanged(sender, e);
         }
 
+        private static bool IsInited = false;
         public static async Task InitModel()
         {
-            if (PagesList == null)
-                await GetPagesListAsync();
+            if (IsInited) return;
+            IsInited = true;
 
-            if (RoleList == null)
-                await GetRolesList();
+            await GetPagesListAsync();
+            await GetRolesList();
         }
 
         /// <summary>

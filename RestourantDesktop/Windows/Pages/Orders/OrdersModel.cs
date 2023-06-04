@@ -68,10 +68,12 @@ namespace RestourantDesktop.Windows.Pages.Orders
             }
         }
 
+
+        private static bool IsInited = false;
         public static async Task InitOrderList()
         {
-            if (OrderList.Count != 0) return;
-
+            if(IsInited) return;
+            IsInited = true;
 
             OrderList = new ObservableCollection<OpenedOrderItem>();
             DataTable OrdersTable = new DataTable();

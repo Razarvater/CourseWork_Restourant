@@ -225,9 +225,12 @@ namespace RestourantDesktop.Windows.Pages.UserManager
             }
         }
 
+        private static bool IsInited = false;
         public static async Task InitModelAsync()
         {
-            if (UsersList != null) return;
+            if (IsInited) return;
+            IsInited = true;
+
             await RolesModel.InitModel();
 
             RolesModel.RoleChanged += (sender, e) =>

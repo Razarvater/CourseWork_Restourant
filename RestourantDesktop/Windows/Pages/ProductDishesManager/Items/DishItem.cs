@@ -2,6 +2,9 @@
 using mvvm;
 using System;
 using System.Collections.ObjectModel;
+using System.IO;
+using System.Linq;
+using System.Threading;
 
 namespace RestourantDesktop.Windows.Pages.ProductDishesManager.Items
 {
@@ -12,7 +15,7 @@ namespace RestourantDesktop.Windows.Pages.ProductDishesManager.Items
             public string name;
             public string Adress
             {
-                get => name;
+                get => Environment.CurrentDirectory + name;
                 set
                 {
                     name = value;
@@ -40,7 +43,7 @@ namespace RestourantDesktop.Windows.Pages.ProductDishesManager.Items
                 });
             }
 
-            public override string ToString() => Adress;
+            public override string ToString() => name;
         }
 
         public int ID { get; private set; }
@@ -181,11 +184,32 @@ namespace RestourantDesktop.Windows.Pages.ProductDishesManager.Items
                     OpenFileDialog dialog = new OpenFileDialog();
                     dialog.Filter = "Images (*.bmp, *.jpg, *.png)|*.bmp;*.jpg;*.png";
                     if (!(bool)dialog.ShowDialog()) return;
-                    this.pictures.Add(new PictureDishItem(dialog.FileName, (item) =>
+                    string newName = $"/Images/dish_{ID}_{Guid.NewGuid()}.{dialog.FileName.Split('.').Last()}";
+
+                    File.Copy(dialog.FileName, Environment.CurrentDirectory + newName);
+                    this.pictures.Add(new PictureDishItem(newName, (item) =>
                     {
                         this.Pictures.Remove(item);
+                        if (File.Exists(item.Adress))
+                            new Thread(() =>
+                            {
+                                int time = 0;
+                                while (true)
+                                {
+                                    try
+                                    {
+                                        //Ждём до 50 попыток, дабы если файл открыт ещё где-то, не пытаться сделать это вечно 
+                                        if (time > 50) return;
+                                        File.Delete(item.Adress);
+                                        break;
+                                    }
+                                    catch (Exception) { Thread.Sleep(1000); time += 1; }
+                                }
+                            }).Start();
+
                         ChangeDish();
                     }));
+
 
                     ChangeDish();
                 }

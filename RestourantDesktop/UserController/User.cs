@@ -8,6 +8,8 @@ namespace RestourantDesktop.UserController
     internal class User : IDisposable
     {
         public string UserID = string.Empty;
+        public string Name = string.Empty;
+
         public List<string> PagesListForUser = new List<string>();
 
         public User()

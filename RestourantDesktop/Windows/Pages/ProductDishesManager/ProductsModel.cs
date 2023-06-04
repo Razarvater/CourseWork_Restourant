@@ -69,9 +69,11 @@ namespace RestourantDesktop.Windows.Pages.ProductDishesManager
             }
         }
 
+        private static bool IsInited = false;
         public static async Task InitModel()
         {
-            if (products.Count != 0) return;
+            if (IsInited) return;
+            IsInited = true;
 
             products = new ObservableCollection<ProductItem>();
             DataTable productTable = new DataTable();
@@ -112,7 +114,7 @@ namespace RestourantDesktop.Windows.Pages.ProductDishesManager
                         command.CommandType = CommandType.StoredProcedure;
                         command.Parameters.Add(new SqlParameter("@id", item.ID));
                         command.Parameters.Add(new SqlParameter("@productName", item.ProductName));
-                        command.Parameters.Add(new SqlParameter("@picture", item.Picture));
+                        command.Parameters.Add(new SqlParameter("@picture", item.picture));
                         command.Parameters.Add(new SqlParameter("@count", item.ProductCount));
 
                         await command.ExecuteNonQueryAsync();

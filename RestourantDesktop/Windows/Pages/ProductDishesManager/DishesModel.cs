@@ -93,7 +93,7 @@ namespace RestourantDesktop.Windows.Pages.ProductDishesManager
                 item.TryGetValue("ID", out object value);
                 int ID = Convert.ToInt32(value);
                 
-                item.TryGetValue("DishID", out  value);
+                item.TryGetValue("Dish_ID", out  value);
                 int DishID = Convert.ToInt32(value);
 
                 item.TryGetValue("Product_ID", out value);
@@ -149,9 +149,11 @@ namespace RestourantDesktop.Windows.Pages.ProductDishesManager
             }
         }
 
+        private static bool IsInited = false;
         public static async Task InitModel()
         {
-            if (dishes.Count != 0) return;
+            if (IsInited) return;
+            IsInited = true;
 
             dishes = new ObservableCollection<DishItem>();
             DataTable DishesTable = new DataTable();
