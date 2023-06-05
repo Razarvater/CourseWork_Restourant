@@ -48,11 +48,7 @@
                                         <TextBlock Text="Кол-во" Grid.Row="0" Grid.Column="2" HorizontalAlignment="Center" Foreground="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=res:Generic,ResourceId=FontColorFocused}}"/>
                                         <GroupBox Margin="5" Grid.Row="0" Grid.RowSpan="2" Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=res:Generic,ResourceId=GroupBoxBlack}}">
                                             <StackPanel Orientation="Vertical">
-                                                <Image Source="{Binding Picture}" MinHeight="50">
-                                                    <Image.CacheMode>
-                                                        <BitmapCache EnableClearType="False"/>
-                                                    </Image.CacheMode>
-                                                </Image>
+                                                <Image Source="{Binding Picture}" MinHeight="50"/>
                                                 <Button Content="Изменить" Margin="1" Command="{Binding GetNewPicture}"
                                                 Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=res:Generic, ResourceId=BlackButton}}"/>
                                             </StackPanel>

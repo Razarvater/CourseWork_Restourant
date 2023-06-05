@@ -89,14 +89,14 @@ CREATE TABLE [dbo].[OpenedOrderLists]
 (
 	[ID] int IDENTITY(1,1) PRIMARY KEY,
 	[OrderID] int REFERENCES [dbo].[OpenedOrder]([ID]),
-	[DishID] int REFERENCES [dbo].[ProductsInStock]([ID]),
+	[DishID] int REFERENCES [dbo].[Dishes]([ID]),
 	[ProductCount] int
 )
 
 CREATE TABLE [dbo].[OpenedOrderListsTemp]
 (
 	[GUID] nvarchar(250),
-	[DishID] int REFERENCES [dbo].[ProductsInStock]([ID]),
+	[DishID] int REFERENCES [dbo].[Dishes]([ID]),
 	[ProductCount] int
 )
 
@@ -115,6 +115,6 @@ CREATE TABLE [dbo].[ClosedOrderLists]
 (
 	[ID] int PRIMARY KEY,
 	[OrderID] int REFERENCES [dbo].[ClosedOrders]([ID]),
-	[DishID] int REFERENCES [dbo].[ProductsInStock]([ID]),
+	[DishID] int REFERENCES [dbo].[Dishes]([ID]),
 	[ProductCount] int
 )

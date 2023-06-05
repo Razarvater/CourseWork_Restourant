@@ -82,6 +82,26 @@ namespace RestourantDesktop.Windows.Pages.Orders
                     OnPropertyChanged(nameof(Time));
                 }
             );
+
+            DishesModel.DishChanged += (sender, e) =>
+            {
+                foreach (var item in Dishes)
+                {
+                    var temp = item.Dishes;
+                    var temp2 = item.SelectedDish;
+                    item.Dishes = null;
+                    item.OnPropertyChanged("Dishes");
+                    item.Dishes = temp;
+                    item.OnPropertyChanged("Dishes");
+
+                    item.selectedDish = null;
+                    item.OnPropertyChanged("SelectedDish");
+                    item.selectedDish = temp2;
+                    item.OnPropertyChanged("SelectedDish");
+                    item.OnPropertyChanged("Picture");
+
+                }
+            };
         }
 
         public async Task InitModel()

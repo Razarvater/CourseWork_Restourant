@@ -8,7 +8,7 @@ namespace RestourantDesktop.Windows.Pages.Orders.Items
 {
     internal class SelecteDish : NotifyPropertyChanged
     {
-        public ObservableCollection<DishItem> Dishes { get => DishesModel.dishes; }
+        public ObservableCollection<DishItem> Dishes { get; set; }
 
         public string Picture { get => selectedDish?.Pictures.FirstOrDefault()?.Adress; }
 
@@ -23,12 +23,12 @@ namespace RestourantDesktop.Windows.Pages.Orders.Items
             }
         }
 
-        private DishItem selectedDish;
+        public DishItem selectedDish;
         public DishItem SelectedDish
         { 
             get => selectedDish;
             set
-            { 
+            {
                 selectedDish = value;
                 OnPropertyChanged();
                 OnPropertyChanged(nameof(Picture));
@@ -36,5 +36,10 @@ namespace RestourantDesktop.Windows.Pages.Orders.Items
         }
 
         public Command RemoveDish { get; set; }
+
+        public SelecteDish()
+        {
+            Dishes = DishesModel.dishes;
+        }
     }
 }

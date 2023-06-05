@@ -184,7 +184,8 @@ namespace RestourantDesktop.Windows.Pages.UserManager
                 bool IsCan = Convert.ToInt32(value) == 1;
 
                 UserItem userItem = UsersList.FirstOrDefault(x => x.UserID == UserID);
-                if (userItem == null)
+                RoleItem roleItem = RolesModel.RoleList.FirstOrDefault(x => x.roleID == RoleID);
+                if (userItem == null || roleItem == null)
                 {
                     CachedUserRolesListItems.Add((UserID, RoleID, IsCan));
                     continue;
