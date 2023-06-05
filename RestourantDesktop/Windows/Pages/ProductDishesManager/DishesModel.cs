@@ -154,6 +154,7 @@ namespace RestourantDesktop.Windows.Pages.ProductDishesManager
         {
             if (IsInited) return;
             IsInited = true;
+            await ProductsModel.InitModel();
 
             dishes = new ObservableCollection<DishItem>();
             DataTable DishesTable = new DataTable();

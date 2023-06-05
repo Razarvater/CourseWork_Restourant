@@ -258,6 +258,7 @@ CREATE PROC DeleteDish
 	@id int
 AS
 BEGIN
+	DELETE FROM [dbo].[ProductForDishes] WHERE [Dish_ID] = @id;
 	DELETE FROM [dbo].[Dishes] WHERE [ID] = @id;
 END;
 --разделитель|

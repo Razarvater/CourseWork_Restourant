@@ -52,8 +52,8 @@ namespace RestourantDesktop.Windows.Pages.Orders
                 item.TryGetValue("CookingTime", out value);
                 int CookingTime = Convert.ToInt32(value); 
                 
-                item.TryGetValue("CookingTime", out value);
-                double Sum = Convert.ToInt32(value);
+                item.TryGetValue("Sum", out value);
+                double Sum = double.Parse(value.ToString().Replace('.', ','));
                 ObservableCollection<OrderDishItem> items = new ObservableCollection<OrderDishItem>();
                 OpenedOrderItem newitem = new OpenedOrderItem(ID, EmpID, CreateDateTime, TableInfo, CookingTime, Sum, items);
                 OrderList.Add(newitem);
@@ -74,6 +74,7 @@ namespace RestourantDesktop.Windows.Pages.Orders
         {
             if(IsInited) return;
             IsInited = true;
+            await DishesModel.InitModel();
 
             OrderList = new ObservableCollection<OpenedOrderItem>();
             DataTable OrdersTable = new DataTable();
@@ -106,8 +107,8 @@ namespace RestourantDesktop.Windows.Pages.Orders
                     ObservableCollection<OrderDishItem> items = new ObservableCollection<OrderDishItem>();
                     for (int j = 0; j < dishOrders.Length; j++)
                     {
-                        int.TryParse(dishOrders[i]["DishID"].ToString(), out int dishID);
-                        int.TryParse(dishOrders[i]["ProductCount"].ToString(), out int count);
+                        int.TryParse(dishOrders[j]["DishID"].ToString(), out int dishID);
+                        int.TryParse(dishOrders[j]["ProductCount"].ToString(), out int count);
                         DishItem dishItem = DishesModel.dishes.FirstOrDefault(x => x.ID == dishID);
                         OrderDishItem newItem = new OrderDishItem(dishItem, count);
                         items.Add(newItem);
@@ -151,6 +152,7 @@ namespace RestourantDesktop.Windows.Pages.Orders
                     await connection.OpenAsync();
                     foreach (var item in list)
                     {
+                        if(item.selectedDish == null) continue;
                         using (SqlCommand command = new SqlCommand("CreateOpenedOrderList", connection))
                         {
                             command.CommandType = CommandType.StoredProcedure;

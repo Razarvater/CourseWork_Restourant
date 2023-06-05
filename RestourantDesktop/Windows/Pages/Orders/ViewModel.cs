@@ -106,7 +106,6 @@ namespace RestourantDesktop.Windows.Pages.Orders
 
         public async Task InitModel()
         {
-            await DishesModel.InitModel();
             await OrdersModel.InitOrderList();
             OnPropertyChanged("OrderList");
         }
