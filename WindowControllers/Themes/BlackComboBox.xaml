@@ -12,7 +12,7 @@
                 <Setter.Value>
                     <ControlTemplate>
                         <Border x:Name="ItemBorder" BorderBrush="Transparent" BorderThickness="1">
-                            <TextBlock x:Name="txt" HorizontalAlignment="Center" Text="{Binding}" Padding="3" Style="{StaticResource {ComponentResourceKey TypeInTargetAssembly=local:Generic, ResourceId=TextBlockBlack}}"/>
+                            <TextBlock x:Name="txt" HorizontalAlignment="Center" FontSize="16" Text="{Binding}" Padding="3" Style="{StaticResource {ComponentResourceKey TypeInTargetAssembly=local:Generic, ResourceId=TextBlockBlack}}"/>
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="ListBoxItem.IsSelected" Value="True">
@@ -28,17 +28,18 @@
             </Setter>
         </Style>
     </UserControl.Resources>
-    <Grid Margin="1">
+    <Grid Margin="1" IsEnabled="{Binding IsComboBoxEnabled, RelativeSource={RelativeSource AncestorType=UserControl}}">
         <Border>
             <Grid>
                 <Border x:Name="border" CornerRadius="2" BorderThickness="1" SnapsToDevicePixels="True"
                         Background="{StaticResource ResourceKey={ComponentResourceKey TypeInTargetAssembly=local:Generic, ResourceId=NotFocusedTextBoxBackground}}"
                         BorderBrush="{StaticResource ResourceKey={ComponentResourceKey TypeInTargetAssembly=local:Generic, ResourceId=NotFocusedTextBoxBackground}}">
                     <Border.Effect>
-                        <DropShadowEffect BlurRadius="8" Color="Black" Opacity="0.35" ShadowDepth="1"/>
+                        <DropShadowEffect BlurRadius="11" Color="Black" Opacity="0.5" ShadowDepth="1"/>
                     </Border.Effect>
                 </Border>
                 <Button x:Name="ButtonSelect" HorizontalContentAlignment="Stretch" Click="Button_Click" Background="Transparent" BorderThickness="0"
+                        IsEnabled="{Binding IsComboBoxEnabled, RelativeSource={RelativeSource AncestorType=UserControl}}"
                         Foreground="{StaticResource ResourceKey={ComponentResourceKey TypeInTargetAssembly=local:Generic, ResourceId=MainFontColor}}">
                     <Button.Template>
                         <ControlTemplate TargetType="{x:Type Button}">
@@ -52,6 +53,9 @@
                                 <Trigger Property="IsMouseOver" Value="false">
                                     <Setter TargetName="Back" Property="Background" Value="{StaticResource ResourceKey={ComponentResourceKey TypeInTargetAssembly=local:Generic, ResourceId=NotFocusedTextBoxBackground}}"/>
                                 </Trigger>
+                                <Trigger Property="IsEnabled" Value="false">
+                                    <Setter TargetName="Back" Property="Background" Value="{StaticResource ResourceKey={ComponentResourceKey TypeInTargetAssembly=local:Generic, ResourceId=DisabledTextBoxBackground}}"/>
+                                </Trigger>
                             </ControlTemplate.Triggers>
                         </ControlTemplate>
                     </Button.Template>
@@ -61,7 +65,7 @@
                             <ColumnDefinition Width="1*"/>
                             <ColumnDefinition Width="20"/>
                         </Grid.ColumnDefinitions>
-                        <TextBlock x:Name="SelectedValue" HorizontalAlignment="Center" Grid.Column="1" Style="{StaticResource {ComponentResourceKey TypeInTargetAssembly=local:Generic, ResourceId=TextBlockBlack}}"
+                        <TextBlock x:Name="SelectedValue" FontSize="16" HorizontalAlignment="Center" Grid.Column="1" Style="{StaticResource {ComponentResourceKey TypeInTargetAssembly=local:Generic, ResourceId=TextBlockBlack}}"
                             Text="{Binding SelectedItem, Mode=TwoWay, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
                         <TextBlock x:Name="Bar" HorizontalAlignment="Center" Grid.Column="2" Style="{StaticResource {ComponentResourceKey TypeInTargetAssembly=local:Generic, ResourceId=TextBlockBlack}}"
                            Text="Ʌ"/>
@@ -85,7 +89,8 @@
                 <ListBox ItemsSource="{Binding ItemsSource, RelativeSource={RelativeSource AncestorType=UserControl}}" Background="Transparent"
                          Foreground="{StaticResource ResourceKey={ComponentResourceKey TypeInTargetAssembly=local:Generic, ResourceId=MainFontColor}}"
                          SelectedItem="{Binding SelectedItem, Mode=TwoWay, RelativeSource={RelativeSource AncestorType=UserControl}}" BorderThickness="0"
-                         HorizontalContentAlignment="Stretch">
+                         HorizontalContentAlignment="Stretch" SelectionChanged="ListBox_SelectionChanged"
+                         x:Name="VariantList">
                 </ListBox>
             </Grid>
         </Popup>

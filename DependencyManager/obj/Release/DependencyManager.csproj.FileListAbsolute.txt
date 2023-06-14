@@ -1,0 +1,6 @@
+F:\Курсач\CourseWork_Restourant\DependencyManager\bin\Release\DependencyManager.dll
+F:\Курсач\CourseWork_Restourant\DependencyManager\bin\Release\DependencyManager.pdb
+F:\Курсач\CourseWork_Restourant\DependencyManager\obj\Release\DependencyManager.csproj.AssemblyReference.cache
+F:\Курсач\CourseWork_Restourant\DependencyManager\obj\Release\DependencyManager.csproj.CoreCompileInputs.cache
+F:\Курсач\CourseWork_Restourant\DependencyManager\obj\Release\DependencyManager.dll
+F:\Курсач\CourseWork_Restourant\DependencyManager\obj\Release\DependencyManager.pdb

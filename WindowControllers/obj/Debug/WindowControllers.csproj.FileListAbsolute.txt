@@ -91,3 +91,5 @@ F:\Курсач\CourseWork_Restourant\WindowControllers\obj\Debug\WindowControll
 F:\Курсач\CourseWork_Restourant\WindowControllers\obj\Debug\WindowControllers.csproj.CopyComplete
 F:\Курсач\CourseWork_Restourant\WindowControllers\obj\Debug\WindowControllers.dll
 F:\Курсач\CourseWork_Restourant\WindowControllers\obj\Debug\WindowControllers.pdb
+F:\Курсач\CourseWork_Restourant\WindowControllers\obj\Debug\Themes\PopupImage.g.cs
+F:\Курсач\CourseWork_Restourant\WindowControllers\obj\Debug\Themes\PopupImage.baml

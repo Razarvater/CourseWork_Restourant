@@ -1,0 +1,8 @@
+F:\Курсач\CourseWork_Restourant\mvvm\bin\Release\mvvm.dll
+F:\Курсач\CourseWork_Restourant\mvvm\bin\Release\mvvm.pdb
+F:\Курсач\CourseWork_Restourant\mvvm\obj\Release\mvvm.csproj.AssemblyReference.cache
+F:\Курсач\CourseWork_Restourant\mvvm\obj\Release\mvvm.Properties.Resources.resources
+F:\Курсач\CourseWork_Restourant\mvvm\obj\Release\mvvm.csproj.GenerateResource.cache
+F:\Курсач\CourseWork_Restourant\mvvm\obj\Release\mvvm.csproj.CoreCompileInputs.cache
+F:\Курсач\CourseWork_Restourant\mvvm\obj\Release\mvvm.dll
+F:\Курсач\CourseWork_Restourant\mvvm\obj\Release\mvvm.pdb

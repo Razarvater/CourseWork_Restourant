@@ -17,6 +17,10 @@ namespace WindowControllers.Themes
         public static readonly DependencyProperty SelectedItemProperty =
             DependencyProperty.Register("SelectedItem", typeof(object), typeof(BlackComboBox), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, OnSelectedItemChanged));
 
+        public static readonly DependencyProperty IsComboBoxEnabledProperty =
+            DependencyProperty.Register("IsComboBoxEnabled", typeof(bool), typeof(BlackComboBox), new UIPropertyMetadata(true));
+
+
         public IEnumerable ItemsSource
         {
             get { return (IEnumerable)GetValue(ItemsSourceProperty); }
@@ -27,6 +31,12 @@ namespace WindowControllers.Themes
         {
             get { return (object)GetValue(SelectedItemProperty); }
             set { SetValue(SelectedItemProperty, value); }
+        }
+
+        public bool IsComboBoxEnabled
+        {
+            get { return (bool)GetValue(IsComboBoxEnabledProperty); }
+            set { SetValue(IsComboBoxEnabledProperty, value); }
         }
 
         public BlackComboBox()
@@ -41,8 +51,12 @@ namespace WindowControllers.Themes
         }
 
         private bool popIsOpened = false;
+        private bool IsFromSelect = false;
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+            if (!IsComboBoxEnabled && !popIsOpened)
+                return;
+
             if (popIsOpened)
             {
                 ((ButtonSelect.Content as Grid).FindName("Bar") as TextBlock).Text = "Ʌ";
@@ -59,9 +73,20 @@ namespace WindowControllers.Themes
 
         private void popList_Closed(object sender, EventArgs e)
         {
+            if (IsFromSelect)
+            { 
+                IsFromSelect = false;
+                return;
+            }
             // Popup закрыт по клику вне окна?
             if (!ButtonSelect.IsKeyboardFocused || !ButtonSelect.IsMouseOver)
                 Button_Click(null, null);
+        }
+
+        private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            IsFromSelect = true;
+            Button_Click(null, null);
         }
     }
 }
